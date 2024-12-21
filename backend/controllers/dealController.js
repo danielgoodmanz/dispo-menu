@@ -1,7 +1,5 @@
-async function getDeals(req, res) {}
-async function getDeal(req, res) {}
-async function addDeal(req, res) {}
-async function updateDeal(req, res) {}
-async function deleteDeal(req, res) {}
-
-export default { getDeals, getDeal, addDeal, updateDeal, deleteDeal };
+export async function getDeals(req, res) {}
+export async function getDeal(req, res) {}
+export async function addDeal(req, res) {}
+export async function updateDeal(req, res) {}
+export async function deleteDeal(req, res) {}

@@ -1,18 +1,18 @@
 import express from 'express';
-import dotenv from 'dotenv';
-import mongoose from 'mongooose';
+import dotenv from 'dotenv/config';
+import mongoose from 'mongoose';
 import {
   getDeals,
   getDeal,
   addDeal,
   updateDeal,
   deleteDeal,
-} from '@/controllers/dealController';
+} from './controllers/dealController.js';
+
+const app = express();
 
 //middleware
 app.use(express.json());
-
-const app = express();
 
 //routes
 app.get('/', getDeals);
