@@ -21,6 +21,6 @@ app.post('/add', addDeal);
 app.put('/update/:id', updateDeal);
 app.delete('/delete/:id', deleteDeal);
 
-app.listen(3000, () => {
-  console.log('live on 3k');
+app.listen(process.env.PORT, () => {
+  console.log('live');
 });
