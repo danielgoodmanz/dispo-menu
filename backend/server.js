@@ -1,4 +1,5 @@
 import express from 'express';
+//make sure your .env file is in the root of your app.js file
 import dotenv from 'dotenv/config';
 import mongoose from 'mongoose';
 import {
@@ -11,6 +12,22 @@ import {
 
 const app = express();
 
+//db connection
+const db = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    // only listen to the port after DB connects
+    app.listen(process.env.PORT, () => {
+      console.log('live');
+    });
+    console.log('db connected');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+db();
+
 //middleware
 app.use(express.json());
 
@@ -20,7 +37,3 @@ app.get('/:id', getDeal);
 app.post('/add', addDeal);
 app.put('/update/:id', updateDeal);
 app.delete('/delete/:id', deleteDeal);
-
-app.listen(process.env.PORT, () => {
-  console.log('live');
-});
