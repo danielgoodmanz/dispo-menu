@@ -3,17 +3,20 @@ import mongoose from 'mongoose';
 //a schema is a guide for the model
 const dealSchema = new mongoose.Schema(
   {
-    address: { type: String, required: true },
-    livingArea: { type: Number, required: true },
-    lot: { type: Number, required: true },
-    yearBuilt: { type: Number, required: true },
-    escrow: { type: String, required: true },
-    closing: { type: String, required: true },
-    price: { type: String, required: true },
-    photo: { type: String, required: true },
+    address: { type: String },
+    livingArea: { type: Number },
+    lot: { type: Number },
+    yearBuilt: { type: Number },
+    escrow: { type: String },
+    closing: { type: String },
+    price: { type: String },
+    description: { type: String },
+    photo: { type: String },
   },
   { timestamps: true }
 );
 
 //the model is then created here and you give it a singular name & pass it the schema
-module.exports = mongoose.model('Deal', dealSchema);
+//use ES6 style in both import & export statements always!
+const Deal = mongoose.model('Deal', dealSchema);
+export default Deal;

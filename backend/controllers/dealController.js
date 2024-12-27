@@ -1,36 +1,84 @@
-import Deal from './models/dealModel.js';
+import Deal from '../models/dealModel.js';
 
 export async function getDeals(req, res) {
   try {
-    res.json({ message: 'this is the getDeals route' });
+    //return all documents ie deals
+    const deals = await Deal.find({});
+    //on response 200, send deals
+    res.status(200).json(deals);
   } catch (error) {
     console.log(error);
   }
 }
 export async function getDeal(req, res) {
+  //URL parameters
+  const { id } = req.params;
   try {
-    res.json({ message: 'this is the getDeal route' });
+    //return a single deal
+    const deal = await Deal.findById(id);
+    res.status(200).json(deal);
   } catch (error) {
     console.log(error);
   }
 }
 export async function addDeal(req, res) {
+  const {
+    address,
+    livingArea,
+    lot,
+    yearBuilt,
+    escrow,
+    closing,
+    price,
+    description,
+    photo,
+  } = req.body;
+
   try {
-    res.json({ message: 'this is the addDeal route' });
+    const deal = await Deal.create({
+      address,
+      livingArea,
+      lot,
+      yearBuilt,
+      escrow,
+      closing,
+      price,
+      description,
+      photo,
+    });
+    res.status(200).json(deal);
   } catch (error) {
+    res.status(400).json({ error: error.message });
     console.log(error);
   }
 }
 export async function updateDeal(req, res) {
+  const { id } = req.params;
+  const {
+    address,
+    livingArea,
+    lot,
+    yearBuilt,
+    escrow,
+    closing,
+    price,
+    description,
+    photo,
+  } = req.body;
   try {
-    res.json({ message: 'this is the updateDeal route' });
+    // lets update a deal by the given id in the URL params
+    const deal = await Deal.findByIdAndUpdate(id, req.body);
+    res.status(200).json(`deal with id ${id} was edited`);
   } catch (error) {
     console.log(error);
   }
 }
 export async function deleteDeal(req, res) {
+  const { id } = req.params;
   try {
-    res.json({ message: 'this is the deleteDeal route' });
+    // lets delete a deal by id
+    const deal = await Deal.findByIdAndDelete(id);
+    res.status(200).json(`deal with id ${id} was deleted`);
   } catch (error) {
     console.log(error);
   }
