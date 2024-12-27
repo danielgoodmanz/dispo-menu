@@ -1,3 +1,5 @@
+import Deal from './models/dealModel.js';
+
 export async function getDeals(req, res) {
   try {
     res.json({ message: 'this is the getDeals route' });

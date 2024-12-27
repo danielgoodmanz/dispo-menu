@@ -2,7 +2,6 @@ import express from 'express';
 //make sure your .env file is in the root of your app.js file
 import dotenv from 'dotenv/config';
 import mongoose from 'mongoose';
-import Deal from './models/dealModel.js';
 import {
   getDeals,
   getDeal,
@@ -12,6 +11,9 @@ import {
 } from './controllers/dealController.js';
 
 const app = express();
+
+//middleware
+app.use(express.json());
 
 //db connection
 const db = async () => {
