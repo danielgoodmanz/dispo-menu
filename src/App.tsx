@@ -66,9 +66,9 @@ function App() {
 export default App;
 
 // TODO:
-// backend
+// backend XXX
 // database serving a schema of property details i.e.
-// address, price, arv, etc...
+// address, price, arv, etc... XXX
 // state (context API)
 // styling (dark mode toggle!)
 // error handling
