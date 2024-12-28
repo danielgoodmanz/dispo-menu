@@ -1,9 +1,6 @@
-// logo imports
-import ABC from '@/assets/ABC.svg';
-import CBS from '@/assets/CBS.svg';
-import FOX from '@/assets/FOX.svg';
-import NBC from '@/assets/NBC.svg';
 import Navbar from '@/components/Navbar';
+import { ThemeProvider } from '@/components/theme-provider';
+import TvBar from '@/components/TvBar';
 import { Button } from '@/components/ui/button';
 
 //shadcnui components
@@ -16,54 +13,45 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
+// type Deals = {
+//   deals: object;
+//   setDeals: React.Dispatch<React.SetStateAction<object>>;
+// };
+
 function App() {
   return (
-    <div>
-      <Navbar />
-      <div className='flex flex-col justify-center items-center min-h-screen'>
-        <h1 className='text-2xl font-bold'>
-          Saida & Jermaine's Deal-Menu wip 🛠️
-        </h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, facilis
-          ipsa. Et impedit laborum minima nisi esse tenetur dolore ad iste.
-          Illum, tempora!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, facilis
-          ipsa. Et impedit laborum minima nisi esse tenetur dolore ad iste.
-          Illum, tempora!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, facilis
-          ipsa. Et impedit laborum minima nisi esse tenetur dolore ad iste.
-          Illum, tempora!
-        </p>
-        <Button>sample</Button>
-        {/* map function here to pull from DB and create cards for each property */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Card Content</p>
-          </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-            <Button>Buy!</Button>
-          </CardFooter>
-        </Card>
-        {/* 'as seen on' bar */}
-        <div id='tv-bar' className='flex flex-row items-center bg-primary'>
-          <p>As Seen On</p>
-          <img src={ABC} alt='' />
-          <img src={CBS} alt='' />
-          <img src={FOX} alt='' />
-          <img src={NBC} alt='' />
+    <ThemeProvider defaultTheme='system' storageKey='dealmenu-theme'>
+      <div>
+        <Navbar />
+        <div className='flex flex-col justify-center items-center min-h-screen'>
+          <h1 className='text-2xl font-bold'>
+            Saida & Jermaine's Deal-Menu wip 🛠️
+          </h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
+            facilis ipsa. Et impedit laborum minima nisi esse tenetur dolore ad
+            iste. Illum, tempora!
+          </p>
+          <Button>sample</Button>
+          {/* map function here to pull from DB and create cards for each property */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Card Title</CardTitle>
+              <CardDescription>Card Description</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>Card Content</p>
+            </CardContent>
+            <CardFooter>
+              <p>Card Footer</p>
+              <Button>Buy!</Button>
+            </CardFooter>
+          </Card>
+          {/* as seen on TV bar */}
+          <TvBar />
         </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
@@ -71,12 +59,11 @@ export default App;
 
 // TODO:
 // backend XXX
-// database serving a schema of property details i.e.
+// database serving a schema of property details i.e. XXX
 // address, price, arv, etc... XXX
+// styling (dark mode toggle!) XXX
 // state (context API)
-// styling (dark mode toggle!)
-// error handling
-// routing, mostly SPA experience with <Outlet/> use
+// error handling in the frontend
+// routing, mostly SPA experience with <Outlet/>
 // UX: allow buyers to express priority interest in a property (toasts!)
-// borrow navbar from glossary
-// !! auth for Saida & Jermaine
+// !! auth for Saida & Jermaine, global context here will be used to allow access to CRUD operations
