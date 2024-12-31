@@ -1,3 +1,4 @@
+import AddDealForm from '@/components/AddDealForm';
 import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import TvBar from '@/components/TvBar';
@@ -49,6 +50,7 @@ function App() {
           </Card>
           {/* as seen on TV bar */}
           <TvBar />
+          <AddDealForm />
         </div>
       </div>
     </ThemeProvider>

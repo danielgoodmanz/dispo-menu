@@ -10,6 +10,8 @@
   ],
   "compilerOptions": {
     "baseUrl": ".",
+    //enabled for zod use
+    "strictNullChecks": true,
     "paths": {
       "@/*": ["./src/*"]
     }
