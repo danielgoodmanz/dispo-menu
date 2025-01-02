@@ -66,8 +66,6 @@ function App() {
               <Button>Buy!</Button>
             </CardFooter>
           </Card>
-          {/* as seen on TV bar */}
-
           {/* drawer which opens AddDealForm.tsx */}
           <Drawer
             open={open}

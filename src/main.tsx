@@ -1,21 +1,32 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import './index.css';
 import App from './App.tsx';
 import AddDealForm from '@/components/AddDealForm.tsx';
+import ErrorPage from '@/components/ErrorPage.tsx';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/dealform',
+        element: <AddDealForm />,
+      },
+    ],
+  },
+  // TODO: create a landing page
+  {
+    path: '/landing',
+  },
+]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<App />}>
-          <Route path='dealform' element={<AddDealForm />} />
-        </Route>
-        // TODO: add a landing page
-        <Route path='landing' />
-      </Routes>
-    </BrowserRouter>
+    <RouterProvider router={router} />
   </StrictMode>
 );
