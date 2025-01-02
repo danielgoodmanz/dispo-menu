@@ -1,4 +1,3 @@
-import React from 'react';
 //logo imports
 import ABC from '@/assets/ABC.svg';
 import CBS from '@/assets/CBS.svg';
@@ -7,7 +6,7 @@ import NBC from '@/assets/NBC.svg';
 
 const TvBar = () => {
   return (
-    <div id='tv-bar' className='flex flex-row items-center bg-primary'>
+    <div className='flex flex-row justify-around bg-primary'>
       <p>As Seen On</p>
       <img src={ABC} alt='ABC logo' className='w-10 h-10' />
       <img src={CBS} alt='CBS logo' className='w-10 h-10' />

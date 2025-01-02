@@ -1,8 +1,10 @@
-import AddDealForm from '@/components/AddDealForm';
+import Header from '@/components/Header';
 import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import TvBar from '@/components/TvBar';
 import { Button } from '@/components/ui/button';
+import { Outlet, useNavigate } from 'react-router';
+import { useState } from 'react';
 
 //shadcnui components
 import {
@@ -14,26 +16,42 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+} from '@/components/ui/drawer';
+
 // type Deals = {
 //   deals: object;
 //   setDeals: React.Dispatch<React.SetStateAction<object>>;
 // };
 
 function App() {
+  //navigate hook
+  const navigate = useNavigate();
+
+  //state for drawer open/close
+  const [open, setOpen] = useState(false);
+
+  const drawerDealFormControl = () => {
+    if (open === true) {
+      navigate('/');
+      setOpen(false);
+    } else {
+      navigate('dealform');
+      setOpen(true);
+    }
+  };
+
   return (
     <ThemeProvider defaultTheme='system' storageKey='dealmenu-theme'>
       <div>
-        <Navbar />
-        <div className='flex flex-col justify-center items-center min-h-screen'>
-          <h1 className='text-2xl font-bold'>
-            Saida & Jermaine's Deal-Menu wip 🛠️
-          </h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
-            facilis ipsa. Et impedit laborum minima nisi esse tenetur dolore ad
-            iste. Illum, tempora!
-          </p>
-          <Button>sample</Button>
+        <Navbar drawerDealFormControl={drawerDealFormControl} />
+        <Header title={`Saida & Jermaine's Deal-Menu wip 🛠️`} />
+        <div className='flex flex-col items-center'>
           {/* map function here to pull from DB and create cards for each property */}
           <Card>
             <CardHeader>
@@ -49,9 +67,25 @@ function App() {
             </CardFooter>
           </Card>
           {/* as seen on TV bar */}
-          <TvBar />
-          <AddDealForm />
+
+          {/* drawer which opens AddDealForm.tsx */}
+          <Drawer
+            open={open}
+            onOpenChange={drawerDealFormControl}
+            direction='right'
+          >
+            <DrawerContent>
+              <Outlet />
+              <DrawerDescription></DrawerDescription>
+              <DrawerFooter>
+                <DrawerClose>
+                  <Button variant='outline'>Cancel</Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
         </div>
+        <TvBar />
       </div>
     </ThemeProvider>
   );
@@ -63,9 +97,12 @@ export default App;
 // backend XXX
 // database serving a schema of property details i.e. XXX
 // address, price, arv, etc... XXX
-// styling (dark mode toggle!) XXX
+// (dark mode toggle!) XXX
+// add form with validation & error handling XXX
+// routing, mostly SPA experience with <Outlet/> XXX
+
+// styling WIP
 // state (context API)
 // error handling in the frontend
-// routing, mostly SPA experience with <Outlet/>
 // UX: allow buyers to express priority interest in a property (toasts!)
 // !! auth for Saida & Jermaine, global context here will be used to allow access to CRUD operations

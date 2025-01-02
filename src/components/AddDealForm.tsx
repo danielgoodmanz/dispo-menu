@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Header from '@/components/Header';
 
 const AddDealForm = () => {
   // zod schema
@@ -39,6 +40,7 @@ const AddDealForm = () => {
 
   const onSubmit = async (data) => {
     /// TODO: PUT request to the server
+    set;
     console.log(data);
 
     reset();
@@ -46,7 +48,8 @@ const AddDealForm = () => {
 
   return (
     <div>
-      <h1>Add a deal form</h1>
+      <Header title={'Add a deal form!'} />
+      {/* TODO: Add isSubmitting state (maybe from useForm?) */}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className='flex flex-col space-y-2'
@@ -82,7 +85,7 @@ const AddDealForm = () => {
         {errors.description && <p>{errors.description.message}</p>}
         <input {...register('photo')} type='text' placeholder='Photo link' />
         {errors.photo && <p>{errors.photo.message}</p>}
-        <Button type='submit'>send</Button>
+        <Button type='submit'>Submit</Button>
         {/* look into Object.keys() here as a way to contain all errors in one place */}
       </form>
     </div>
