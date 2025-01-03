@@ -33,14 +33,14 @@ const AddDealForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
     //passing the resolver to useForm allows zod to connect to react-hook-form
   } = useForm({ resolver: zodResolver(dealFormSchema) });
 
   const onSubmit = async (data) => {
     /// TODO: PUT request to the server
-    set;
+
     console.log(data);
 
     reset();
@@ -85,7 +85,9 @@ const AddDealForm = () => {
         {errors.description && <p>{errors.description.message}</p>}
         <input {...register('photo')} type='text' placeholder='Photo link' />
         {errors.photo && <p>{errors.photo.message}</p>}
-        <Button type='submit'>Submit</Button>
+        <Button disabled={isSubmitting} type='submit'>
+          Submit
+        </Button>
         {/* look into Object.keys() here as a way to contain all errors in one place */}
       </form>
     </div>
