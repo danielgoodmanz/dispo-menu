@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 const dealSchema = new mongoose.Schema(
   {
     address: { type: String },
-    livingArea: { type: Number },
-    lot: { type: Number },
+    livingArea: { type: String },
+    lot: { type: String },
     yearBuilt: { type: Number },
     escrow: { type: String },
     closing: { type: String },

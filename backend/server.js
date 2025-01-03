@@ -2,6 +2,7 @@ import express from 'express';
 //make sure your .env file is in the root of your app.js file
 import dotenv from 'dotenv/config';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import {
   getDeals,
   getDeal,
@@ -14,6 +15,8 @@ const app = express();
 
 //middleware
 app.use(express.json());
+//allows for cross origin requests, backend to frontend
+app.use(cors());
 
 //db connection
 const db = async () => {

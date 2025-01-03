@@ -4,18 +4,10 @@ import { ThemeProvider } from '@/components/theme-provider';
 import TvBar from '@/components/TvBar';
 import { Button } from '@/components/ui/button';
 import { Outlet, useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import DealCard from '@/components/DealCard';
 
 //shadcnui components
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-
 import {
   Drawer,
   DrawerClose,
@@ -23,6 +15,7 @@ import {
   DrawerDescription,
   DrawerFooter,
 } from '@/components/ui/drawer';
+import Container from '@/components/Container';
 
 // type Deals = {
 //   deals: object;
@@ -32,9 +25,24 @@ import {
 function App() {
   //navigate hook
   const navigate = useNavigate();
-
+  //state for deals, TODO: move this to context API
+  const [deal, setDeals] = useState([]);
+  //state for loading deals
+  const [loading, setLoading] = useState(false);
   //state for drawer open/close
   const [open, setOpen] = useState(false);
+  // useEffect hook to fetch all current deals
+  useEffect(() => {
+    const fetchDeals = async () => {
+      setLoading(true);
+      const response = await fetch(`http://localhost:3000/`);
+      const json = await response.json();
+      console.log(json);
+      setDeals(json);
+      setLoading(false);
+    };
+    fetchDeals();
+  }, []);
 
   const drawerDealFormControl = () => {
     if (open === true) {
@@ -51,38 +59,26 @@ function App() {
       <div>
         <Navbar drawerDealFormControl={drawerDealFormControl} />
         <Header title={`Saida & Jermaine's Deal-Menu wip 🛠️`} />
-        <div className='flex flex-col items-center'>
-          {/* map function here to pull from DB and create cards for each property */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Card Title</CardTitle>
-              <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-              <Button>Buy!</Button>
-            </CardFooter>
-          </Card>
-          {/* drawer which opens AddDealForm.tsx */}
-          <Drawer
-            open={open}
-            onOpenChange={drawerDealFormControl}
-            direction='right'
-          >
-            <DrawerContent>
-              <Outlet />
-              <DrawerDescription></DrawerDescription>
-              <DrawerFooter>
-                <DrawerClose>
-                  <Button variant='outline'>Cancel</Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
-        </div>
+        <Container>
+          {/* render cards here  */}
+          <DealCard />
+        </Container>
+        {/* drawer which opens AddDealForm.tsx */}
+        <Drawer
+          open={open}
+          onOpenChange={drawerDealFormControl}
+          direction='right'
+        >
+          <DrawerContent>
+            <Outlet />
+            <DrawerDescription></DrawerDescription>
+            <DrawerFooter>
+              <DrawerClose>
+                <Button variant='outline'>Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
         <TvBar />
       </div>
     </ThemeProvider>
