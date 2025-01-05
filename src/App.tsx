@@ -26,7 +26,7 @@ function App() {
   //navigate hook
   const navigate = useNavigate();
   //state for deals, TODO: move this to context API
-  const [deal, setDeals] = useState([]);
+  const [deals, setDeals] = useState([]);
   //state for loading deals
   const [loading, setLoading] = useState(false);
   //state for drawer open/close
@@ -40,6 +40,7 @@ function App() {
       console.log(json);
       setDeals(json);
       setLoading(false);
+      return json;
     };
     fetchDeals();
   }, []);
@@ -61,7 +62,24 @@ function App() {
         <Header title={`Saida & Jermaine's Deal-Menu wip 🛠️`} />
         <Container>
           {/* render cards here  */}
-          <DealCard />
+          {deals.map((deal, index) => {
+            return (
+              <DealCard
+                key={deal._id}
+                dealNumber={index + 1}
+                createdAt={deal.createdAt}
+                address={deal.address}
+                livingArea={deal.livingArea}
+                lot={deal.lot}
+                yearBuilt={deal.yearBuilt}
+                escrow={deal.escrow}
+                closing={deal.closing}
+                price={deal.price}
+                description={deal.description}
+                photo={deal.photo}
+              />
+            );
+          })}
         </Container>
         {/* drawer which opens AddDealForm.tsx */}
         <Drawer

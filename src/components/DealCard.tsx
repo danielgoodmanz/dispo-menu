@@ -12,23 +12,26 @@ const DealCard = (props) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{props.dealNumber}</CardTitle>
-        <CardDescription>{props.createdAt}</CardDescription>
+        <CardTitle>Deal #{props.dealNumber}</CardTitle>
+        <CardDescription>
+          <span className='italic'>added </span>
+          {props.createdAt}
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <p>{props.address}</p>
-        <p>{props.livingArea}</p>
-        <p>{props.lot}</p>
-        <p>{props.yearBuilt}</p>
-        <p>{props.escrow}</p>
-        <p>{props.closing}</p>
-        <p>{props.price}</p>
-        <p>{props.description}</p>
-        <p>{props.photo}</p>
+        <p>Address: {props.address}</p>
+        <p>Living area: {props.livingArea}</p>
+        <p>Lot size: {props.lot}</p>
+        <p>Year built: {props.yearBuilt}</p>
+        <p>Escrow: {props.escrow}</p>
+        <p>Closing: {props.closing}</p>
+        <p>Price: {props.price}</p>
+        <p>Description: {props.description}</p>
+        <p>Photos: {props.photo}</p>
       </CardContent>
       <CardContent></CardContent>
       <CardFooter>
-        <p>{props.createdAt}</p>
+        <span className='italic'>added {props.createdAt}</span>
       </CardFooter>
     </Card>
   );
