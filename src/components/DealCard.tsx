@@ -10,7 +10,7 @@ import {
 
 const DealCard = (props) => {
   return (
-    <Card>
+    <Card onClick={props.onClick}>
       <CardHeader>
         <CardTitle>Deal #{props.dealNumber}</CardTitle>
         <CardDescription>

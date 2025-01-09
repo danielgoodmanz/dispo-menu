@@ -39,7 +39,21 @@ const AddDealForm = () => {
   } = useForm({ resolver: zodResolver(dealFormSchema) });
 
   const onSubmit = async (data) => {
-    /// TODO: PUT request to the server
+    /// TODO: POST request to the server, debug this
+    try {
+      const response = await fetch('http://localhost:3000/add', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'content-type': 'application/json' },
+      });
+      if (response.ok) {
+        console.log(`successfully added deal with ${data}`);
+      } else {
+        console.log(response.status);
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
     console.log(data);
 
@@ -53,7 +67,9 @@ const AddDealForm = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className='flex flex-col space-y-2'
-        action=''
+        // you need to set these below otherwise the form does .. nothing
+        method='post'
+        action='/add'
       >
         <input {...register('address')} type='text' placeholder='Address' />
         <input

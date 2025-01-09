@@ -1,13 +1,16 @@
+import DealCard from '@/components/DealCard';
 import Header from '@/components/Header';
 import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import TvBar from '@/components/TvBar';
 import { Button } from '@/components/ui/button';
+import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
-import { useState, useEffect } from 'react';
-import DealCard from '@/components/DealCard';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/hooks/use-toast';
 
 //shadcnui components
+import Container from '@/components/Container';
 import {
   Drawer,
   DrawerClose,
@@ -15,7 +18,7 @@ import {
   DrawerDescription,
   DrawerFooter,
 } from '@/components/ui/drawer';
-import Container from '@/components/Container';
+import CardSkeleton from '@/components/CardSkeleton';
 
 // type Deals = {
 //   deals: object;
@@ -25,22 +28,39 @@ import Container from '@/components/Container';
 function App() {
   //navigate hook
   const navigate = useNavigate();
+  //toast hook
+  const { toast } = useToast();
   //state for deals, TODO: move this to context API
   const [deals, setDeals] = useState([]);
   //state for loading deals
   const [loading, setLoading] = useState(false);
+  //state for errors
+  const [error, setError] = useState('');
   //state for drawer open/close
   const [open, setOpen] = useState(false);
   // useEffect hook to fetch all current deals
   useEffect(() => {
+    // lets handle errors for this useeffect
     const fetchDeals = async () => {
       setLoading(true);
-      const response = await fetch(`http://localhost:3000/`);
-      const json = await response.json();
-      console.log(json);
-      setDeals(json);
-      setLoading(false);
-      return json;
+      try {
+        const response = await fetch(`http://localhost:3000/`);
+        const json = await response.json();
+        console.log(json);
+        if (response.ok) {
+          setDeals(json);
+          setLoading(false);
+          toast({
+            description: 'successfully loaded all deals!',
+            variant: 'success',
+          });
+        } else if (!response.ok) {
+          console.error(error);
+        }
+      } catch (error) {
+        console.log(error);
+        setError(error.message);
+      }
     };
     fetchDeals();
   }, []);
@@ -62,24 +82,29 @@ function App() {
         <Header title={`Saida & Jermaine's Deal-Menu wip 🛠️`} />
         <Container>
           {/* render cards here  */}
-          {deals.map((deal, index) => {
-            return (
-              <DealCard
-                key={deal._id}
-                dealNumber={index + 1}
-                createdAt={deal.createdAt}
-                address={deal.address}
-                livingArea={deal.livingArea}
-                lot={deal.lot}
-                yearBuilt={deal.yearBuilt}
-                escrow={deal.escrow}
-                closing={deal.closing}
-                price={deal.price}
-                description={deal.description}
-                photo={deal.photo}
-              />
-            );
-          })}
+          {loading
+            ? Array.from({ length: 5 }).map((_, index) => (
+                <CardSkeleton key={index} />
+              ))
+            : deals.map((deal, index) => {
+                return (
+                  <DealCard
+                    key={deal._id}
+                    dealNumber={index + 1}
+                    createdAt={deal.createdAt}
+                    address={deal.address}
+                    livingArea={deal.livingArea}
+                    lot={deal.lot}
+                    yearBuilt={deal.yearBuilt}
+                    escrow={deal.escrow}
+                    closing={deal.closing}
+                    price={deal.price}
+                    description={deal.description}
+                    photo={deal.photo}
+                    onClick={() => console.log(deal._id)}
+                  />
+                );
+              })}
         </Container>
         {/* drawer which opens AddDealForm.tsx */}
         <Drawer
@@ -88,7 +113,7 @@ function App() {
           direction='right'
         >
           <DrawerContent>
-            <Outlet />
+            <Outlet context={{ deals }} />
             <DrawerDescription></DrawerDescription>
             <DrawerFooter>
               <DrawerClose>
@@ -99,6 +124,7 @@ function App() {
         </Drawer>
         <TvBar />
       </div>
+      <Toaster />
     </ThemeProvider>
   );
 }
@@ -112,9 +138,9 @@ export default App;
 // (dark mode toggle!) XXX
 // add form with validation & error handling XXX
 // routing, mostly SPA experience with <Outlet/> XXX
-
+// error handling in the frontend XXX
+// finish CRUD operations on the front end
 // styling WIP
 // state (context API)
-// error handling in the frontend
 // UX: allow buyers to express priority interest in a property (toasts!)
 // !! auth for Saida & Jermaine, global context here will be used to allow access to CRUD operations

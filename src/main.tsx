@@ -14,7 +14,9 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/' element={<App />}>
           <Route path='dealform' element={<AddDealForm />} />
         </Route>
-        // TODO: add a landing page
+        {/* render a single deal */}
+        <Route path='/:id' element={<App />} />
+        {/* TODO: add a landing page */}
         <Route path='landing' />
         <Route path='/*' element={<ErrorPage />} />
       </Routes>
