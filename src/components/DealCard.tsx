@@ -1,4 +1,5 @@
 //shadcn imports
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -32,6 +33,12 @@ const DealCard = (props) => {
       <CardContent></CardContent>
       <CardFooter>
         <span className='italic'>added {props.createdAt}</span>
+        <Button
+          onClick={() => props.handleDelete(props.deal)}
+          variant={'destructive'}
+        >
+          Delete
+        </Button>
       </CardFooter>
     </Card>
   );

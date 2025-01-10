@@ -75,6 +75,17 @@ function App() {
     }
   };
 
+  //handlers
+  const handleDelete = async (deal) => {
+    const response = await fetch(`http://localhost:3000/delete/${deal._id}`, {
+      method: 'delete',
+    });
+    if (response.ok) {
+      console.log('successfully deleted deal');
+    } else {
+      console.log(error);
+    }
+  };
   return (
     <ThemeProvider defaultTheme='system' storageKey='dealmenu-theme'>
       <div>
@@ -90,6 +101,7 @@ function App() {
                 return (
                   <DealCard
                     key={deal._id}
+                    deal={deal}
                     dealNumber={index + 1}
                     createdAt={deal.createdAt}
                     address={deal.address}
@@ -101,7 +113,7 @@ function App() {
                     price={deal.price}
                     description={deal.description}
                     photo={deal.photo}
-                    onClick={() => console.log(deal._id)}
+                    handleDelete={handleDelete}
                   />
                 );
               })}
