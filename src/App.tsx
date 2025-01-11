@@ -99,21 +99,12 @@ function App() {
               ))
             : deals.map((deal, index) => {
                 return (
+                  // TODO: refactor so that no need to props.etc.. just pass te deal object let the DealCard deconstruct
                   <DealCard
                     key={deal._id}
                     deal={deal}
-                    dealNumber={index + 1}
-                    createdAt={deal.createdAt}
-                    address={deal.address}
-                    livingArea={deal.livingArea}
-                    lot={deal.lot}
-                    yearBuilt={deal.yearBuilt}
-                    escrow={deal.escrow}
-                    closing={deal.closing}
-                    price={deal.price}
-                    description={deal.description}
-                    photo={deal.photo}
                     handleDelete={handleDelete}
+                    dealNumber={index + 1}
                   />
                 );
               })}

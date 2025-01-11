@@ -9,18 +9,18 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-const DealCard = (props) => {
+const DealCard = ({ deal, handleDelete, dealNumber }) => {
   return (
-    <Card onClick={props.onClick}>
+    <Card>
       <CardHeader>
-        <CardTitle>Deal #{props.dealNumber}</CardTitle>
+        <CardTitle>Deal #{dealNumber}</CardTitle>
         <CardDescription>
           <span className='italic'>added </span>
-          {props.createdAt}
+          {deal.createdAt}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Address: {props.address}</p>
+        {/* <p>Address: {props.address}</p>
         <p>Living area: {props.livingArea}</p>
         <p>Lot size: {props.lot}</p>
         <p>Year built: {props.yearBuilt}</p>
@@ -28,15 +28,21 @@ const DealCard = (props) => {
         <p>Closing: {props.closing}</p>
         <p>Price: {props.price}</p>
         <p>Description: {props.description}</p>
-        <p>Photos: {props.photo}</p>
+        <p>Photos: {props.photo}</p> */}
+        <p>Address: {deal.address}</p>
+        <p>Living area: {deal.livingArea}</p>
+        <p>Lot size: {deal.lot}</p>
+        <p>Year built: {deal.yearBuilt}</p>
+        <p>Escrow: {deal.escrow}</p>
+        <p>Closing: {deal.closing}</p>
+        <p>Price: {deal.price}</p>
+        <p>Description: {deal.description}</p>
+        <p>Photos: {deal.photo}</p>
       </CardContent>
       <CardContent></CardContent>
       <CardFooter>
-        <span className='italic'>added {props.createdAt}</span>
-        <Button
-          onClick={() => props.handleDelete(props.deal)}
-          variant={'destructive'}
-        >
+        <span className='italic'>added {deal.createdAt}</span>
+        <Button onClick={() => handleDelete(deal)} variant={'destructive'}>
           Delete
         </Button>
       </CardFooter>
