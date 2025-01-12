@@ -9,7 +9,14 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-const DealCard = ({ deal, handleDelete, dealNumber }) => {
+const DealCard = ({
+  deal,
+  handleDelete,
+  dealNumber,
+  currentDeal,
+  setCurrentDeal,
+  drawerDealFormControl,
+}) => {
   return (
     <Card>
       <CardHeader>
@@ -42,6 +49,14 @@ const DealCard = ({ deal, handleDelete, dealNumber }) => {
       <CardContent></CardContent>
       <CardFooter>
         <span className='italic'>added {deal.createdAt}</span>
+        <Button
+          onClick={() => {
+            setCurrentDeal(deal);
+            drawerDealFormControl();
+          }}
+        >
+          Edit
+        </Button>
         <Button onClick={() => handleDelete(deal)} variant={'destructive'}>
           Delete
         </Button>

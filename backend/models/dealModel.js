@@ -6,7 +6,7 @@ const dealSchema = new mongoose.Schema(
     address: { type: String },
     livingArea: { type: String },
     lot: { type: String },
-    yearBuilt: { type: Number },
+    yearBuilt: { type: String },
     escrow: { type: String },
     closing: { type: String },
     price: { type: String },

@@ -17,6 +17,7 @@ import {
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
+  DrawerTitle,
 } from '@/components/ui/drawer';
 import CardSkeleton from '@/components/CardSkeleton';
 
@@ -38,6 +39,8 @@ function App() {
   const [error, setError] = useState('');
   //state for drawer open/close
   const [open, setOpen] = useState(false);
+  // editing state for form, passed down to form via context
+  const [currentDeal, setCurrentDeal] = useState(undefined);
   // useEffect hook to fetch all current deals
   useEffect(() => {
     // lets handle errors for this useeffect
@@ -105,6 +108,9 @@ function App() {
                     deal={deal}
                     handleDelete={handleDelete}
                     dealNumber={index + 1}
+                    currentDeal={currentDeal}
+                    setCurrentDeal={setCurrentDeal}
+                    drawerDealFormControl={drawerDealFormControl}
                   />
                 );
               })}
@@ -116,7 +122,9 @@ function App() {
           direction='right'
         >
           <DrawerContent>
-            <Outlet context={{ deals }} />
+            {/* pass down editing context */}
+            <Outlet context={{ currentDeal, setCurrentDeal }} />
+            <DrawerTitle></DrawerTitle>
             <DrawerDescription></DrawerDescription>
             <DrawerFooter>
               <DrawerClose>
@@ -142,8 +150,9 @@ export default App;
 // add form with validation & error handling XXX
 // routing, mostly SPA experience with <Outlet/> XXX
 // error handling in the frontend XXX
-// finish CRUD operations on the front end
+// finish CRUD operations on the front end XXX
 // styling WIP
 // state (context API)
+// WRITE TYPES
 // UX: allow buyers to express priority interest in a property (toasts!)
 // !! auth for Saida & Jermaine, global context here will be used to allow access to CRUD operations

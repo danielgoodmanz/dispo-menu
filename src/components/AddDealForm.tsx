@@ -3,8 +3,10 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Header from '@/components/Header';
+import { useOutletContext } from 'react-router';
 
 const AddDealForm = () => {
+  const { currentDeal, setCurrentDeal } = useOutletContext();
   // zod schema
   // create an object schema with validation & error messages built in
   const dealFormSchema = z.object({
@@ -30,29 +32,68 @@ const AddDealForm = () => {
     description: z.string().max(800, "Description can't exceed 800 chars"),
     photo: z.string().url('Photo must be a valid URL'),
   });
+
+  //infer input types from the schema defined above
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
     //passing the resolver to useForm allows zod to connect to react-hook-form
-  } = useForm({ resolver: zodResolver(dealFormSchema) });
+  } = useForm({
+    resolver: zodResolver(dealFormSchema),
+    defaultValues: currentDeal
+      ? {
+          address: currentDeal.address,
+          livingArea: currentDeal.livingArea,
+          lot: currentDeal.lot,
+          yearBuilt: currentDeal.yearBuilt,
+          escrow: currentDeal.escrow,
+          closing: currentDeal.closing,
+          price: currentDeal.price,
+          description: currentDeal.description,
+          photo: currentDeal.photo,
+        }
+      : undefined,
+  });
 
   const onSubmit = async (data) => {
-    /// TODO: POST request to the server, debug this
-    try {
-      const response = await fetch('http://localhost:3000/add', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'content-type': 'application/json' },
-      });
-      if (response.ok) {
-        console.log(`successfully added deal with ${data}`);
-      } else {
-        console.log(response.status);
+    // TODO: add a if check for put/post request
+    if (currentDeal) {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/update/${currentDeal._id}`,
+          {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: { 'content-type': 'application/json' },
+          }
+        );
+        if (response.ok) {
+          console.log(`successfully edited deal with id ${currentDeal._id}`);
+          setCurrentDeal(undefined);
+        } else {
+          console.log(response.status);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
+    } else {
+      try {
+        const response = await fetch('http://localhost:3000/add', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: { 'content-type': 'application/json' },
+        });
+        if (response.ok) {
+          console.log(`successfully added deal with ${data}`);
+        } else {
+          console.log(response.status);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     console.log(data);
@@ -101,6 +142,7 @@ const AddDealForm = () => {
         {errors.description && <p>{errors.description.message}</p>}
         <input {...register('photo')} type='text' placeholder='Photo link' />
         {errors.photo && <p>{errors.photo.message}</p>}
+        {/* TODO: error - in HTML, button cannot be a descendant of button */}
         <Button disabled={isSubmitting} type='submit'>
           Submit
         </Button>
@@ -111,3 +153,9 @@ const AddDealForm = () => {
 };
 
 export default AddDealForm;
+
+//TODO: to add editing functionality we need to create
+//an edit state XXX enable that edit state XXX pull up the adddealform via drawer XXX
+//then,
+// populate defaultValues where deal id matches XXX DONE
+//
