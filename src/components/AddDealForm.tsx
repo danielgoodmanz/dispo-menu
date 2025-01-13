@@ -58,7 +58,9 @@ const AddDealForm = () => {
       : undefined,
   });
 
-  const onSubmit = async (data) => {
+  type FormValues = z.infer<typeof dealFormSchema>;
+
+  const onSubmit = async (data: FormValues) => {
     // TODO: add a if check for put/post request
     if (currentDeal) {
       try {

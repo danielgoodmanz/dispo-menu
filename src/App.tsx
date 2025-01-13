@@ -115,7 +115,8 @@ function App() {
                 );
               })}
         </Container>
-        {/* drawer which opens AddDealForm.tsx */}
+        {/* drawer which opens AddDealForm.tsx, modified version of the entire Drawer component structure
+        from shadcnUI as only certain elements were needed, can further trim it down */}
         <Drawer
           open={open}
           onOpenChange={drawerDealFormControl}
@@ -127,9 +128,7 @@ function App() {
             <DrawerTitle></DrawerTitle>
             <DrawerDescription></DrawerDescription>
             <DrawerFooter>
-              <DrawerClose>
-                <Button variant='outline'>Cancel</Button>
-              </DrawerClose>
+              <DrawerClose></DrawerClose>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
