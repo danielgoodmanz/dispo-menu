@@ -34,6 +34,7 @@ const AddDealForm = () => {
   });
 
   //infer input types from the schema defined above
+  type FormValues = z.infer<typeof dealFormSchema>;
 
   const {
     register,
@@ -57,8 +58,6 @@ const AddDealForm = () => {
         }
       : undefined,
   });
-
-  type FormValues = z.infer<typeof dealFormSchema>;
 
   const onSubmit = async (data: FormValues) => {
     // TODO: add a if check for put/post request

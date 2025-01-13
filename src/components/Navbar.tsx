@@ -7,7 +7,7 @@ const Navbar = ({ drawerDealFormControl }) => {
   const { theme, setTheme } = useTheme();
   return (
     <nav>
-      <ul className='flex justify-end space-x-6'>
+      <ul className='flex justify-end space-x-6 mb-6'>
         <li>
           <Link to={'/'}>
             <Button variant='ghost'>Home</Button>
