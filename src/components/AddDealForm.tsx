@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Header from '@/components/Header';
 import { useOutletContext } from 'react-router';
+import { Input } from '@/components/ui/input';
 
 const AddDealForm = () => {
   const { currentDeal, setCurrentDeal } = useOutletContext();
@@ -108,40 +109,40 @@ const AddDealForm = () => {
       {/* TODO: Add isSubmitting state (maybe from useForm?) */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col space-y-2'
-        // you need to set these below otherwise the form does .. nothing
+        className='flex flex-col gap-y-2'
+        // you need to set these below otherwise the form does.. nothing
         method='post'
         action='/add'
       >
-        <input {...register('address')} type='text' placeholder='Address' />
-        <input
+        <Input {...register('address')} type='text' placeholder='Address' />
+        <Input
           {...register('livingArea')}
           type='text'
           placeholder='Living area'
         />
         {errors.address && <p>{errors.address.message}</p>}
-        <input {...register('lot')} type='text' placeholder='Lot' />
+        <Input {...register('lot')} type='text' placeholder='Lot' />
         {errors.lot && <p>{errors.lot.message}</p>}
-        <input
+        <Input
           {...register('yearBuilt')}
           type='text'
           placeholder='Year built'
         />
         {/* errors must go directly after input for respective field */}
         {errors.yearBuilt && <p>{errors.yearBuilt.message}</p>}
-        <input {...register('escrow')} type='text' placeholder='Escrow' />
+        <Input {...register('escrow')} type='text' placeholder='Escrow' />
         {errors.escrow && <p>{errors.escrow.message}</p>}
-        <input {...register('closing')} type='text' placeholder='Closing' />
+        <Input {...register('closing')} type='text' placeholder='Closing' />
         {errors.closing && <p>{errors.closing.message}</p>}
-        <input {...register('price')} type='text' placeholder='Price' />
+        <Input {...register('price')} type='text' placeholder='Price' />
         {errors.price && <p>{errors.price.message}</p>}
-        <input
+        <Input
           {...register('description')}
           type='text'
           placeholder='Description'
         />
         {errors.description && <p>{errors.description.message}</p>}
-        <input {...register('photo')} type='text' placeholder='Photo link' />
+        <Input {...register('photo')} type='text' placeholder='Photo link' />
         {errors.photo && <p>{errors.photo.message}</p>}
         {/* TODO: error - in HTML, button cannot be a descendant of button */}
         <Button disabled={isSubmitting} type='submit'>

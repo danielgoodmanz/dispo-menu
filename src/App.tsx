@@ -3,7 +3,6 @@ import Header from '@/components/Header';
 import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import TvBar from '@/components/TvBar';
-import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 import { Toaster } from '@/components/ui/toaster';
@@ -21,10 +20,20 @@ import {
 } from '@/components/ui/drawer';
 import CardSkeleton from '@/components/CardSkeleton';
 
-// type Deals = {
-//   deals: object;
-//   setDeals: React.Dispatch<React.SetStateAction<object>>;
-// };
+// types, WIP, no need to type props as we will be using a context,
+// deal prop types, deal obj pulled from DB
+export type DealProps = {
+  _id: number;
+  address: string;
+  livingArea: string;
+  lot: string;
+  yearBuilt: string;
+  escrow: string;
+  closing: string;
+  price: string;
+  description: string;
+  photo: string;
+};
 
 function App() {
   //navigate hook
@@ -32,7 +41,7 @@ function App() {
   //toast hook
   const { toast } = useToast();
   //state for deals, TODO: move this to context API
-  const [deals, setDeals] = useState([]);
+  const [deals, setDeals] = useState<DealProps[]>([]);
   //state for loading deals
   const [loading, setLoading] = useState(false);
   //state for errors
@@ -60,13 +69,16 @@ function App() {
         } else if (!response.ok) {
           console.error(error);
         }
-      } catch (error) {
-        console.log(error);
-        setError(error.message);
+      } catch (error: unknown) {
+        //type guard
+        if (error instanceof Error) {
+          console.log(error);
+          setError(error.message);
+        }
       }
     };
     fetchDeals();
-  }, []);
+  }, [error, toast]);
 
   const drawerDealFormControl = () => {
     if (open === true) {
@@ -79,7 +91,7 @@ function App() {
   };
 
   //handlers
-  const handleDelete = async (deal) => {
+  const handleDelete = async (deal: DealProps) => {
     const response = await fetch(`http://localhost:3000/delete/${deal._id}`, {
       method: 'delete',
     });
@@ -102,7 +114,6 @@ function App() {
               ))
             : deals.map((deal, index) => {
                 return (
-                  // TODO: refactor so that no need to props.etc.. just pass te deal object let the DealCard deconstruct
                   <DealCard
                     key={deal._id}
                     deal={deal}
@@ -150,8 +161,10 @@ export default App;
 // routing, mostly SPA experience with <Outlet/> XXX
 // error handling in the frontend XXX
 // finish CRUD operations on the front end XXX
+
+// error TOASTS
+// WRITE TYPES
 // styling WIP
 // state (context API)
-// WRITE TYPES
 // UX: allow buyers to express priority interest in a property (toasts!)
 // !! auth for Saida & Jermaine, global context here will be used to allow access to CRUD operations
