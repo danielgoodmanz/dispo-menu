@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Header from '@/components/Header';
-import { useOutletContext } from 'react-router';
 import { Input } from '@/components/ui/input';
+import useAppContext from '@/hooks/useAppContext';
 
 const AddDealForm = () => {
-  const { currentDeal, setCurrentDeal } = useOutletContext();
+  const { currentDeal, setCurrentDeal } = useAppContext();
   // zod schema
   // create an object schema with validation & error messages built in
   const dealFormSchema = z.object({

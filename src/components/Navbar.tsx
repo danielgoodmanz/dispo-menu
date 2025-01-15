@@ -2,8 +2,10 @@ import { SunMoon } from 'lucide-react';
 import { useTheme } from '@/components/theme-provider';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router';
+import useAppContext from '@/hooks/useAppContext';
 
-const Navbar = ({ drawerDealFormControl }) => {
+const Navbar = () => {
+  const { drawerDealFormControl } = useAppContext();
   const { theme, setTheme } = useTheme();
   return (
     <nav>

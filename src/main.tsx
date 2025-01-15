@@ -6,20 +6,23 @@ import './index.css';
 import App from './App.tsx';
 import AddDealForm from '@/components/AddDealForm.tsx';
 import ErrorPage from '@/components/ErrorPage.tsx';
+import AppContextProvider from './contexts/AppContextProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<App />}>
-          <Route path='dealform' element={<AddDealForm />} />
-        </Route>
-        {/* render a single deal */}
-        <Route path='/:id' element={<App />} />
-        {/* TODO: add a landing page */}
-        <Route path='landing' />
-        <Route path='/*' element={<ErrorPage />} />
-      </Routes>
+      <AppContextProvider>
+        <Routes>
+          <Route path='/' element={<App />}>
+            <Route path='dealform' element={<AddDealForm />} />
+          </Route>
+          {/* render a single deal */}
+          <Route path='/:id' element={<App />} />
+          {/* TODO: add a landing page */}
+          <Route path='landing' />
+          <Route path='/*' element={<ErrorPage />} />
+        </Routes>
+      </AppContextProvider>
     </BrowserRouter>
   </StrictMode>
 );

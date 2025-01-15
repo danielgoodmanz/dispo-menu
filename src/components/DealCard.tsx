@@ -8,15 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import useAppContext from '@/hooks/useAppContext';
 
-const DealCard = ({
-  deal,
-  handleDelete,
-  dealNumber,
-  currentDeal,
-  setCurrentDeal,
-  drawerDealFormControl,
-}) => {
+//TODO: look into this type
+const DealCard = ({ deal, dealNumber }) => {
+  const { handleDeleteDeal, setCurrentDeal, drawerDealFormControl } =
+    useAppContext();
   return (
     <Card>
       <CardHeader>
@@ -27,15 +24,6 @@ const DealCard = ({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {/* <p>Address: {props.address}</p>
-        <p>Living area: {props.livingArea}</p>
-        <p>Lot size: {props.lot}</p>
-        <p>Year built: {props.yearBuilt}</p>
-        <p>Escrow: {props.escrow}</p>
-        <p>Closing: {props.closing}</p>
-        <p>Price: {props.price}</p>
-        <p>Description: {props.description}</p>
-        <p>Photos: {props.photo}</p> */}
         <p>Address: {deal.address}</p>
         <p>Living area: {deal.livingArea}</p>
         <p>Lot size: {deal.lot}</p>
@@ -57,7 +45,7 @@ const DealCard = ({
         >
           Edit
         </Button>
-        <Button onClick={() => handleDelete(deal)} variant={'destructive'}>
+        <Button onClick={() => handleDeleteDeal(deal)} variant={'destructive'}>
           Delete
         </Button>
       </CardFooter>
