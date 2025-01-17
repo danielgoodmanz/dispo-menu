@@ -123,8 +123,10 @@ export default App;
 // finish CRUD operations on the front end XXX
 // state (context API) XXX
 // WRITE TYPES XXX
+// error TOASTS XXX
 
-// error TOASTS
-// styling WIP
-// UX: allow buyers to express priority interest in a property (toasts!)
+// UX: allow buyers to express priority interest in a property
+// LANDING PAGE
 // !! auth for Saida & Jermaine, global context here will be used to allow access to CRUD operations
+
+// styling WIP
