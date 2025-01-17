@@ -62,6 +62,7 @@ function App() {
         if (error instanceof Error) {
           console.log(error);
           setError(error.message);
+          toast({ description: error.message, variant: 'destructive' });
         }
       }
     };
@@ -121,7 +122,7 @@ export default App;
 // error handling in the frontend XXX
 // finish CRUD operations on the front end XXX
 // state (context API) XXX
-// WRITE TYPES XXX PARTIAL
+// WRITE TYPES XXX
 
 // error TOASTS
 // styling WIP

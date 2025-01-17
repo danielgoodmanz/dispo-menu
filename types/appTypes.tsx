@@ -1,6 +1,5 @@
 export type DealProps = {
-  deal?: object;
-  dealNumber?: number;
+  createdAt: number;
   _id: number;
   address: string;
   livingArea: string;

@@ -11,11 +11,13 @@ export type AppContextTypes = {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
-  currentDeal: undefined;
-  setCurrentDeal: React.Dispatch<React.SetStateAction<undefined>>;
+  currentDeal: undefined | DealProps;
+  //if initializing as undefined, you must specify to state setter it CAN be something else of type x
+  setCurrentDeal: React.Dispatch<React.SetStateAction<undefined | DealProps>>;
   drawerDealFormControl: () => void;
   navigate: (path: string) => void;
   handleDeleteDeal: (deal: DealProps) => void;
+  handleCurrentDeal: (deal: DealProps) => void;
 };
 
 //TODO:
@@ -37,7 +39,9 @@ export default function AppContextProvider({
   //state for drawer open/close
   const [open, setOpen] = useState(false);
   // editing state for form, passed down to form via context
-  const [currentDeal, setCurrentDeal] = useState(undefined);
+  const [currentDeal, setCurrentDeal] = useState<DealProps | undefined>(
+    undefined
+  );
 
   //navigate hook, declared here for context & drawerDealFormControl() to work
   const navigate = useNavigate();
@@ -64,7 +68,10 @@ export default function AppContextProvider({
     }
   };
   //edit handler, for grabbing current ID
-
+  const handleCurrentDeal = (deal: DealProps) => {
+    setCurrentDeal(deal);
+    drawerDealFormControl();
+  };
   return (
     <AppContext.Provider
       value={{
@@ -77,6 +84,7 @@ export default function AppContextProvider({
         currentDeal,
         setCurrentDeal,
         handleDeleteDeal,
+        handleCurrentDeal,
         open,
         setOpen,
         drawerDealFormControl,

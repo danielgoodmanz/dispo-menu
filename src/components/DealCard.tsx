@@ -9,11 +9,17 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import useAppContext from '@/hooks/useAppContext';
+import { DealProps } from 'types/appTypes';
+
+//this is how you can define the types for the singular mapped object in deals.map()
+type DealCardProps = {
+  deal: DealProps;
+  dealNumber?: number;
+};
 
 //TODO: look into this type
-const DealCard = ({ deal, dealNumber }) => {
-  const { handleDeleteDeal, setCurrentDeal, drawerDealFormControl } =
-    useAppContext();
+const DealCard = ({ deal, dealNumber }: DealCardProps) => {
+  const { handleDeleteDeal, handleCurrentDeal } = useAppContext();
   return (
     <Card>
       <CardHeader>
@@ -37,14 +43,7 @@ const DealCard = ({ deal, dealNumber }) => {
       <CardContent></CardContent>
       <CardFooter>
         <span className='italic'>added {deal.createdAt}</span>
-        <Button
-          onClick={() => {
-            setCurrentDeal(deal);
-            drawerDealFormControl();
-          }}
-        >
-          Edit
-        </Button>
+        <Button onClick={() => handleCurrentDeal(deal)}>Edit</Button>
         <Button onClick={() => handleDeleteDeal(deal)} variant={'destructive'}>
           Delete
         </Button>

@@ -155,9 +155,3 @@ const AddDealForm = () => {
 };
 
 export default AddDealForm;
-
-//TODO: to add editing functionality we need to create
-//an edit state XXX enable that edit state XXX pull up the adddealform via drawer XXX
-//then,
-// populate defaultValues where deal id matches XXX DONE
-//
