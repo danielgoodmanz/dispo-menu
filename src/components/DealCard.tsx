@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import useAppContext from '@/hooks/useAppContext';
+import { HandCoins } from 'lucide-react';
 import { DealProps } from 'types/appTypes';
 
 //this is how you can define the types for the singular mapped object in deals.map()
@@ -41,8 +42,11 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         <p>Photos: {deal.photo}</p>
       </CardContent>
       <CardContent></CardContent>
-      <CardFooter>
-        <span className='italic'>added {deal.createdAt}</span>
+      <CardFooter className='gap-2'>
+        <Button className='bg-yellow-400'>
+          <HandCoins />
+          I'm interested!
+        </Button>
         <Button onClick={() => handleCurrentDeal(deal)}>Edit</Button>
         <Button onClick={() => handleDeleteDeal(deal)} variant={'destructive'}>
           Delete
