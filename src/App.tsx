@@ -73,7 +73,10 @@ function App() {
     <ThemeProvider defaultTheme='system' storageKey='dealmenu-theme'>
       <div>
         <Navbar />
-        <Header title={`Saida & Jermaine's Deal-Menu wip 🛠️`} />
+        <Header
+          title={`Saida & Jermaine's Deal-Menu wip 🛠️`}
+          className='text-center'
+        />
         <ContainerGrid>
           {/* render cards here  */}
           {loading

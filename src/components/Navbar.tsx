@@ -16,7 +16,9 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Button variant='ghost'>Deals</Button>
+          <Link to={'/landing'}>
+            <Button variant='ghost'>Landing</Button>
+          </Link>
         </li>
         <li>
           <Button variant='ghost'>Sign in</Button>
