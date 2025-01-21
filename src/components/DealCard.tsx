@@ -43,7 +43,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       </CardContent>
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
-        <Button className='bg-yellow-400'>
+        <Button className='bg-yellow-400 hover:bg-yellow-400/90'>
           <HandCoins />
           I'm interested!
         </Button>
