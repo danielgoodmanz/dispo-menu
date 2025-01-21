@@ -6,6 +6,8 @@ export type AppContextTypes = {
   deals: DealProps[];
   setDeals: React.Dispatch<React.SetStateAction<DealProps[]>>;
   open: boolean;
+  isDialogOpen: boolean;
+  setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,6 +17,7 @@ export type AppContextTypes = {
   //if initializing as undefined, you must specify to state setter it CAN be something else of type x
   setCurrentDeal: React.Dispatch<React.SetStateAction<undefined | DealProps>>;
   drawerDealFormControl: () => void;
+  dialogInterestControl: () => void;
   navigate: (path: string) => void;
   handleDeleteDeal: (deal: DealProps) => void;
   handleCurrentDeal: (deal: DealProps) => void;
@@ -38,6 +41,8 @@ export default function AppContextProvider({
   const [error, setError] = useState('');
   //state for drawer open/close
   const [open, setOpen] = useState(false);
+  //state for dialog open/close
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   // editing state for form, passed down to form via context
   const [currentDeal, setCurrentDeal] = useState<DealProps | undefined>(
     undefined
@@ -53,6 +58,16 @@ export default function AppContextProvider({
     } else {
       navigate('dealform');
       setOpen(true);
+    }
+  };
+
+  const dialogInterestControl = () => {
+    if (isDialogOpen === true) {
+      navigate('/');
+      setIsDialogOpen(false);
+    } else {
+      navigate('/interest/:dealNumber');
+      setIsDialogOpen(true);
     }
   };
   //handlers
@@ -88,6 +103,9 @@ export default function AppContextProvider({
         open,
         setOpen,
         drawerDealFormControl,
+        dialogInterestControl,
+        isDialogOpen,
+        setIsDialogOpen,
         navigate,
       }}
     >

@@ -21,6 +21,14 @@ import {
 } from '@/components/ui/drawer';
 import useAppContext from '@/hooks/useAppContext';
 import ContainerGrid from '@/components/ContainerGrid';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 function App() {
   //consuming context
@@ -32,7 +40,9 @@ function App() {
     error,
     setError,
     open,
+    isDialogOpen,
     drawerDealFormControl,
+    dialogInterestControl,
   } = useAppContext();
 
   //toast hook
@@ -80,7 +90,7 @@ function App() {
         <ContainerGrid>
           {/* render cards here  */}
           {loading
-            ? Array.from({ length: 5 }).map((_, index) => (
+            ? Array.from({ length: 6 }).map((_, index) => (
                 <CardSkeleton key={index} />
               ))
             : deals.map((deal, index) => {
@@ -97,7 +107,6 @@ function App() {
           direction='right'
         >
           <DrawerContent>
-            {/* pass down editing context */}
             <Outlet />
             <DrawerTitle></DrawerTitle>
             <DrawerDescription></DrawerDescription>
@@ -108,6 +117,15 @@ function App() {
         </Drawer>
         <TvBar />
       </div>
+      <Dialog open={isDialogOpen} onOpenChange={dialogInterestControl}>
+        <DialogContent>
+          <Outlet />
+          <DialogHeader>
+            <DialogTitle></DialogTitle>
+            <DialogDescription></DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
       <Toaster />
     </ThemeProvider>
   );

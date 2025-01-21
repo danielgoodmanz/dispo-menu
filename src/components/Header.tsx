@@ -1,6 +1,6 @@
 type HeaderProps = {
   title: string;
-  className: string;
+  className?: string;
 };
 
 const Header = (props: HeaderProps) => {

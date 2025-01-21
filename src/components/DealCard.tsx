@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card';
 import useAppContext from '@/hooks/useAppContext';
 import { HandCoins } from 'lucide-react';
+import { Link } from 'react-router';
 import { DealProps } from 'types/appTypes';
 
 //this is how you can define the types for the singular mapped object in deals.map()
@@ -20,7 +21,8 @@ type DealCardProps = {
 
 //TODO: look into this type
 const DealCard = ({ deal, dealNumber }: DealCardProps) => {
-  const { handleDeleteDeal, handleCurrentDeal } = useAppContext();
+  const { handleDeleteDeal, handleCurrentDeal, dialogInterestControl } =
+    useAppContext();
   return (
     <Card>
       <CardHeader>
@@ -43,10 +45,15 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       </CardContent>
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
-        <Button className='bg-yellow-400 hover:bg-yellow-400/90'>
-          <HandCoins />
-          I'm interested!
-        </Button>
+        <Link to={`/interest/${dealNumber}`}>
+          <Button
+            onClick={() => dialogInterestControl()}
+            className='bg-yellow-400 hover:bg-yellow-400/90'
+          >
+            <HandCoins />
+            I'm interested!
+          </Button>
+        </Link>
         <Button onClick={() => handleCurrentDeal(deal)}>Edit</Button>
         <Button onClick={() => handleDeleteDeal(deal)} variant={'destructive'}>
           Delete
