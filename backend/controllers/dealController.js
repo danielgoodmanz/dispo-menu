@@ -23,6 +23,7 @@ export async function getDeal(req, res) {
 }
 export async function addDeal(req, res) {
   const {
+    agent,
     address,
     livingArea,
     lot,
@@ -36,6 +37,7 @@ export async function addDeal(req, res) {
 
   try {
     const deal = await Deal.create({
+      agent,
       address,
       livingArea,
       lot,

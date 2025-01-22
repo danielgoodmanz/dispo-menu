@@ -10,47 +10,27 @@ import { Outlet } from 'react-router';
 
 //shadcnui components
 import CardSkeleton from '@/components/CardSkeleton';
-import Container from '@/components/Container';
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerTitle,
-} from '@/components/ui/drawer';
+
 import useAppContext from '@/hooks/useAppContext';
 import ContainerGrid from '@/components/ContainerGrid';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+
+import FormDrawer from '@/components/FormDrawer';
+import InterestDialog from '@/components/InterestDialog';
+import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
+import { DealProps } from 'types/appTypes';
 
 function App() {
   //consuming context
-  const {
-    deals,
-    setDeals,
-    loading,
-    setLoading,
-    error,
-    setError,
-    open,
-    isDialogOpen,
-    drawerDealFormControl,
-    dialogInterestControl,
-  } = useAppContext();
+  const { deals, setDeals, loading, setLoading, error, setError } =
+    useAppContext();
+
+  const { user } = useKindeAuth();
 
   //toast hook
   const { toast } = useToast();
 
   // useEffect hook to fetch all current deals
   useEffect(() => {
-    // lets handle errors for this useeffect
     const fetchDeals = async () => {
       setLoading(true);
       try {
@@ -58,7 +38,10 @@ function App() {
         const json = await response.json();
         console.log(json);
         if (response.ok) {
-          setDeals(json);
+          const dealsByUser = json.filter(
+            (deal: DealProps) => deal.agent != user?.given_name
+          );
+          setDeals(dealsByUser);
           setLoading(false);
           toast({
             description: 'successfully loaded all deals!',
@@ -68,6 +51,7 @@ function App() {
           console.error(error);
         }
       } catch (error: unknown) {
+        // lets handle errors for this useeffect
         //type guard
         if (error instanceof Error) {
           console.log(error);
@@ -84,7 +68,7 @@ function App() {
       <div>
         <Navbar />
         <Header
-          title={`Saida & Jermaine's Deal-Menu wip 🛠️`}
+          title={user ? `Welcome ${user?.given_name} 🛠️` : `Today's Deal Menu`}
           className='text-center'
         />
         <ContainerGrid>
@@ -101,31 +85,16 @@ function App() {
         </ContainerGrid>
         {/* drawer which opens AddDealForm.tsx, modified version of the entire Drawer component structure
         from shadcnUI as only certain elements were needed, can further trim it down */}
-        <Drawer
-          open={open}
-          onOpenChange={drawerDealFormControl}
-          direction='right'
-        >
-          <DrawerContent>
-            <Outlet />
-            <DrawerTitle></DrawerTitle>
-            <DrawerDescription></DrawerDescription>
-            <DrawerFooter>
-              <DrawerClose></DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-        <TvBar />
-      </div>
-      <Dialog open={isDialogOpen} onOpenChange={dialogInterestControl}>
-        <DialogContent>
+        <FormDrawer>
           <Outlet />
-          <DialogHeader>
-            <DialogTitle></DialogTitle>
-            <DialogDescription></DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+          {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
+            children (Outlet) */}
+        </FormDrawer>
+        <TvBar />
+        <InterestDialog>
+          <Outlet />
+        </InterestDialog>
+      </div>
       <Toaster />
     </ThemeProvider>
   );
@@ -145,9 +114,10 @@ export default App;
 // state (context API) XXX
 // WRITE TYPES XXX
 // error TOASTS XXX
+// UX: allow buyers to express priority interest in a property XXX
+// !! auth for Saida & Jermaine, global context here will be used to allow access to CRUD operations XXX
 
-// UX: allow buyers to express priority interest in a property
+//display deals based on params
 // LANDING PAGE
-// !! auth for Saida & Jermaine, global context here will be used to allow access to CRUD operations
 
 // styling WIP

@@ -8,6 +8,8 @@ export type AppContextTypes = {
   open: boolean;
   isDialogOpen: boolean;
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isAppDialog: boolean;
+  setIsAppDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,6 +20,7 @@ export type AppContextTypes = {
   setCurrentDeal: React.Dispatch<React.SetStateAction<undefined | DealProps>>;
   drawerDealFormControl: () => void;
   dialogInterestControl: () => void;
+  appDialogControl: () => void;
   navigate: (path: string) => void;
   handleDeleteDeal: (deal: DealProps) => void;
   handleCurrentDeal: (deal: DealProps) => void;
@@ -39,10 +42,12 @@ export default function AppContextProvider({
   const [loading, setLoading] = useState(false);
   //state for errors
   const [error, setError] = useState('');
-  //state for drawer open/close
+  //state for form drawer open/close
   const [open, setOpen] = useState(false);
-  //state for dialog open/close
+  //state for interest dialog open/close
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  //state for app dialog open/close
+  const [isAppDialog, setIsAppDialog] = useState(false);
   // editing state for form, passed down to form via context
   const [currentDeal, setCurrentDeal] = useState<DealProps | undefined>(
     undefined
@@ -70,6 +75,14 @@ export default function AppContextProvider({
       setIsDialogOpen(true);
     }
   };
+
+  const appDialogControl = () => {
+    if (isAppDialog === true) {
+      setIsAppDialog(false);
+    } else {
+      setIsAppDialog(true);
+    }
+  };
   //handlers
   //delete handler
   const handleDeleteDeal = async (deal: DealProps) => {
@@ -78,6 +91,7 @@ export default function AppContextProvider({
     });
     if (response.ok) {
       console.log('successfully deleted deal');
+      setDeals((prevDeals) => prevDeals.filter((d) => d._id !== deal._id));
     } else {
       console.log(error);
     }
@@ -104,6 +118,9 @@ export default function AppContextProvider({
         setOpen,
         drawerDealFormControl,
         dialogInterestControl,
+        appDialogControl,
+        isAppDialog,
+        setIsAppDialog,
         isDialogOpen,
         setIsDialogOpen,
         navigate,

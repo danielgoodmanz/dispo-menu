@@ -1,4 +1,5 @@
 //shadcn imports
+import AppDialog from '@/components/AppDialog';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -8,7 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+
 import useAppContext from '@/hooks/useAppContext';
+import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 import { HandCoins } from 'lucide-react';
 import { Link } from 'react-router';
 import { DealProps } from 'types/appTypes';
@@ -21,8 +24,15 @@ type DealCardProps = {
 
 //TODO: look into this type
 const DealCard = ({ deal, dealNumber }: DealCardProps) => {
-  const { handleDeleteDeal, handleCurrentDeal, dialogInterestControl } =
-    useAppContext();
+  const {
+    handleDeleteDeal,
+    handleCurrentDeal,
+    dialogInterestControl,
+    appDialogControl,
+    isAppDialog,
+  } = useAppContext();
+  const { isAuthenticated } = useKindeAuth();
+
   return (
     <Card>
       <CardHeader>
@@ -46,19 +56,35 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
         <Link to={`/interest/${dealNumber}`}>
-          <Button
-            onClick={() => dialogInterestControl()}
-            className='bg-yellow-400 hover:bg-yellow-400/90'
-          >
-            <HandCoins />
-            I'm interested!
-          </Button>
+          {!isAuthenticated && (
+            <Button
+              onClick={() => dialogInterestControl()}
+              className='bg-yellow-400 hover:bg-yellow-400/90'
+            >
+              <HandCoins />
+              I'm interested!
+            </Button>
+          )}
         </Link>
-        <Button onClick={() => handleCurrentDeal(deal)}>Edit</Button>
-        <Button onClick={() => handleDeleteDeal(deal)} variant={'destructive'}>
-          Delete
-        </Button>
+        {isAuthenticated && (
+          <>
+            <Button onClick={() => handleCurrentDeal(deal)}>Edit</Button>
+            <Button variant={'destructive'} onClick={() => appDialogControl()}>
+              Delete
+            </Button>
+          </>
+        )}
       </CardFooter>
+      {isAppDialog && (
+        <AppDialog>
+          <Button
+            onClick={() => handleDeleteDeal(deal)}
+            variant={'destructive'}
+          >
+            Yes
+          </Button>
+        </AppDialog>
+      )}
     </Card>
   );
 };

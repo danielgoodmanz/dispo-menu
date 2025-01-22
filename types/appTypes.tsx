@@ -1,6 +1,7 @@
 export type DealProps = {
-  createdAt: number;
-  _id: number;
+  createdAt?: number;
+  agent: string;
+  _id?: string | number;
   address: string;
   livingArea: string;
   lot: string;

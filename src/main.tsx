@@ -9,23 +9,31 @@ import LandingPage from '@/components/LandingPage.tsx';
 import App from './App.tsx';
 import AppContextProvider from './contexts/AppContextProvider.tsx';
 import './index.css';
+import { KindeProvider } from '@kinde-oss/kinde-auth-react';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <AppContextProvider>
-        <Routes>
-          <Route path='/landing' element={<LandingPage />} />
-          <Route path='/' element={<App />}>
-            <Route path='dealform' element={<AddDealForm />} />
-            <Route path='interest/:dealNumber' element={<InterestForm />} />
-          </Route>
-          {/* render a single deal */}
-          <Route path='/:id' element={<App />} />
-          {/* TODO: add a landing page */}
-          <Route path='/*' element={<ErrorPage />} />
-        </Routes>
-      </AppContextProvider>
+      <KindeProvider
+        clientId='dcdbeb38cb4248fc8bd368f9d482d147'
+        domain='https://danprojects.kinde.com'
+        redirectUri='http://localhost:5173'
+        logoutUri='http://localhost:5173'
+      >
+        <AppContextProvider>
+          <Routes>
+            <Route path='/landing' element={<LandingPage />} />
+            <Route path='/' element={<App />}>
+              <Route path='dealform' element={<AddDealForm />} />
+              <Route path='interest/:dealNumber' element={<InterestForm />} />
+            </Route>
+            {/* render a single deal */}
+            <Route path='/:id' element={<App />} />
+            {/* TODO: add a landing page */}
+            <Route path='/*' element={<ErrorPage />} />
+          </Routes>
+        </AppContextProvider>
+      </KindeProvider>
     </BrowserRouter>
   </StrictMode>
 );

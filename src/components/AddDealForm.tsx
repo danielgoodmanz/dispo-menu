@@ -5,12 +5,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Header from '@/components/Header';
 import { Input } from '@/components/ui/input';
 import useAppContext from '@/hooks/useAppContext';
+import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
+import { DealProps } from 'types/appTypes';
 
 const AddDealForm = () => {
-  const { currentDeal, setCurrentDeal } = useAppContext();
+  const { currentDeal, setCurrentDeal, setDeals, drawerDealFormControl } =
+    useAppContext();
+  const { user } = useKindeAuth();
   // zod schema
   // create an object schema with validation & error messages built in
   const dealFormSchema = z.object({
+    agent: z.string(),
     address: z
       .string()
       .min(5, 'Address must be at least 5 chars')
@@ -56,12 +61,12 @@ const AddDealForm = () => {
           price: currentDeal.price,
           description: currentDeal.description,
           photo: currentDeal.photo,
+          agent: user?.given_name,
         }
-      : undefined,
+      : { agent: user?.given_name },
   });
 
   const onSubmit = async (data: FormValues) => {
-    // TODO: add a if check for put/post request
     if (currentDeal) {
       try {
         const response = await fetch(
@@ -75,6 +80,12 @@ const AddDealForm = () => {
         if (response.ok) {
           console.log(`successfully edited deal with id ${currentDeal._id}`);
           setCurrentDeal(undefined);
+          setDeals((prevDeals: DealProps[]) => {
+            return prevDeals.map((d) =>
+              d._id === currentDeal._id ? { ...data, _id: currentDeal._id } : d
+            );
+          });
+          drawerDealFormControl();
         } else {
           console.log(response.status);
         }
@@ -90,6 +101,12 @@ const AddDealForm = () => {
         });
         if (response.ok) {
           console.log(`successfully added deal with ${data}`);
+          setDeals((prevDeals: DealProps[]) => [
+            ...prevDeals,
+            // you can use as to assert type
+            data as DealProps,
+          ]);
+          drawerDealFormControl();
         } else {
           console.log(response.status);
         }
@@ -144,7 +161,7 @@ const AddDealForm = () => {
         {errors.description && <p>{errors.description.message}</p>}
         <Input {...register('photo')} type='text' placeholder='Photo link' />
         {errors.photo && <p>{errors.photo.message}</p>}
-        {/* TODO: error - in HTML, button cannot be a descendant of button */}
+        <Input type='hidden' {...register('agent')} />
         <Button disabled={isSubmitting} type='submit'>
           Submit
         </Button>
