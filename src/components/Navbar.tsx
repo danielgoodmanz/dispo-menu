@@ -8,14 +8,16 @@ import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 const Navbar = () => {
   const { drawerDealFormControl } = useAppContext();
   const { theme, setTheme } = useTheme();
-  const { login, register, logout, isAuthenticated, isLoading } =
-    useKindeAuth();
+  const { login, register, logout, getClaim } = useKindeAuth();
+
+  //TODO: export to global context
+  //TODO: type this
+  const isAdmin = getClaim('roles').value[0].key === 'admin' ? true : false;
 
   return (
     <nav>
       <div className='flex justify-end gap-6 mb-6 items-center '>
-        {/* TODO: look into Kinde onClick types */}
-        {isLoading ? null : isAuthenticated ? (
+        {isAdmin ? (
           <>
             <Button onClick={logout} variant={'ghost'}>
               Logout
@@ -27,6 +29,7 @@ const Navbar = () => {
           </>
         ) : (
           <>
+            {/* TODO: look into Kinde onClick types */}
             <Button onClick={login} variant='ghost'>
               Sign in
             </Button>

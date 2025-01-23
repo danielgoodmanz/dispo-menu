@@ -31,7 +31,9 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     appDialogControl,
     isAppDialog,
   } = useAppContext();
-  const { isAuthenticated } = useKindeAuth();
+  const { getClaim } = useKindeAuth();
+  //TODO: export to global context
+  const isAdmin = getClaim('roles').value[0].key === 'admin' ? true : false;
 
   return (
     <Card>
@@ -56,7 +58,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
         <Link to={`/interest/${dealNumber}`}>
-          {!isAuthenticated && (
+          {!isAdmin && (
             <Button
               onClick={() => dialogInterestControl()}
               className='bg-yellow-400 hover:bg-yellow-400/90'
@@ -66,7 +68,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
             </Button>
           )}
         </Link>
-        {isAuthenticated && (
+        {isAdmin && (
           <>
             <Button onClick={() => handleCurrentDeal(deal)}>Edit</Button>
             <Button variant={'destructive'} onClick={() => appDialogControl()}>

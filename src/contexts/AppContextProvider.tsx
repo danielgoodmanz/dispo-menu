@@ -60,6 +60,7 @@ export default function AppContextProvider({
     if (open === true) {
       navigate('/');
       setOpen(false);
+      setCurrentDeal(undefined);
     } else {
       navigate('dealform');
       setOpen(true);

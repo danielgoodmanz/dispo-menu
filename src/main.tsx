@@ -22,14 +22,14 @@ createRoot(document.getElementById('root')!).render(
       >
         <AppContextProvider>
           <Routes>
-            <Route path='/landing' element={<LandingPage />} />
+            <Route path='/:agent' element={<App />}></Route>
             <Route path='/' element={<App />}>
-              <Route path='dealform' element={<AddDealForm />} />
-              <Route path='interest/:dealNumber' element={<InterestForm />} />
+              <Route path='/dealform' element={<AddDealForm />} />
+              <Route path='/interest/:dealNumber' element={<InterestForm />} />
             </Route>
+            <Route path='/landing' element={<LandingPage />} />
             {/* render a single deal */}
             <Route path='/:id' element={<App />} />
-            {/* TODO: add a landing page */}
             <Route path='/*' element={<ErrorPage />} />
           </Routes>
         </AppContextProvider>

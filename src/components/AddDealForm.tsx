@@ -12,6 +12,7 @@ const AddDealForm = () => {
   const { currentDeal, setCurrentDeal, setDeals, drawerDealFormControl } =
     useAppContext();
   const { user } = useKindeAuth();
+
   // zod schema
   // create an object schema with validation & error messages built in
   const dealFormSchema = z.object({
@@ -61,9 +62,17 @@ const AddDealForm = () => {
           price: currentDeal.price,
           description: currentDeal.description,
           photo: currentDeal.photo,
-          agent: user?.given_name,
+          agent:
+            typeof user?.given_name === 'string'
+              ? user?.given_name.toLowerCase()
+              : null,
         }
-      : { agent: user?.given_name },
+      : {
+          agent:
+            typeof user?.given_name === 'string'
+              ? user?.given_name.toLowerCase()
+              : null,
+        },
   });
 
   const onSubmit = async (data: FormValues) => {
@@ -122,7 +131,7 @@ const AddDealForm = () => {
 
   return (
     <div>
-      <Header title={'Add a deal form!'} />
+      <Header title={currentDeal ? 'Edit deal' : 'Add a deal form!'} />
       {/* TODO: Add isSubmitting state (maybe from useForm?) */}
       <form
         onSubmit={handleSubmit(onSubmit)}
