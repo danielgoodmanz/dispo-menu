@@ -31,18 +31,14 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     appDialogControl,
     isAppDialog,
   } = useAppContext();
-  const { getClaim } = useKindeAuth();
+  const { getClaim, user } = useKindeAuth();
   //TODO: export to global context
-  type getClaimType = {
-    roles:
-      | {
-          key: string;
-        }[]
-      | null;
-  };
 
-  const claim = getClaim('roles') as getClaimType | null;
-  const isAdmin = claim?.roles?.[0]?.key === 'admin' ? true : false;
+  const isAdmin = user
+    ? getClaim('roles').value[0].key === 'admin'
+      ? true
+      : false
+    : null;
 
   return (
     <Card>

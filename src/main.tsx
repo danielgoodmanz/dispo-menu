@@ -17,7 +17,7 @@ createRoot(document.getElementById('root')!).render(
       <KindeProvider
         clientId='dcdbeb38cb4248fc8bd368f9d482d147'
         domain='https://danprojects.kinde.com'
-        redirectUri='http://localhost:5173'
+        redirectUri='http://localhost:5173/'
         logoutUri='http://localhost:5173'
       >
         <AppContextProvider>

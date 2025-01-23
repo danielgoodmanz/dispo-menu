@@ -24,7 +24,7 @@ function App() {
   const { deals, setDeals, loading, setLoading, error, setError } =
     useAppContext();
 
-  const { user, isAuthenticated, isLoading } = useKindeAuth();
+  const { user, isAuthenticated, isLoading, getClaim } = useKindeAuth();
 
   //toast hook
   const { toast } = useToast();
@@ -65,6 +65,11 @@ function App() {
     };
     fetchDeals();
   }, [agent]);
+  const isAdmin = user
+    ? getClaim('roles').value[0].key === 'admin'
+      ? true
+      : false
+    : null;
 
   return (
     <ThemeProvider defaultTheme='system' storageKey='dealmenu-theme'>
@@ -74,7 +79,7 @@ function App() {
           <Navbar />
           <Header
             title={
-              user ? `Welcome ${user?.given_name} 🛠️` : `Today's Deal Menu`
+              isAdmin ? `Welcome ${user?.given_name} 🛠️` : `Today's Deal Menu`
             }
             className='text-center'
           />
