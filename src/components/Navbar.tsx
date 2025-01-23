@@ -12,8 +12,17 @@ const Navbar = () => {
 
   //TODO: export to global context
   //TODO: type this
-  const isAdmin = getClaim('roles').value[0].key === 'admin' ? true : false;
 
+  type getClaimType = {
+    roles:
+      | {
+          key: string;
+        }[]
+      | null;
+  };
+
+  const claim = getClaim('roles') as getClaimType | null;
+  const isAdmin = claim?.roles?.[0]?.key === 'admin' ? true : false;
   return (
     <nav>
       <div className='flex justify-end gap-6 mb-6 items-center '>
