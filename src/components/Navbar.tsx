@@ -6,18 +6,9 @@ import useAppContext from '@/hooks/useAppContext';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 
 const Navbar = () => {
-  const { drawerDealFormControl } = useAppContext();
+  const { drawerDealFormControl, isAdmin } = useAppContext();
   const { theme, setTheme } = useTheme();
-  const { login, register, logout, getClaim, user } = useKindeAuth();
-
-  //TODO: export to global context
-  //TODO: type this
-
-  const isAdmin = user
-    ? getClaim('roles').value[0].key === 'admin'
-      ? true
-      : false
-    : null;
+  const { login, register, logout, user } = useKindeAuth();
 
   return (
     <nav>
@@ -27,17 +18,29 @@ const Navbar = () => {
             <Button onClick={logout} variant={'ghost'}>
               Logout
             </Button>
-
+            <Link to={`/${user?.given_name}`}>
+              <Button variant={'ghost'}>My deals</Button>
+            </Link>
             <Button onClick={drawerDealFormControl} variant='ghost'>
               Add a deal!
             </Button>
           </>
         ) : (
           <>
-            {/* TODO: look into Kinde onClick types */}
-            <Button onClick={login} variant='ghost'>
+            {/* allow redirecting to any URL after login */}
+            <Button
+              onClick={() =>
+                login({
+                  app_state: {
+                    redirectTo: '/:user',
+                  },
+                })
+              }
+              variant='ghost'
+            >
               Sign in
             </Button>
+            {/* @ts-expect-error unknown type for handler below */}
             <Button onClick={register} variant='ghost'>
               Register
             </Button>
@@ -61,7 +64,6 @@ const Navbar = () => {
           <SunMoon />
         </Button>
       </div>
-      {console.log(isAdmin)}
     </nav>
   );
 };

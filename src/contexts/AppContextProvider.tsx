@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { DealProps } from '../../types/appTypes';
+import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 
 export type AppContextTypes = {
   deals: DealProps[];
@@ -16,6 +17,7 @@ export type AppContextTypes = {
   error: string;
   setError: React.Dispatch<React.SetStateAction<string>>;
   currentDeal: undefined | DealProps;
+  isAdmin: boolean | null;
   //if initializing as undefined, you must specify to state setter it CAN be something else of type x
   setCurrentDeal: React.Dispatch<React.SetStateAction<undefined | DealProps>>;
   drawerDealFormControl: () => void;
@@ -55,24 +57,31 @@ export default function AppContextProvider({
 
   //navigate hook, declared here for context & drawerDealFormControl() to work
   const navigate = useNavigate();
+  //kindeauth hook
+  const { getClaim, user } = useKindeAuth();
+  const isAdmin = user
+    ? getClaim('roles').value[0].key === 'admin'
+      ? true
+      : false
+    : null;
   //programatically open/close Drawer component containing AddDealForm
   const drawerDealFormControl = () => {
     if (open === true) {
-      navigate('/');
+      navigate(`/${user?.given_name}`);
       setOpen(false);
       setCurrentDeal(undefined);
     } else {
-      navigate('dealform');
+      navigate(`${user?.given_name}/dealform`);
       setOpen(true);
     }
   };
 
   const dialogInterestControl = () => {
     if (isDialogOpen === true) {
-      navigate('/');
+      navigate(-2);
       setIsDialogOpen(false);
     } else {
-      navigate('/interest/:dealNumber');
+      navigate(`/interest/:dealNumber`);
       setIsDialogOpen(true);
     }
   };
@@ -125,6 +134,7 @@ export default function AppContextProvider({
         isDialogOpen,
         setIsDialogOpen,
         navigate,
+        isAdmin,
       }}
     >
       {children}

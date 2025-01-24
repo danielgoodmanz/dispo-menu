@@ -62,16 +62,10 @@ const AddDealForm = () => {
           price: currentDeal.price,
           description: currentDeal.description,
           photo: currentDeal.photo,
-          agent:
-            typeof user?.given_name === 'string'
-              ? user?.given_name.toLowerCase()
-              : null,
+          agent: typeof user?.given_name === 'string' ? user?.given_name : null,
         }
       : {
-          agent:
-            typeof user?.given_name === 'string'
-              ? user?.given_name.toLowerCase()
-              : null,
+          agent: typeof user?.given_name === 'string' ? user?.given_name : null,
         },
   });
 

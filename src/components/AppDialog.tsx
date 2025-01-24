@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -20,10 +19,11 @@ const AppDialog = ({ children }: AppDialogProps) => {
     <Dialog open={isAppDialog} onOpenChange={appDialogControl}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+          <DialogTitle className='text-center'>
+            Are you absolutely sure?
+          </DialogTitle>
+          <DialogDescription className='text-center'>
+            This action cannot be undone.
           </DialogDescription>
           {children}
         </DialogHeader>

@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/card';
 
 import useAppContext from '@/hooks/useAppContext';
-import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 import { HandCoins } from 'lucide-react';
 import { Link } from 'react-router';
 import { DealProps } from 'types/appTypes';
@@ -21,7 +20,10 @@ type DealCardProps = {
   deal: DealProps;
   dealNumber?: number;
 };
-
+const date = new Date().toLocaleString('en-US', {
+  hour: '2-digit',
+  month: 'short',
+});
 //TODO: look into this type
 const DealCard = ({ deal, dealNumber }: DealCardProps) => {
   const {
@@ -30,15 +32,10 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     dialogInterestControl,
     appDialogControl,
     isAppDialog,
+    isAdmin,
   } = useAppContext();
-  const { getClaim, user } = useKindeAuth();
-  //TODO: export to global context
 
-  const isAdmin = user
-    ? getClaim('roles').value[0].key === 'admin'
-      ? true
-      : false
-    : null;
+  //TODO: export to global context
 
   return (
     <Card>
@@ -59,10 +56,11 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         <p>Price: {deal.price}</p>
         <p>Description: {deal.description}</p>
         <p>Photos: {deal.photo}</p>
+        <p>{date}</p>
       </CardContent>
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
-        <Link to={`/interest/${dealNumber}`}>
+        <Link to={`interest/${dealNumber}`}>
           {!isAdmin && (
             <Button
               onClick={() => dialogInterestControl()}
@@ -87,6 +85,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
           <Button
             onClick={() => handleDeleteDeal(deal)}
             variant={'destructive'}
+            className=''
           >
             Yes
           </Button>

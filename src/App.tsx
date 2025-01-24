@@ -6,7 +6,7 @@ import TvBar from '@/components/TvBar';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect } from 'react';
-import { Outlet, useParams } from 'react-router';
+import { Link, Outlet, useParams } from 'react-router';
 
 //shadcnui components
 import CardSkeleton from '@/components/CardSkeleton';
@@ -18,13 +18,14 @@ import FormDrawer from '@/components/FormDrawer';
 import InterestDialog from '@/components/InterestDialog';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 import { DealProps } from 'types/appTypes';
+import { Button } from '@/components/ui/button';
 
 function App() {
   //consuming context
-  const { deals, setDeals, loading, setLoading, error, setError } =
+  const { deals, setDeals, loading, setLoading, error, setError, isAdmin } =
     useAppContext();
 
-  const { user, isAuthenticated, isLoading, getClaim } = useKindeAuth();
+  const { user, isLoading } = useKindeAuth();
 
   //toast hook
   const { toast } = useToast();
@@ -40,7 +41,7 @@ function App() {
         const response = await fetch(`http://localhost:3000/`);
         const json = await response.json();
         console.log(json);
-        if (response.ok && agent === 'daniel') {
+        if (response.ok && agent) {
           const dealsByAgent = json.filter((deal: DealProps) => {
             return deal.agent === agent ? deal : null;
           });
@@ -65,24 +66,29 @@ function App() {
     };
     fetchDeals();
   }, [agent]);
-  const isAdmin = user
-    ? getClaim('roles').value[0].key === 'admin'
-      ? true
-      : false
-    : null;
 
   return (
     <ThemeProvider defaultTheme='system' storageKey='dealmenu-theme'>
       {/* isLoading wrapper necessary to remove flash of non auth state */}
       {isLoading ? null : (
-        <div>
+        <div className=''>
           <Navbar />
           <Header
             title={
-              isAdmin ? `Welcome ${user?.given_name} 🛠️` : `Today's Deal Menu`
+              isAdmin ? `Welcome ${user?.given_name} 🛠️` : `Today's Deal Menus`
             }
             className='text-center'
           />
+          {!agent && !isAdmin && (
+            <div className='text-center space-x-4 mt-10 mb-10'>
+              <Link to={'/daniel'}>
+                <Button variant={'secondary'}>Saida's Deals</Button>
+              </Link>
+              <Link to={'/daniel'}>
+                <Button variant={'secondary'}>Jermaine's Deals</Button>
+              </Link>
+            </div>
+          )}
           <ContainerGrid>
             {/* render cards here  */}
             {loading
@@ -106,12 +112,14 @@ function App() {
             {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
             children (Outlet) */}
           </FormDrawer>
+
           <TvBar />
           <InterestDialog>
             <Outlet />
           </InterestDialog>
         </div>
       )}
+
       <Toaster />
     </ThemeProvider>
   );
