@@ -6,7 +6,7 @@ import NBC from '@/assets/NBC.svg';
 
 const TvBar = () => {
   return (
-    <div className='flex bg-primary justify-center space-x-8 items-center'>
+    <div className='flex bg-primary justify-center space-x-8 items-center mt-20'>
       <p className='text-lg font-bold'>As Seen On</p>
       <p>|</p>
       <img src={ABC} alt='ABC logo' className='w-10 h-10 m-4' />

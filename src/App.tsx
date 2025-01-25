@@ -120,7 +120,6 @@ function App() {
           </InterestDialog>
         </div>
       )}
-
       <Toaster />
     </ThemeProvider>
   );

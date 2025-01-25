@@ -43,7 +43,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       <CardHeader>
         <CardTitle>Deal #{dealNumber}</CardTitle>
         <CardDescription>
-          <span className='italic'>2br/2ba SFH here </span>
+          <span className='italic'>sample 3br/2ba SFH </span>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -57,6 +57,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         <p>Description: {deal.description}</p>
         <p>Photos: {deal.photo}</p>
         {/* createdAt will always exist so we can add a non-null assertion */}
+        {/* TODO: if we have updatedAt, use that date instead */}
         <p>added: {formattedDate(deal.createdAt!)}</p>
       </CardContent>
       <CardContent></CardContent>
