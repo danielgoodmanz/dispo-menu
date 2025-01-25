@@ -27,7 +27,6 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            {/* allow redirecting to any URL after login */}
             <Button
               onClick={() =>
                 login({
@@ -37,29 +36,36 @@ const Navbar = () => {
                 })
               }
               variant='ghost'
+              className='cursor-pointer'
             >
               Sign in
             </Button>
-            {/* @ts-expect-error unknown type for handler below */}
-            <Button onClick={register} variant='ghost'>
+
+            <Button
+              // @ts-expect-error unknown type for Kinde function
+              onClick={register}
+              className='cursor-pointer'
+              variant='ghost'
+            >
               Register
             </Button>
           </>
         )}
 
-        <Link to={'/'}>
-          <Button variant='ghost'>Home</Button>
-        </Link>
+        <Button variant='ghost'>
+          <Link to={'/'}>Home </Link>
+        </Button>
 
-        <Link to={'/landing'}>
-          <Button variant='ghost'>Landing</Button>
-        </Link>
+        <Button variant='ghost'>
+          <Link to={'/landing'}>Landing </Link>
+        </Button>
 
         <Button
           variant='ghost'
           onClick={() =>
             theme === 'dark' ? setTheme('light') : setTheme('dark')
           }
+          className='cursor-pointer'
         >
           <SunMoon />
         </Button>

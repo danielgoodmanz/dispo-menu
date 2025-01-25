@@ -20,10 +20,7 @@ type DealCardProps = {
   deal: DealProps;
   dealNumber?: number;
 };
-const date = new Date().toLocaleString('en-US', {
-  hour: '2-digit',
-  month: 'short',
-});
+
 //TODO: look into this type
 const DealCard = ({ deal, dealNumber }: DealCardProps) => {
   const {
@@ -34,16 +31,19 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     isAppDialog,
     isAdmin,
   } = useAppContext();
-
-  //TODO: export to global context
-
+  const formattedDate = (createdAt: string) => {
+    return new Date(createdAt).toLocaleString('en-US', {
+      hour: '2-digit',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
   return (
     <Card>
       <CardHeader>
         <CardTitle>Deal #{dealNumber}</CardTitle>
         <CardDescription>
-          <span className='italic'>added </span>
-          {deal.createdAt}
+          <span className='italic'>2br/2ba SFH here </span>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -56,7 +56,8 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         <p>Price: {deal.price}</p>
         <p>Description: {deal.description}</p>
         <p>Photos: {deal.photo}</p>
-        <p>{date}</p>
+        {/* createdAt will always exist so we can add a non-null assertion */}
+        <p>added: {formattedDate(deal.createdAt!)}</p>
       </CardContent>
       <CardContent></CardContent>
       <CardFooter className='gap-2'>

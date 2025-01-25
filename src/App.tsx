@@ -71,7 +71,7 @@ function App() {
     <ThemeProvider defaultTheme='system' storageKey='dealmenu-theme'>
       {/* isLoading wrapper necessary to remove flash of non auth state */}
       {isLoading ? null : (
-        <div className=''>
+        <div>
           <Navbar />
           <Header
             title={
@@ -80,13 +80,14 @@ function App() {
             className='text-center'
           />
           {!agent && !isAdmin && (
-            <div className='text-center space-x-4 mt-10 mb-10'>
-              <Link to={'/daniel'}>
-                <Button variant={'secondary'}>Saida's Deals</Button>
-              </Link>
-              <Link to={'/daniel'}>
-                <Button variant={'secondary'}>Jermaine's Deals</Button>
-              </Link>
+            <div className='text-center space-x-4 mt-10 mb-10 ease-in'>
+              <Button className='' variant={'secondary'}>
+                <Link to={'/daniel'}>Saida's Deals</Link>
+              </Button>
+
+              <Button variant={'secondary'}>
+                <Link to={'/daniel'}>Jermaine's Deals </Link>
+              </Button>
             </div>
           )}
           <ContainerGrid>
@@ -142,6 +143,6 @@ export default App;
 // UX: allow buyers to express priority interest in a property XXX
 // !! auth for Saida & Jermaine, global context here will be used to allow access to CRUD operations XXX
 //display deals based on params, /saida, /jermaine XXX
+// ADJUST ROUTES XXX
 
-// ADJUST ROUTES
 // LANDING PAGE
