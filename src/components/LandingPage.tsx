@@ -17,16 +17,16 @@ const LandingPage = () => {
             Request access to the exclusive deal menu from our dispo team
           </aside>
         </div>
-        <div>
+        <div className=''>
           <img
             src={card}
             alt='card preview'
-            className='h-[300px] w-[300px] rounded-xl shadow-xl shadow-black/25'
+            className='h-[300px] w-[300px] rounded-xl shadow-xl shadow-black/25 '
           />
           <img
             src={interest}
             alt='card preview'
-            className='h-[300px] w-[300px] rounded-xl shadow-xl shadow-black/25'
+            className='h-[300px] w-[300px] rounded-xl shadow-xl shadow-black/25 rotate-x-50 rotate-z-45'
           />
         </div>
       </div>
