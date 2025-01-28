@@ -1,7 +1,8 @@
-import Header from '@/components/Header';
 import NavBar from '@/components/Navbar';
 import card from '@/assets/card.png';
 import interest from '@/assets/interest.png';
+import HeroHeader from '@/components/HeroHeader';
+import { Button } from '@/components/ui/button';
 
 const LandingPage = () => {
   return (
@@ -9,13 +10,23 @@ const LandingPage = () => {
       <NavBar />
       <div id='gradient' className='flex h-screen items-center justify-around'>
         <div className='max-w-[50%] space-y-4'>
-          <Header
-            title={`Florida's most trusted wholesaler for over 20 years`}
-            className='text-6xl text-balance'
-          />
-          <aside className='text-xl max-w-[500px]'>
+          <HeroHeader>
+            Florida's{' '}
+            <span className='bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-transparent bg-clip-text'>
+              most trusted
+            </span>{' '}
+            wholesaler for over
+            <span className='bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-transparent bg-clip-text'>
+              {' '}
+              20 years
+            </span>
+          </HeroHeader>
+          <aside className='text-xl max-w-[500px] '>
             Request access to the exclusive deal menu from our dispo team
           </aside>
+          <Button variant={'secondary'} className='opacity-80'>
+            Get access{' '}
+          </Button>
         </div>
         <div className=''>
           <img
