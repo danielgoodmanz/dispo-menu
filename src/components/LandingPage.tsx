@@ -3,6 +3,9 @@ import card from '@/assets/card.png';
 import interest from '@/assets/interest.png';
 import HeroHeader from '@/components/HeroHeader';
 import { Button } from '@/components/ui/button';
+import { motion } from 'motion/react';
+
+const MotionComponent = motion.create(HeroHeader);
 
 const LandingPage = () => {
   return (
