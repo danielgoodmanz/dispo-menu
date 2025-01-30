@@ -1,14 +1,19 @@
+import { motion } from 'motion/react';
+
 type HeroHeaderProps = {
   children: React.ReactNode;
 };
 
 const HeroHeader = ({ children }: HeroHeaderProps) => {
-  //this is how you can merge classes into the component OR keep the default ones set
-
   return (
-    <h1 className={`text-6xl font-bold tracking-tighter text-balance`}>
+    <motion.h1
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 4 }}
+      className={`text-6xl font-bold tracking-tighter text-balance`}
+    >
       {children}
-    </h1>
+    </motion.h1>
   );
 };
 

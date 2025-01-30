@@ -5,7 +5,8 @@ import HeroHeader from '@/components/HeroHeader';
 import { Button } from '@/components/ui/button';
 import { motion } from 'motion/react';
 
-const MotionComponent = motion.create(HeroHeader);
+//pass any component into this function to make it a motion-enabled component
+const MotionButton = motion.create(Button);
 
 const LandingPage = () => {
   return (
@@ -24,12 +25,17 @@ const LandingPage = () => {
               20 years
             </span>
           </HeroHeader>
-          <aside className='text-xl max-w-[500px] '>
+          <motion.aside
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 4 }}
+            className='text-xl max-w-[500px] '
+          >
             Request access to the exclusive deal menu from our dispo team
-          </aside>
-          <Button variant={'secondary'} className='opacity-80'>
-            Get access{' '}
-          </Button>
+          </motion.aside>
+          <MotionButton variant={'secondary'} className='opacity-80'>
+            Get Access
+          </MotionButton>
         </div>
         <div className=''>
           <img
