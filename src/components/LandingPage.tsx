@@ -4,6 +4,7 @@ import interest from '@/assets/interest.png';
 import HeroHeader from '@/components/HeroHeader';
 import { Button } from '@/components/ui/button';
 import { motion } from 'motion/react';
+import TvBar from '@/components/TvBar';
 
 //pass any component into this function to make it a motion-enabled component
 const MotionButton = motion.create(Button);
@@ -33,7 +34,11 @@ const LandingPage = () => {
           >
             Request access to the exclusive deal menu from our dispo team
           </motion.aside>
-          <MotionButton variant={'secondary'} className='opacity-80'>
+          <MotionButton
+            variant={'secondary'}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 0.8, scale: 1, transition: { delay: 2 } }}
+          >
             Get Access
           </MotionButton>
         </div>
@@ -50,6 +55,8 @@ const LandingPage = () => {
           />
         </div>
       </div>
+      {/* TODO: animate this TV bar as infinite horizontal scroll */}
+      <TvBar />
     </div>
   );
 };

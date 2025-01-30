@@ -143,5 +143,6 @@ export default App;
 // !! auth for Saida & Jermaine, global context here will be used to allow access to CRUD operations XXX
 //display deals based on params, /saida, /jermaine XXX
 // ADJUST ROUTES XXX
+// LANDING PAGE XXX
 
-// LANDING PAGE
+// prior to launch: get email keys from web3 email to dispo
