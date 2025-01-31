@@ -66,17 +66,14 @@
 
 @layer utilities {
   #gradient {
-    background-color: hsla(0, 7%, 15%, 1);
+    background-color: hsla(0, 5%, 21%, 0.56);
     background-image: radial-gradient(
-        at 89% 11%,
-        hsla(227, 92%, 55%, 0.7) 0px,
+        at 96% 32%,
+        hsla(216, 100%, 56%, 1) 0px,
         transparent 50%
       ),
-      radial-gradient(
-        at 20% 90%,
-        hsla(228, 0%, 100%, 0.23) 0px,
-        transparent 50%
-      );
+      radial-gradient(at 87% 80%, hsla(340, 100%, 76%, 1) 0px, transparent 50%),
+      radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%);
   }
 }
 

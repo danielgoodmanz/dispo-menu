@@ -145,4 +145,5 @@ export default App;
 // ADJUST ROUTES XXX
 // LANDING PAGE XXX
 
+//add 'subtitle' to deals ie 3/2 SFH etcc
 // prior to launch: get email keys from web3 email to dispo

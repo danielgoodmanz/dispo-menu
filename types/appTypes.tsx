@@ -1,5 +1,6 @@
 export type DealProps = {
   createdAt?: string;
+  updatedAt?: string;
   agent: string;
   _id?: string | number;
   address: string;

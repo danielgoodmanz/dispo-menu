@@ -33,7 +33,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
   } = useAppContext();
   const formattedDate = (createdAt: string) => {
     return new Date(createdAt).toLocaleString('en-US', {
-      hour: '2-digit',
+      hour: 'numeric',
       month: 'short',
       day: 'numeric',
     });
@@ -57,8 +57,14 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         <p>Description: {deal.description}</p>
         <p>Photos: {deal.photo}</p>
         {/* createdAt will always exist so we can add a non-null assertion */}
-        {/* TODO: if we have updatedAt, use that date instead */}
-        <p>added: {formattedDate(deal.createdAt!)}</p>
+        <p>
+          added:{' '}
+          {!deal.updatedAt
+            ? 'recently updated'
+            : deal.updatedAt
+            ? formattedDate(deal.updatedAt! as string)
+            : formattedDate(deal.createdAt!)}
+        </p>
       </CardContent>
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
