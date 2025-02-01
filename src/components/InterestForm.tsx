@@ -2,12 +2,14 @@ import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import useAppContext from '@/hooks/useAppContext';
 import useWeb3Forms from '@web3forms/react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
 
 const InterestForm = () => {
   const { dealNumber } = useParams();
+  const { dialogInterestControl } = useAppContext();
   const {
     register,
     reset,
@@ -18,7 +20,6 @@ const InterestForm = () => {
       name: '',
       email: '',
       number: '',
-      //TODO: make this a pre-written message of deal number selected
       message: `I am interested in deal no.${dealNumber}, please contact me!`,
     },
   });
@@ -32,6 +33,7 @@ const InterestForm = () => {
     onSuccess: (msg) => {
       console.log(msg);
       reset();
+      dialogInterestControl();
     },
     onError: (msg) => {
       console.error(msg);
@@ -87,7 +89,9 @@ const InterestForm = () => {
           placeholder='set your message here'
           className='resize-none'
         ></Textarea>
-        <Button type='submit'>Send</Button>
+        <Button type='submit' className='cursor-pointer'>
+          Send
+        </Button>
       </form>
       <div></div>
     </div>

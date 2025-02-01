@@ -5,6 +5,7 @@ const dealSchema = new mongoose.Schema(
   {
     agent: { type: String, required: true },
     address: { type: String },
+    propertyType: { type: String },
     livingArea: { type: String },
     lot: { type: String },
     yearBuilt: { type: String },

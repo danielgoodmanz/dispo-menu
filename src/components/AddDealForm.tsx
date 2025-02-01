@@ -21,6 +21,10 @@ const AddDealForm = () => {
       .string()
       .min(5, 'Address must be at least 5 chars')
       .max(50, 'Address must not exceed 50 chars'),
+    propertyType: z
+      .string()
+      .min(5, 'Property type must be at least 5 chars')
+      .max(50, 'Property type must not exceed 50 chars'),
     livingArea: z
       .string()
       .min(3, 'Living area must be at least 3 chars')
@@ -54,6 +58,7 @@ const AddDealForm = () => {
     defaultValues: currentDeal
       ? {
           address: currentDeal.address,
+          propertyType: currentDeal.propertyType,
           livingArea: currentDeal.livingArea,
           lot: currentDeal.lot,
           yearBuilt: currentDeal.yearBuilt,
@@ -135,12 +140,18 @@ const AddDealForm = () => {
         action='/add'
       >
         <Input {...register('address')} type='text' placeholder='Address' />
+        {errors.address && <p>{errors.address.message}</p>}
+        <Input
+          {...register('propertyType')}
+          type='text'
+          placeholder='Deal type i.e. 3/2 single family/condo etc..'
+        />
+        {errors.propertyType && <p>{errors.propertyType.message}</p>}
         <Input
           {...register('livingArea')}
           type='text'
           placeholder='Living area'
         />
-        {errors.address && <p>{errors.address.message}</p>}
         <Input {...register('lot')} type='text' placeholder='Lot' />
         {errors.lot && <p>{errors.lot.message}</p>}
         <Input

@@ -25,6 +25,7 @@ export async function addDeal(req, res) {
   const {
     agent,
     address,
+    propertyType,
     livingArea,
     lot,
     yearBuilt,
@@ -39,6 +40,7 @@ export async function addDeal(req, res) {
     const deal = await Deal.create({
       agent,
       address,
+      propertyType,
       livingArea,
       lot,
       yearBuilt,
@@ -58,6 +60,7 @@ export async function updateDeal(req, res) {
   const { id } = req.params;
   const {
     address,
+    propertyType,
     livingArea,
     lot,
     yearBuilt,

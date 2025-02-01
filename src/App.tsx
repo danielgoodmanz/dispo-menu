@@ -144,6 +144,7 @@ export default App;
 //display deals based on params, /saida, /jermaine XXX
 // ADJUST ROUTES XXX
 // LANDING PAGE XXX
+// add 'subtitle' to deals ie 3/2 SFH etcc XXX
 
-//add 'subtitle' to deals ie 3/2 SFH etcc
+// TODO: DEBUG each child in a list should have a unique key on post route
 // prior to launch: get email keys from web3 email to dispo

@@ -31,8 +31,8 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     isAppDialog,
     isAdmin,
   } = useAppContext();
-  const formattedDate = (createdAt: string) => {
-    return new Date(createdAt).toLocaleString('en-US', {
+  const formattedDate = (updatedAt: string) => {
+    return new Date(updatedAt).toLocaleString('en-US', {
       hour: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -43,7 +43,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       <CardHeader>
         <CardTitle>Deal #{dealNumber}</CardTitle>
         <CardDescription>
-          <span className='italic'>sample 3br/2ba SFH </span>
+          <span className='italic'>{deal.propertyType}</span>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -58,12 +58,10 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         <p>Photos: {deal.photo}</p>
         {/* createdAt will always exist so we can add a non-null assertion */}
         <p>
-          added:{' '}
-          {!deal.updatedAt
-            ? 'recently updated'
-            : deal.updatedAt
-            ? formattedDate(deal.updatedAt! as string)
-            : formattedDate(deal.createdAt!)}
+          Added/updated:{' '}
+          {deal.updatedAt
+            ? formattedDate(deal.updatedAt!)
+            : 'recently modified'}
         </p>
       </CardContent>
       <CardContent></CardContent>
@@ -72,7 +70,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
           {!isAdmin && (
             <Button
               onClick={() => dialogInterestControl()}
-              className='bg-yellow-400 hover:bg-yellow-400/90'
+              className='bg-yellow-400 hover:bg-yellow-400/90 cursor-pointer'
             >
               <HandCoins />
               I'm interested!

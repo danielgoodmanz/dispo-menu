@@ -102,6 +102,7 @@ export default function AppContextProvider({
     if (response.ok) {
       console.log('successfully deleted deal');
       setDeals((prevDeals) => prevDeals.filter((d) => d._id !== deal._id));
+      appDialogControl();
     } else {
       console.log(error);
     }

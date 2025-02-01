@@ -4,6 +4,7 @@ export type DealProps = {
   agent: string;
   _id?: string | number;
   address: string;
+  propertyType: string;
   livingArea: string;
   lot: string;
   yearBuilt: string;
