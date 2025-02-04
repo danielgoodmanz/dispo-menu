@@ -4,11 +4,21 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import useAppContext from '@/hooks/useAppContext';
 import useWeb3Forms from '@web3forms/react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
 
+const getAgentAccessKey = (agent: string): string => {
+  if (agent === 'saida') return 'key';
+  if (agent === 'jermaine') return 'key';
+  if (agent === 'daniel') return 'bac3c0e1-6240-4c93-a2f5-ad614c4d0a38';
+  return '';
+};
+
 const InterestForm = () => {
-  const { dealNumber } = useParams();
+  // local state for this form
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { dealNumber, agent } = useParams();
   const { dialogInterestControl } = useAppContext();
   const {
     register,
@@ -25,12 +35,14 @@ const InterestForm = () => {
   });
   const { submit: onSubmit } = useWeb3Forms({
     // load the right user here so that we have the right access key
-    access_key: 'bac3c0e1-6240-4c93-a2f5-ad614c4d0a38',
+    access_key: getAgentAccessKey(agent as string),
     settings: {
       from_name: 'Deal Menu Visitor',
       subject: 'Interest in a deal',
     },
+
     onSuccess: (msg) => {
+      setIsSubmitting(false);
       console.log(msg);
       reset();
       dialogInterestControl();
@@ -89,11 +101,16 @@ const InterestForm = () => {
           placeholder='set your message here'
           className='resize-none'
         ></Textarea>
-        <Button type='submit' className='cursor-pointer'>
+        <Button
+          type='submit'
+          className='cursor-pointer'
+          disabled={isSubmitting}
+          onSubmit={() => setIsSubmitting(true)}
+        >
           Send
         </Button>
       </form>
-      <div></div>
+      {}
     </div>
   );
 };

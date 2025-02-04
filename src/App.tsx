@@ -36,8 +36,8 @@ function App() {
   // useEffect hook to fetch all current deals
   useEffect(() => {
     const fetchDeals = async () => {
-      setLoading(true);
       try {
+        setLoading(true);
         const response = await fetch(`http://localhost:3000/`);
         const json = await response.json();
         console.log(json);
@@ -75,12 +75,12 @@ function App() {
           <Navbar />
           <Header
             title={
-              isAdmin ? `Welcome ${user?.given_name} 🛠️` : `Today's Deal Menus`
+              isAdmin ? `Welcome ${user?.given_name}` : `Today's Deal Menus`
             }
             className='text-center'
           />
           {!agent && !isAdmin && (
-            <div className='text-center space-x-4 mt-10 mb-10 ease-in'>
+            <div className='text-center space-x-4 mt-10 mb-10'>
               <Button className='' variant={'secondary'}>
                 <Link to={'/daniel'}>Saida's Deals</Link>
               </Button>
@@ -96,7 +96,8 @@ function App() {
               ? Array.from({ length: 6 }).map((_, index) => (
                   <CardSkeleton key={index} />
                 ))
-              : deals.map((deal, index) => {
+              : agent
+              ? deals.map((deal, index) => {
                   return (
                     <DealCard
                       key={deal._id}
@@ -104,7 +105,8 @@ function App() {
                       dealNumber={index + 1}
                     />
                   );
-                })}
+                })
+              : null}
           </ContainerGrid>
           {/* drawer which opens AddDealForm.tsx, modified version of the entire Drawer component structure
         from shadcnUI as only certain elements were needed, can further trim it down */}
@@ -145,6 +147,7 @@ export default App;
 // ADJUST ROUTES XXX
 // LANDING PAGE XXX
 // add 'subtitle' to deals ie 3/2 SFH etcc XXX
+// TODO: DEBUG each child in a list should have a unique key on post route XXX
+// prior to launch: get email keys from web3 email to dispo XXX
 
-// TODO: DEBUG each child in a list should have a unique key on post route
-// prior to launch: get email keys from web3 email to dispo
+// DEPLOY

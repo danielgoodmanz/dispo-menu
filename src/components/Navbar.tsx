@@ -15,14 +15,24 @@ const Navbar = () => {
       <div className='flex justify-end gap-6 mb-6 items-center '>
         {isAdmin ? (
           <>
-            <Button onClick={logout} variant={'ghost'}>
+            <Button
+              onClick={logout}
+              variant={'ghost'}
+              className='cursor-pointer'
+            >
               Logout
             </Button>
-            <Link to={`/${user?.given_name}`}>
-              <Button variant={'ghost'}>My deals</Button>
-            </Link>
-            <Button onClick={drawerDealFormControl} variant='ghost'>
-              Add a deal!
+
+            <Button variant={'ghost'} asChild>
+              <Link to={`/${user?.given_name}`}>My deals</Link>
+            </Button>
+
+            <Button
+              onClick={drawerDealFormControl}
+              variant='ghost'
+              className='cursor-pointer'
+            >
+              Add a deal
             </Button>
           </>
         ) : (
@@ -52,11 +62,11 @@ const Navbar = () => {
           </>
         )}
 
-        <Button variant='ghost'>
+        <Button variant='ghost' asChild>
           <Link to={'/'}>Home </Link>
         </Button>
 
-        <Button variant='ghost'>
+        <Button variant='ghost' asChild>
           <Link to={'/landing'}>Landing </Link>
         </Button>
 

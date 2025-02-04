@@ -38,17 +38,18 @@ const LandingPage = () => {
               </motion.aside>
               <MotionButton
                 variant={'secondary'}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{
-                  opacity: 0.8,
-                  scale: 1,
-                  rotate: 360,
-                  transition: {
-                    delay: 2,
-                  },
-                }}
-                whileHover={{ rotate: 360 }}
-                className='bg-yellow-300'
+                // initial={{ opacity: 0, scale: 0 }}
+                // animate={{
+                //   opacity: 0.8,
+                //   scale: 1,
+                //   rotate: 360,
+                //   transition: {
+                //     delay: 2,
+                //   },
+                // }}
+                // whileHover={{ rotate: 360 }}
+                className='bg-green-500'
+                asChild
               >
                 <Link to={'/'}>Get Access</Link>
               </MotionButton>

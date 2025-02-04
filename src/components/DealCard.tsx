@@ -79,8 +79,17 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         </Link>
         {isAdmin && (
           <>
-            <Button onClick={() => handleCurrentDeal(deal)}>Edit</Button>
-            <Button variant={'destructive'} onClick={() => appDialogControl()}>
+            <Button
+              onClick={() => handleCurrentDeal(deal)}
+              className='cursor-pointer'
+            >
+              Edit
+            </Button>
+            <Button
+              variant={'destructive'}
+              onClick={() => appDialogControl()}
+              className='cursor-pointer'
+            >
               Delete
             </Button>
           </>

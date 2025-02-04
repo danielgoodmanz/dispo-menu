@@ -108,13 +108,16 @@ const AddDealForm = () => {
           headers: { 'content-type': 'application/json' },
         });
         if (response.ok) {
-          console.log(`successfully added deal with ${data}`);
+          // you weren't creating a 'newDeal' here for mongoose to pick up on add an ID so I got a react child must have a key error
+          // create it, then hold the response.json(), you can't pass form data and expect an ID in return upon re-render
+          const newDeal = await response.json();
           setDeals((prevDeals: DealProps[]) => [
             ...prevDeals,
             // you can use as to assert type
-            data as DealProps,
+            newDeal as DealProps,
           ]);
           drawerDealFormControl();
+          console.log(`successfully added deal with ${data}`);
         } else {
           console.log(response.status);
         }
@@ -130,11 +133,11 @@ const AddDealForm = () => {
 
   return (
     <div>
-      <Header title={currentDeal ? 'Edit deal' : 'Add a deal form!'} />
+      <Header title={currentDeal ? 'Edit deal' : 'Add a deal form'} />
       {/* TODO: Add isSubmitting state (maybe from useForm?) */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col gap-y-2'
+        className='flex flex-col gap-2'
         // you need to set these below otherwise the form does.. nothing
         method='post'
         action='/add'
@@ -176,7 +179,11 @@ const AddDealForm = () => {
         <Input {...register('photo')} type='text' placeholder='Photo link' />
         {errors.photo && <p>{errors.photo.message}</p>}
         <Input type='hidden' {...register('agent')} />
-        <Button disabled={isSubmitting} type='submit'>
+        <Button
+          disabled={isSubmitting}
+          type='submit'
+          className='cursor-pointer'
+        >
           Submit
         </Button>
         {/* look into Object.keys() here as a way to contain all errors in one place */}
