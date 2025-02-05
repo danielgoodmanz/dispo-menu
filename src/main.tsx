@@ -22,7 +22,8 @@ createRoot(document.getElementById('root')!).render(
         // allow redirecting to any URL after login
         onRedirectCallback={(user, app_state) => {
           if (user && app_state?.redirectTo) {
-            window.location = app_state.redirectTo.replace(
+            // @ts-expect-error need to type .replace() method
+            window.location.href = app_state.redirectTo.replace(
               ':user',
               user?.given_name
             );

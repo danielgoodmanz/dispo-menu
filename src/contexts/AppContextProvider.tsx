@@ -59,11 +59,21 @@ export default function AppContextProvider({
   const navigate = useNavigate();
   //kindeauth hook
   const { getClaim, user } = useKindeAuth();
-  const isAdmin = user
-    ? getClaim('roles').value[0].key === 'admin'
-      ? true
-      : false
-    : null;
+  //   const isAdmin = user
+  //     ? getClaim('roles').value[0].key === 'admin'
+  //       ? true
+  //       : false
+  //     : null;
+
+  //explicitly structure the getClaim('roles') object returned
+  const rolesClaim = getClaim('roles') as
+    | { value?: { key: string }[] }
+    | undefined;
+
+  const isAdmin =
+    user && rolesClaim?.value?.length
+      ? rolesClaim.value[0].key === 'admin'
+      : null;
   //programatically open/close Drawer component containing AddDealForm
   const drawerDealFormControl = () => {
     if (open === true) {

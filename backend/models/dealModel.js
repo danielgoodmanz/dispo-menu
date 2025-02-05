@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 //a schema is a guide for the model
 const dealSchema = new mongoose.Schema(
   {
-    agent: { type: String, required: true },
+    agent: { type: String },
     address: { type: String },
     propertyType: { type: String },
     livingArea: { type: String },

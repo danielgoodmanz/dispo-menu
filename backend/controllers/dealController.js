@@ -59,6 +59,7 @@ export async function addDeal(req, res) {
 export async function updateDeal(req, res) {
   const { id } = req.params;
   const {
+    agent,
     address,
     propertyType,
     livingArea,

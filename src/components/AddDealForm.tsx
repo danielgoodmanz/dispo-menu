@@ -67,10 +67,10 @@ const AddDealForm = () => {
           price: currentDeal.price,
           description: currentDeal.description,
           photo: currentDeal.photo,
-          agent: typeof user?.given_name === 'string' ? user?.given_name : null,
+          agent: typeof user?.given_name === 'string' ? user.given_name : '',
         }
       : {
-          agent: typeof user?.given_name === 'string' ? user?.given_name : null,
+          agent: typeof user?.given_name === 'string' ? user.given_name : '',
         },
   });
 
@@ -111,10 +111,10 @@ const AddDealForm = () => {
           // you weren't creating a 'newDeal' here for mongoose to pick up on add an ID so I got a react child must have a key error
           // create it, then hold the response.json(), you can't pass form data and expect an ID in return upon re-render
           const newDeal = await response.json();
-          setDeals((prevDeals: DealProps[]) => [
+          setDeals((prevDeals) => [
             ...prevDeals,
             // you can use as to assert type
-            newDeal as DealProps,
+            newDeal,
           ]);
           drawerDealFormControl();
           console.log(`successfully added deal with ${data}`);
@@ -136,6 +136,7 @@ const AddDealForm = () => {
       <Header title={currentDeal ? 'Edit deal' : 'Add a deal form'} />
       {/* TODO: Add isSubmitting state (maybe from useForm?) */}
       <form
+        //@ts-expect-error data mismatch
         onSubmit={handleSubmit(onSubmit)}
         className='flex flex-col gap-2'
         // you need to set these below otherwise the form does.. nothing
