@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, HashRouter, Route, Routes } from 'react-router';
+import { HashRouter, Route, Routes } from 'react-router';
 
 import AddDealForm from '@/components/AddDealForm.tsx';
 import ErrorPage from '@/components/ErrorPage.tsx';
