@@ -70,6 +70,18 @@ const AddDealForm = () => {
           agent: typeof user?.given_name === 'string' ? user.given_name : '',
         }
       : {
+          //you needed to tell TS here that these are empty strings
+          //if currentDeal isn't available since you defined them all as strings
+          address: '',
+          propertyType: '',
+          livingArea: '',
+          lot: '',
+          yearBuilt: '',
+          escrow: '',
+          closing: '',
+          price: '',
+          description: '',
+          photo: '',
           agent: typeof user?.given_name === 'string' ? user.given_name : '',
         },
   });
@@ -136,7 +148,6 @@ const AddDealForm = () => {
       <Header title={currentDeal ? 'Edit deal' : 'Add a deal form'} />
       {/* TODO: Add isSubmitting state (maybe from useForm?) */}
       <form
-        //@ts-expect-error data mismatch
         onSubmit={handleSubmit(onSubmit)}
         className='flex flex-col gap-2'
         // you need to set these below otherwise the form does.. nothing
