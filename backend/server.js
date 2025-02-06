@@ -12,11 +12,10 @@ import {
 } from './controllers/dealController.js';
 
 const app = express();
-
+//allows for cross origin requests, backend to frontend
+app.use(cors({ origin: 'https://dispo-menu.netlify.app' }));
 //middleware
 app.use(express.json());
-//allows for cross origin requests, backend to frontend
-app.use(cors());
 
 //db connection
 const db = async () => {
