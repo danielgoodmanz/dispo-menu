@@ -35,7 +35,6 @@ db();
 
 //middleware
 app.use(express.json());
-app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 //routes
 app.get('/', getDeals);
