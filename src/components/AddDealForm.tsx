@@ -90,7 +90,7 @@ const AddDealForm = () => {
     if (currentDeal) {
       try {
         const response = await fetch(
-          `https://dispo-menu.netlify.app/update/${currentDeal._id}`,
+          `https://dispo-menu-backend.onrender.com/update/${currentDeal._id}`,
           {
             method: 'PUT',
             body: JSON.stringify(data),
@@ -114,11 +114,14 @@ const AddDealForm = () => {
       }
     } else {
       try {
-        const response = await fetch('https://dispo-menu.netlify.app/add', {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: { 'content-type': 'application/json' },
-        });
+        const response = await fetch(
+          'https://dispo-menu-backend.onrender.com/add',
+          {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'content-type': 'application/json' },
+          }
+        );
         if (response.ok) {
           // you weren't creating a 'newDeal' here for mongoose to pick up on add an ID so I got a react child must have a key error
           // create it, then hold the response.json(), you can't pass form data and expect an ID in return upon re-render
