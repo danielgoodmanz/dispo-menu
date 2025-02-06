@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { HashRouter, Route, Routes } from 'react-router';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
 import AddDealForm from '@/components/AddDealForm.tsx';
 import ErrorPage from '@/components/ErrorPage.tsx';
@@ -13,7 +13,7 @@ import { KindeProvider } from '@kinde-oss/kinde-auth-react';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <HashRouter>
+    <BrowserRouter>
       <KindeProvider
         clientId='dcdbeb38cb4248fc8bd368f9d482d147'
         domain='https://danprojects.kinde.com'
@@ -48,6 +48,6 @@ createRoot(document.getElementById('root')!).render(
           </Routes>
         </AppContextProvider>
       </KindeProvider>
-    </HashRouter>
+    </BrowserRouter>
   </StrictMode>
 );
