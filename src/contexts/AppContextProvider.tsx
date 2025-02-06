@@ -106,9 +106,12 @@ export default function AppContextProvider({
   //handlers
   //delete handler
   const handleDeleteDeal = async (deal: DealProps) => {
-    const response = await fetch(`http://localhost:3000/delete/${deal._id}`, {
-      method: 'delete',
-    });
+    const response = await fetch(
+      `https://dispo-menu.netlify.app/delete/${deal._id}`,
+      {
+        method: 'delete',
+      }
+    );
     if (response.ok) {
       console.log('successfully deleted deal');
       setDeals((prevDeals) => prevDeals.filter((d) => d._id !== deal._id));
