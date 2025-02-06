@@ -38,7 +38,7 @@ function App() {
     const fetchDeals = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://dispo-menu.netlify.app/`);
+        const response = await fetch(`/`);
         const json = await response.json();
         console.log(json);
         if (response.ok && agent) {
@@ -68,7 +68,7 @@ function App() {
   }, [agent]);
 
   return (
-    <ThemeProvider defaultTheme='system' storageKey='dealmenu-theme'>
+    <ThemeProvider defaultTheme='system' storageKey='dispo-menu-theme'>
       {/* isLoading wrapper necessary to remove flash of non auth state */}
       {isLoading ? null : (
         <div>
