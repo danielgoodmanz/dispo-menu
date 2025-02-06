@@ -90,7 +90,7 @@ const AddDealForm = () => {
     if (currentDeal) {
       try {
         const response = await fetch(
-          `http://dispo-menu.netlify.app/update/${currentDeal._id}`,
+          `https://dispo-menu.netlify.app/update/${currentDeal._id}`,
           {
             method: 'PUT',
             body: JSON.stringify(data),
@@ -114,7 +114,7 @@ const AddDealForm = () => {
       }
     } else {
       try {
-        const response = await fetch('http://dispo-menu.netlify.app/add', {
+        const response = await fetch('https://dispo-menu.netlify.app/add', {
           method: 'POST',
           body: JSON.stringify(data),
           headers: { 'content-type': 'application/json' },

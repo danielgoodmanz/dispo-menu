@@ -38,7 +38,7 @@ function App() {
     const fetchDeals = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/`);
+        const response = await fetch(`https://dispo-menu.netlify.app/`);
         const json = await response.json();
         console.log(json);
         if (response.ok && agent) {

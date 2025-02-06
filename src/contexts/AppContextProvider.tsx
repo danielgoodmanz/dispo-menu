@@ -107,7 +107,7 @@ export default function AppContextProvider({
   //delete handler
   const handleDeleteDeal = async (deal: DealProps) => {
     const response = await fetch(
-      `http://dispo-menu.netlify.app/delete/${deal._id}`,
+      `https://dispo-menu.netlify.app/delete/${deal._id}`,
       {
         method: 'delete',
       }
