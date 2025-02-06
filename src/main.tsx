@@ -17,8 +17,8 @@ createRoot(document.getElementById('root')!).render(
       <KindeProvider
         clientId='dcdbeb38cb4248fc8bd368f9d482d147'
         domain='https://danprojects.kinde.com'
-        redirectUri='https://dispo-menu.netlify.app'
-        logoutUri='https://dispo-menu.netlify.app'
+        redirectUri='https://dispo-menu.netlify.app/'
+        logoutUri='https://dispo-menu.netlify.app/'
         // allow redirecting to any URL after login
         onRedirectCallback={(user, app_state) => {
           if (user && app_state?.redirectTo) {
