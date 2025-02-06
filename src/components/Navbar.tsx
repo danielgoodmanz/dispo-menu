@@ -41,7 +41,7 @@ const Navbar = () => {
               onClick={() =>
                 login({
                   app_state: {
-                    redirectTo: '/:user',
+                    redirectTo: 'https://dispo-menu.netlify.app/:user',
                   },
                 })
               }
