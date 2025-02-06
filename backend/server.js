@@ -39,7 +39,7 @@ app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 //routes
 app.get('/', getDeals);
-app.get('/:id', getDeal);
+app.get('/deal/:id', getDeal);
 app.post('/add', addDeal);
 app.put('/update/:id', updateDeal);
 app.delete('/delete/:id', deleteDeal);

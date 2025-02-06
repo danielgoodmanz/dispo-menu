@@ -84,11 +84,11 @@ function App() {
           {!agent && !isAdmin && (
             <div className='text-center space-x-4 mt-10 mb-10'>
               <Button className='' variant={'secondary'}>
-                <Link to={'/daniel'}>Saida's Deals</Link>
+                <Link to={'/saida'}>Saida's Deals</Link>
               </Button>
 
               <Button variant={'secondary'}>
-                <Link to={'/daniel'}>Jermaine's Deals </Link>
+                <Link to={'/jermaine'}>Jermaine's Deals </Link>
               </Button>
             </div>
           )}
