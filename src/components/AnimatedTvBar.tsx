@@ -7,7 +7,13 @@ import { motion } from 'motion/react';
 
 const AnimatedTvBar = () => {
   return (
-    <div className='overflow-hidden pt-[5vh]'>
+    <div
+      className='overflow-hidden mt-[5vh]'
+      style={{
+        maskImage:
+          'linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent 100%)',
+      }}
+    >
       <motion.div
         initial={{ x: '100vw' }}
         animate={{

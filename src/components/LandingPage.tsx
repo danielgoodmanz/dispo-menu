@@ -13,7 +13,14 @@ const MotionButton = motion.create(Button);
 const LandingPage = () => {
   return (
     <ThemeProvider defaultTheme='system' storageKey='dealmenu-theme'>
-      <div id='gradient' className='h-screen bg-cover'>
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 5, delay: 1 }}
+        id='gradient'
+        className='h-screen bg-cover'
+      >
+        {/* TODO: try an img element, apply a maskimg linear gradient instead of our current solution */}
         <div className='flex items-center justify-around pt-[10vh]'>
           <div className='max-w-[50%] space-y-4'>
             <HeroHeader>
@@ -37,23 +44,25 @@ const LandingPage = () => {
             </motion.aside>
             <MotionButton
               variant={'secondary'}
-              // initial={{ opacity: 0, scale: 0 }}
-              // animate={{
-              //   opacity: 0.8,
-              //   scale: 1,
-              //   rotate: 360,
-              //   transition: {
-              //     delay: 2,
-              //   },
-              // }}
-              // whileHover={{ rotate: 360 }}
               className='bg-green-500'
               asChild
             >
               <Link to={'/'}>Get Access</Link>
             </MotionButton>
           </div>
-          <div className=''>
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.4,
+              scale: {
+                type: 'spring',
+                visualDuration: 0.4,
+                bounce: 0.5,
+                delay: 3,
+              },
+            }}
+          >
             <img
               src={card}
               alt='card preview'
@@ -66,11 +75,10 @@ const LandingPage = () => {
               className='h-[300px] w-[300px] rounded-xl shadow-xl shadow-black/25 rotate-x-50 rotate-z-45'
               loading='lazy'
             />
-          </div>
+          </motion.div>
         </div>
-        {/* TODO: animate this TV bar as infinite horizontal scroll */}
         <TvBar />
-      </div>
+      </motion.div>
     </ThemeProvider>
   );
 };
