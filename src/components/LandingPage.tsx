@@ -21,11 +21,7 @@ const LandingPage = () => {
         className='h-screen relative'
       >
         {/* TODO: try an img element, apply a maskimg linear gradient instead of our current solution */}
-        <img
-          className='absolute h-full w-full -z-10 mask-linear'
-          src={city}
-          alt=''
-        />
+        <img className='absolute h-full w-full -z-10' src={city} alt='' />
         <div className='flex items-center justify-around pt-[10vh]'>
           <div className='max-w-[50%] space-y-4'>
             <HeroHeader>
