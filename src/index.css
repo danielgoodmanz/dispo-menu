@@ -73,8 +73,7 @@
         transparent 50%
       ),
       radial-gradient(at 87% 80%, hsla(340, 100%, 76%, 1) 0px, transparent 50%),
-      radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%),
-      url(@/assets/city.jpg);
+      radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%);
   }
 }
 
@@ -156,10 +155,11 @@
   }
 }
 
+/*
 .mask-linear {
   mask-image: linear-gradient(
     45deg,
     rgba(255, 192, 203, 1),
     rgba(0, 0, 255, 0)
   );
-}
+} */

@@ -17,12 +17,12 @@ const LandingPage = () => {
         // initial={{ opacity: 0 }}
         // whileInView={{ opacity: 1 }}
         // transition={{ duration: 5, delay: 1 }}
-        id=''
+        id='gradient'
         className='h-screen relative'
       >
         {/* TODO: try an img element, apply a maskimg linear gradient instead of our current solution */}
         <img
-          className='absolute h-full w-full -z-10 object-cover mask-linear'
+          className='absolute h-full w-full -z-20 object-cover'
           src={city}
           alt=''
         />
