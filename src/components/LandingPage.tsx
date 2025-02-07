@@ -6,7 +6,7 @@ import { motion } from 'motion/react';
 import TvBar from '@/components/AnimatedTvBar';
 import { Link } from 'react-router';
 import { ThemeProvider } from '@/components/theme-provider';
-import city from '@/assets/city.jpg';
+
 //pass any component into this function to make it a motion-enabled component
 const MotionButton = motion.create(Button);
 
