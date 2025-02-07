@@ -14,18 +14,12 @@ const LandingPage = () => {
   return (
     <ThemeProvider defaultTheme='system' storageKey='dealmenu-theme'>
       <motion.div
-        // initial={{ opacity: 0 }}
-        // whileInView={{ opacity: 1 }}
-        // transition={{ duration: 5, delay: 1 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 5, delay: 1 }}
         id='gradient'
-        className='h-screen relative'
+        className='h-screen bg-cover'
       >
-        {/* TODO: try an img element, apply a maskimg linear gradient instead of our current solution */}
-        <img
-          className='absolute h-full w-full -z-20 object-cover'
-          src={city}
-          alt=''
-        />
         <div className='flex items-center justify-around pt-[10vh]'>
           <div className='max-w-[50%] space-y-4'>
             <HeroHeader>
