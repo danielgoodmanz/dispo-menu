@@ -41,13 +41,16 @@ const LandingPage = () => {
             >
               Request access to the exclusive deal menu from our dispo team
             </motion.aside>
-            <MotionButton
-              variant={'secondary'}
-              className='bg-green-500'
-              asChild
-            >
-              <Link to={'/'}>Get Access</Link>
-            </MotionButton>
+            <div className='relative max-w-fit'>
+              <div className='absolute inset-0 bg-pink-500 blur-2xl'></div>
+              <MotionButton
+                variant={'secondary'}
+                className='bg-green-500 relative'
+                asChild
+              >
+                <Link to={'/'}>Get Access</Link>
+              </MotionButton>
+            </div>
           </div>
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
