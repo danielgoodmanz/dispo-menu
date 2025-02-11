@@ -7,7 +7,13 @@ import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect } from 'react';
 import { Link, Outlet, useParams } from 'react-router';
-
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 //shadcnui components
 import CardSkeleton from '@/components/CardSkeleton';
 
@@ -20,7 +26,20 @@ import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 import { DealProps } from 'types/appTypes';
 import { Button } from '@/components/ui/button';
 
+//creating the query client
+const queryClient = new QueryClient();
+
 function App() {
+  //fetch deals maybe move later to context provider
+  const fetchDeals = async () => {
+    const response = await fetch('http://localhost:3000/');
+    const json = await response.json();
+    setDeals(json);
+    console.log(data);
+  };
+  // access our client
+  const queryClient = useQueryClient();
+  const { data } = useQuery({ queryKey: ['deals'], queryFn: fetchDeals });
   //consuming context
   const { deals, setDeals, loading, setLoading, error, setError, isAdmin } =
     useAppContext();
@@ -33,99 +52,102 @@ function App() {
   //params hook for routing
   const { agent } = useParams();
 
+  // TODO: implement tanstack query here to ditch useEffect
   // useEffect hook to fetch all current deals
-  useEffect(() => {
-    const fetchDeals = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `https://dispo-menu-backend.onrender.com/`
-        );
-        const json = await response.json();
-        console.log(json);
-        if (response.ok && agent) {
-          const dealsByAgent = json.filter((deal: DealProps) => {
-            return deal.agent === agent ? deal : null;
-          });
-          setDeals(dealsByAgent);
-          setLoading(false);
-          toast({
-            description: 'successfully loaded all deals!',
-            variant: 'success',
-          });
-        } else if (!response.ok) {
-          console.error(error);
-        }
-      } catch (error: unknown) {
-        // lets handle errors for this useeffect
-        //type guard
-        if (error instanceof Error) {
-          console.log(error);
-          setError(error.message);
-          toast({ description: error.message, variant: 'destructive' });
-        }
-      }
-    };
-    fetchDeals();
-  }, [agent]);
+  //   useEffect(() => {
+  //     const fetchDeals = async () => {
+  //       try {
+  //         setLoading(true);
+  //         const response = await fetch(
+  //           `https://dispo-menu-backend.onrender.com/`
+  //         );
+  //         const json = await response.json();
+  //         console.log(json);
+  //         if (response.ok && agent) {
+  //           const dealsByAgent = json.filter((deal: DealProps) => {
+  //             return deal.agent === agent ? deal : null;
+  //           });
+  //           setDeals(dealsByAgent);
+  //           setLoading(false);
+  //           toast({
+  //             description: 'successfully loaded all deals!',
+  //             variant: 'success',
+  //           });
+  //         } else if (!response.ok) {
+  //           console.error(error);
+  //         }
+  //       } catch (error: unknown) {
+  //         // lets handle errors for this useeffect
+  //         //type guard
+  //         if (error instanceof Error) {
+  //           console.log(error);
+  //           setError(error.message);
+  //           toast({ description: error.message, variant: 'destructive' });
+  //         }
+  //       }
+  //     };
+  //     fetchDeals();
+  //   }, [agent]);
 
   return (
-    <ThemeProvider defaultTheme='system' storageKey='dispo-menu-theme'>
-      {/* isLoading wrapper necessary to remove flash of non auth state */}
-      {isLoading ? null : (
-        <div>
-          <Navbar />
-          <Header
-            title={
-              isAdmin ? `Welcome ${user?.given_name}` : `Today's Deal Menus`
-            }
-            className='text-center'
-          />
-          {!agent && !isAdmin && (
-            <div className='text-center space-x-4 mt-10 mb-10'>
-              <Button className='' variant={'secondary'}>
-                <Link to={'/saida'}>Saida's Deals</Link>
-              </Button>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme='system' storageKey='dispo-menu-theme'>
+        {/* isLoading wrapper necessary to remove flash of non auth state */}
+        {isLoading ? null : (
+          <div>
+            <Navbar />
+            <Header
+              title={
+                isAdmin ? `Welcome ${user?.given_name}` : `Today's Deal Menus`
+              }
+              className='text-center'
+            />
+            {!agent && !isAdmin && (
+              <div className='text-center space-x-4 mt-10 mb-10'>
+                <Button className='' variant={'secondary'}>
+                  <Link to={'/saida'}>Saida's Deals</Link>
+                </Button>
 
-              <Button variant={'secondary'}>
-                <Link to={'/jermaine'}>Jermaine's Deals </Link>
-              </Button>
-            </div>
-          )}
-          <ContainerGrid>
-            {/* render cards here  */}
-            {loading
-              ? Array.from({ length: 6 }).map((_, index) => (
-                  <CardSkeleton key={index} />
-                ))
-              : agent
-              ? deals.map((deal, index) => {
-                  return (
-                    <DealCard
-                      key={deal._id}
-                      deal={deal}
-                      dealNumber={index + 1}
-                    />
-                  );
-                })
-              : null}
-          </ContainerGrid>
-          {/* drawer which opens AddDealForm.tsx, modified version of the entire Drawer component structure
+                <Button variant={'secondary'}>
+                  <Link to={'/jermaine'}>Jermaine's Deals </Link>
+                </Button>
+              </div>
+            )}
+            <ContainerGrid>
+              {/* render cards here  */}
+              {loading
+                ? Array.from({ length: 6 }).map((_, index) => (
+                    <CardSkeleton key={index} />
+                  ))
+                : agent
+                ? deals.map((deal, index) => {
+                    return (
+                      <DealCard
+                        key={deal._id}
+                        deal={deal}
+                        dealNumber={index + 1}
+                      />
+                    );
+                  })
+                : null}
+            </ContainerGrid>
+            {/* drawer which opens AddDealForm.tsx, modified version of the entire Drawer component structure
         from shadcnUI as only certain elements were needed, can further trim it down */}
-          <FormDrawer>
-            <Outlet />
-            {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
+            <FormDrawer>
+              <Outlet />
+              {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
             children (Outlet) */}
-          </FormDrawer>
+            </FormDrawer>
 
-          <TvBar />
-          <InterestDialog>
-            <Outlet />
-          </InterestDialog>
-        </div>
-      )}
-      <Toaster />
-    </ThemeProvider>
+            <TvBar />
+            <InterestDialog>
+              <Outlet />
+            </InterestDialog>
+          </div>
+        )}
+        <Toaster />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 
@@ -151,5 +173,7 @@ export default App;
 // add 'subtitle' to deals ie 3/2 SFH etcc XXX
 // TODO: DEBUG each child in a list should have a unique key on post route XXX
 // prior to launch: get email keys from web3 email to dispo XXX
+// DEPLOY XXX
 
-// DEPLOY
+// TODO:
+// [] tanstack query
