@@ -26,20 +26,30 @@ import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 import { DealProps } from 'types/appTypes';
 import { Button } from '@/components/ui/button';
 
-//creating the query client
-const queryClient = new QueryClient();
-
 function App() {
   //fetch deals maybe move later to context provider
   const fetchDeals = async () => {
     const response = await fetch('http://localhost:3000/');
     const json = await response.json();
     setDeals(json);
-    console.log(data);
+    console.log(json);
+    console.log(deals);
+    return json;
   };
-  // access our client
+  // access our client (create it in the main.tsx level)
   const queryClient = useQueryClient();
-  const { data } = useQuery({ queryKey: ['deals'], queryFn: fetchDeals });
+  const { data } = useQuery({
+    queryKey: ['deals'],
+    queryFn: fetchDeals,
+  });
+
+  //handle mutations in data
+  const mutation = useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: 'deals' });
+    },
+  });
+
   //consuming context
   const { deals, setDeals, loading, setLoading, error, setError, isAdmin } =
     useAppContext();
@@ -90,64 +100,61 @@ function App() {
   //   }, [agent]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme='system' storageKey='dispo-menu-theme'>
-        {/* isLoading wrapper necessary to remove flash of non auth state */}
-        {isLoading ? null : (
-          <div>
-            <Navbar />
-            <Header
-              title={
-                isAdmin ? `Welcome ${user?.given_name}` : `Today's Deal Menus`
-              }
-              className='text-center'
-            />
-            {!agent && !isAdmin && (
-              <div className='text-center space-x-4 mt-10 mb-10'>
-                <Button className='' variant={'secondary'}>
-                  <Link to={'/saida'}>Saida's Deals</Link>
-                </Button>
-
-                <Button variant={'secondary'}>
-                  <Link to={'/jermaine'}>Jermaine's Deals </Link>
-                </Button>
-              </div>
-            )}
-            <ContainerGrid>
-              {/* render cards here  */}
-              {loading
-                ? Array.from({ length: 6 }).map((_, index) => (
-                    <CardSkeleton key={index} />
-                  ))
-                : agent
-                ? deals.map((deal, index) => {
-                    return (
-                      <DealCard
-                        key={deal._id}
-                        deal={deal}
-                        dealNumber={index + 1}
-                      />
-                    );
-                  })
-                : null}
-            </ContainerGrid>
-            {/* drawer which opens AddDealForm.tsx, modified version of the entire Drawer component structure
+    <ThemeProvider defaultTheme='system' storageKey='dispo-menu-theme'>
+      {/* isLoading wrapper necessary to remove flash of non auth state */}
+      {isLoading ? null : (
+        <div>
+          <Navbar />
+          <Header
+            title={
+              isAdmin ? `Welcome ${user?.given_name}` : `Today's Deal Menus`
+            }
+            className='text-center'
+          />
+          {!agent && !isAdmin && (
+            <div className='text-center space-x-4 mt-10 mb-10'>
+              <Button className='' variant={'secondary'}>
+                <Link to={'/saida'}>Saida's Deals</Link>
+              </Button>
+              <Button variant={'secondary'}>
+                <Link to={'/jermaine'}>Jermaine's Deals </Link>
+              </Button>
+            </div>
+          )}
+          <ContainerGrid>
+            {/* render cards here  */}
+            {loading
+              ? Array.from({ length: 6 }).map((_, index) => (
+                  <CardSkeleton key={index} />
+                ))
+              : agent
+              ? deals.map((deal, index) => {
+                  return (
+                    <DealCard
+                      key={deal._id}
+                      deal={deal}
+                      dealNumber={index + 1}
+                    />
+                  );
+                })
+              : null}
+          </ContainerGrid>
+          {/* drawer which opens AddDealForm.tsx, modified version of the entire Drawer component structure
         from shadcnUI as only certain elements were needed, can further trim it down */}
-            <FormDrawer>
-              <Outlet />
-              {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
+          <FormDrawer>
+            <Outlet />
+            {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
             children (Outlet) */}
-            </FormDrawer>
+          </FormDrawer>
 
-            <TvBar />
-            <InterestDialog>
-              <Outlet />
-            </InterestDialog>
-          </div>
-        )}
-        <Toaster />
-      </ThemeProvider>
-    </QueryClientProvider>
+          <TvBar />
+          <InterestDialog>
+            <Outlet />
+          </InterestDialog>
+        </div>
+      )}
+      <Toaster />
+    </ThemeProvider>
   );
 }
 
