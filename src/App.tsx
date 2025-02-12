@@ -27,18 +27,17 @@ import { DealProps } from 'types/appTypes';
 import { Button } from '@/components/ui/button';
 
 function App() {
-  //fetch deals maybe move later to context provider
-  const fetchDeals = async () => {
+  //fetch deals maybe move later to context provider, TODO: filter by param
+  const fetchDeals = async (): Promise<DealProps[]> => {
     const response = await fetch('http://localhost:3000/');
-    const json = await response.json();
-    setDeals(json);
-    console.log(json);
-    console.log(deals);
-    return json;
+    if (!response.ok) {
+      throw new Error('Fetch response not ok');
+    }
+    return await response.json();
   };
   // access our client (create it in the main.tsx level)
   const queryClient = useQueryClient();
-  const { data } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ['deals'],
     queryFn: fetchDeals,
   });
@@ -51,10 +50,9 @@ function App() {
   });
 
   //consuming context
-  const { deals, setDeals, loading, setLoading, error, setError, isAdmin } =
-    useAppContext();
+  const { deals, error: blah, setError, isAdmin } = useAppContext();
 
-  const { user, isLoading } = useKindeAuth();
+  const { user, isLoading: kindeLoading } = useKindeAuth();
 
   //toast hook
   const { toast } = useToast();
@@ -102,7 +100,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme='system' storageKey='dispo-menu-theme'>
       {/* isLoading wrapper necessary to remove flash of non auth state */}
-      {isLoading ? null : (
+      {kindeLoading ? null : (
         <div>
           <Navbar />
           <Header
@@ -123,12 +121,12 @@ function App() {
           )}
           <ContainerGrid>
             {/* render cards here  */}
-            {loading
+            {isLoading
               ? Array.from({ length: 6 }).map((_, index) => (
                   <CardSkeleton key={index} />
                 ))
               : agent
-              ? deals.map((deal, index) => {
+              ? data?.map((deal, index) => {
                   return (
                     <DealCard
                       key={deal._id}
