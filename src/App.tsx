@@ -7,13 +7,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect } from 'react';
 import { Link, Outlet, useParams } from 'react-router';
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 //shadcnui components
 import CardSkeleton from '@/components/CardSkeleton';
 
@@ -27,38 +21,39 @@ import { DealProps } from 'types/appTypes';
 import { Button } from '@/components/ui/button';
 
 function App() {
+  //params hook for routing
+  const { agent } = useParams();
+
   //fetch deals maybe move later to context provider, TODO: filter by param
   const fetchDeals = async (): Promise<DealProps[]> => {
     const response = await fetch('http://localhost:3000/');
     if (!response.ok) {
       throw new Error('Fetch response not ok');
     }
+    toast({
+      description: 'succesfully loaded all deals!',
+      variant: 'success',
+    });
     return await response.json();
   };
-  // access our client (create it in the main.tsx level)
-  const queryClient = useQueryClient();
-  const { data, error, isLoading } = useQuery({
+  // queries
+  const { data, error, isLoading, isError } = useQuery({
     queryKey: ['deals'],
     queryFn: fetchDeals,
   });
-
-  //handle mutations in data
-  const mutation = useMutation({
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: 'deals' });
-    },
-  });
-
   //consuming context
-  const { deals, error: blah, setError, isAdmin } = useAppContext();
+  const {
+    deals,
+    error: blah,
+    setError,
+    isAdmin,
+    handleDeleteDeal,
+  } = useAppContext();
 
   const { user, isLoading: kindeLoading } = useKindeAuth();
 
   //toast hook
   const { toast } = useToast();
-
-  //params hook for routing
-  const { agent } = useParams();
 
   // TODO: implement tanstack query here to ditch useEffect
   // useEffect hook to fetch all current deals
@@ -144,7 +139,6 @@ function App() {
             {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
             children (Outlet) */}
           </FormDrawer>
-
           <TvBar />
           <InterestDialog>
             <Outlet />

@@ -2,6 +2,11 @@ import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { DealProps } from '../../types/appTypes';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
+import {
+  useMutation,
+  QueryClient,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 export type AppContextTypes = {
   deals: DealProps[];
@@ -24,7 +29,7 @@ export type AppContextTypes = {
   dialogInterestControl: () => void;
   appDialogControl: () => void;
   navigate: (path: string) => void;
-  handleDeleteDeal: (deal: DealProps) => void;
+  handleDeleteDeal: (deal: DealProps) => Promise<void>;
   handleCurrentDeal: (deal: DealProps) => void;
 };
 
@@ -103,23 +108,38 @@ export default function AppContextProvider({
       setIsAppDialog(true);
     }
   };
+
+  const queryClient = useQueryClient();
+  //handle mutations in data
+  const dealDeleteMutation = useMutation({
+    // ONLY needs FETCH logic
+    mutationFn: async (deal: DealProps) => {
+      const response = await fetch(`http://localhost:3000/delete/${deal._id}`, {
+        method: 'delete',
+      });
+      if (!response.ok) throw new Error('Error when deleting deal');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: 'deals' });
+      console.log('succesfully deleted deal');
+    },
+    onError: (error: unknown) => {
+      console.log('Error deleteing deal', error);
+    },
+  });
+
   //handlers
   //delete handler
   const handleDeleteDeal = async (deal: DealProps) => {
-    const response = await fetch(
-      `https://dispo-menu-backend.onrender.com/delete/${deal._id}`,
-      {
-        method: 'delete',
-      }
-    );
-    if (response.ok) {
-      console.log('successfully deleted deal');
-      setDeals((prevDeals) => prevDeals.filter((d) => d._id !== deal._id));
+    try {
+      await dealDeleteMutation.mutateAsync(deal);
+      console.log('Succesfully deleted deal');
       appDialogControl();
-    } else {
-      console.log(error);
+    } catch (error) {
+      console.log('Error deleting deal', error);
     }
   };
+
   //edit handler, for grabbing current ID
   const handleCurrentDeal = (deal: DealProps) => {
     setCurrentDeal(deal);

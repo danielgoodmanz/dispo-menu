@@ -77,7 +77,8 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
             </Button>
           )}
         </Link>
-        {isAdmin && (
+        {/* reverse this for deployment */}
+        {!isAdmin && (
           <>
             <Button
               onClick={() => handleCurrentDeal(deal)}
@@ -100,7 +101,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
           <Button
             onClick={() => handleDeleteDeal(deal)}
             variant={'destructive'}
-            className=''
+            className='cursor-pointer'
           >
             Yes
           </Button>
