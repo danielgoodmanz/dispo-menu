@@ -7,7 +7,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect } from 'react';
 import { Link, Outlet, useParams } from 'react-router';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 //shadcnui components
 import CardSkeleton from '@/components/CardSkeleton';
 
@@ -37,6 +37,7 @@ function App() {
     return await response.json();
   };
   // queries
+  const queryClient = useQueryClient();
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ['deals'],
     queryFn: fetchDeals,
