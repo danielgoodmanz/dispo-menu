@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/card';
 
 import useAppContext from '@/hooks/useAppContext';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { HandCoins } from 'lucide-react';
 import { Link } from 'react-router';
 import { DealProps } from 'types/appTypes';
@@ -24,13 +25,30 @@ type DealCardProps = {
 //TODO: look into this type
 const DealCard = ({ deal, dealNumber }: DealCardProps) => {
   const {
-    handleDeleteDeal,
     handleCurrentDeal,
     dialogInterestControl,
     appDialogControl,
     isAppDialog,
     isAdmin,
   } = useAppContext();
+
+  //call query
+  const queryClient = useQueryClient();
+  //query mutation handler
+  const deleteDealMutation = useMutation({
+    mutationFn: async (deal: DealProps) => {
+      const response = await fetch(`http://localhost:3000/delete/${deal._id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Error when deleting deal');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['deals'],
+      });
+    },
+  });
+
   const formattedDate = (updatedAt: string) => {
     return new Date(updatedAt).toLocaleString('en-US', {
       hour: 'numeric',
@@ -99,7 +117,10 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       {isAppDialog && (
         <AppDialog>
           <Button
-            onClick={() => handleDeleteDeal(deal)}
+            onClick={() => {
+              deleteDealMutation.mutateAsync(deal);
+              appDialogControl();
+            }}
             variant={'destructive'}
             className='cursor-pointer'
           >
