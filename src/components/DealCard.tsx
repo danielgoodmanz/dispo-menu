@@ -30,6 +30,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     appDialogControl,
     isAppDialog,
     isAdmin,
+    toast,
   } = useAppContext();
 
   //call query
@@ -45,6 +46,10 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['deals'],
+      });
+      toast({
+        description: 'Succesfully deleted deal',
+        variant: 'destructive',
       });
     },
   });

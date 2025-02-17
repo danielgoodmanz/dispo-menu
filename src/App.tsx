@@ -32,10 +32,10 @@ function App() {
     const response = await fetch('http://localhost:3000/');
     const json = await response.json();
     if (!response.ok) throw new Error('Error fetching deals');
-    toast({
-      description: 'successfully loaded all deals!',
-      variant: 'success',
-    });
+    // toast({
+    //   description: 'successfully loaded all deals!',
+    //   variant: 'success',
+    // });
     return json;
   };
   // access our client
