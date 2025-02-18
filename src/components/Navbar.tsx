@@ -46,8 +46,7 @@ const Navbar = () => {
             </Button>
 
             <Button
-              // @ts-expect-error unknown type for Kinde function
-              onClick={register}
+              onClick={() => register()}
               className='cursor-pointer'
               variant='ghost'
             >

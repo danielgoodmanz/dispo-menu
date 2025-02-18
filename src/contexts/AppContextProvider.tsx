@@ -75,7 +75,6 @@ export default function AppContextProvider({
       ? rolesClaim.value[0].key === 'admin'
       : null;
 
-  console.log(isAdmin);
   //programatically open/close Drawer component containing AddDealForm
   const drawerDealFormControl = () => {
     if (open === true) {
