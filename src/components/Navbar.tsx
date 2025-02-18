@@ -38,7 +38,7 @@ const Navbar = () => {
         ) : (
           <>
             <Button
-              onClick={() => login}
+              onClick={() => login()}
               variant='ghost'
               className='cursor-pointer'
             >
