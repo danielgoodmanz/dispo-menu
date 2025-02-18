@@ -38,13 +38,7 @@ const Navbar = () => {
         ) : (
           <>
             <Button
-              onClick={() =>
-                login({
-                  app_state: {
-                    redirectTo: 'https://dispo-menu.netlify.app/:user',
-                  },
-                })
-              }
+              onClick={() => login}
               variant='ghost'
               className='cursor-pointer'
             >
