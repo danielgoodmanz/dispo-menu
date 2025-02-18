@@ -74,7 +74,6 @@ const Navbar = () => {
           <SunMoon />
         </Button>
       </div>
-      {console.log(isAdmin)}
     </nav>
   );
 };
