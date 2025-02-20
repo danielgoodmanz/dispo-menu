@@ -27,7 +27,7 @@ const AddDealForm = () => {
       queryClient.invalidateQueries({
         queryKey: ['deals'],
       });
-      console.log('success');
+      toast({ description: 'Succesfully added deal' });
     },
     onError: (error) => {
       toast({
@@ -50,7 +50,7 @@ const AddDealForm = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['deals'] });
-      console.log('successfully edited deal');
+      toast({ description: 'Succesfully edited deal' });
     },
     onError: (error) => {
       toast({

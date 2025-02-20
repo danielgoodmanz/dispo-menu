@@ -47,6 +47,10 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       queryClient.invalidateQueries({
         queryKey: ['deals'],
       });
+      toast({
+        description: 'Succesfully deleted deal',
+        variant: 'destructive',
+      });
     },
     onError: (error) => {
       toast({
