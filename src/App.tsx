@@ -27,8 +27,13 @@ import { DealProps } from 'types/appTypes';
 import { Button } from '@/components/ui/button';
 
 function App() {
+  //consuming context
+  const { isAdmin, toast } = useAppContext();
+
   //fetch deals maybe move later to context provider
   const fetchDeals = async (): Promise<DealProps[]> => {
+    // for testing loading state
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     const response = await fetch('http://localhost:3000/');
     const json = await response.json();
     if (!response.ok) throw new Error('Error fetching deals');
@@ -40,14 +45,22 @@ function App() {
   };
   // access our client
   const queryClient = useQueryClient();
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['deals'],
-    queryFn: fetchDeals,
-  });
-  //consuming context
-  const { loading, isAdmin, toast } = useAppContext();
 
-  const { user, isLoading } = useKindeAuth();
+    // NEEDS TO BE TESTED
+    queryFn: () => {
+      try {
+        fetchDeals();
+      } catch (error) {
+        toast({ description: error, variant: 'destructive' });
+      }
+      throw error;
+    },
+    refetchOnWindowFocus: false,
+  });
+
+  const { user, isLoading: kindeLoading } = useKindeAuth();
 
   //params hook for routing
   const { agent } = useParams();
@@ -92,8 +105,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme='system' storageKey='dispo-menu-theme'>
-        {/* isLoading wrapper necessary to remove flash of non auth state */}
-        {isLoading ? null : (
+        {/* kindeLoading wrapper necessary to remove flash of non auth state */}
+        {kindeLoading ? null : (
           <div>
             <Navbar />
             <Header
@@ -115,7 +128,7 @@ function App() {
             )}
             <ContainerGrid>
               {/* render cards here  */}
-              {loading
+              {isLoading
                 ? Array.from({ length: 6 }).map((_, index) => (
                     <CardSkeleton key={index} />
                   ))
@@ -176,7 +189,8 @@ export default App;
 // DEPLOY XXX
 
 // TODO:
-// [] tanstack query
+// [X] tanstack query
+// [] tanstack error handling
 
 // good note to keep:
 // if (response.ok) {

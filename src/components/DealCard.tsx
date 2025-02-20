@@ -30,6 +30,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     appDialogControl,
     isAppDialog,
     isAdmin,
+    toast,
   } = useAppContext();
 
   //call query
@@ -45,6 +46,12 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['deals'],
+      });
+    },
+    onError: (error) => {
+      toast({
+        description: `${error?.message}`,
+        variant: 'destructive',
       });
     },
   });

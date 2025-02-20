@@ -6,12 +6,10 @@ import Header from '@/components/Header';
 import { Input } from '@/components/ui/input';
 import useAppContext from '@/hooks/useAppContext';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
-import { DealProps } from 'types/appTypes';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from '@/hooks/use-toast';
 
 const AddDealForm = () => {
-  const { currentDeal, drawerDealFormControl } = useAppContext();
+  const { currentDeal, drawerDealFormControl, toast } = useAppContext();
   const { user } = useKindeAuth();
 
   //queries & mutations
@@ -31,6 +29,12 @@ const AddDealForm = () => {
       });
       console.log('success');
     },
+    onError: (error) => {
+      toast({
+        description: `${error?.message}`,
+        variant: 'destructive',
+      });
+    },
   });
 
   const editDealMutation = useMutation({
@@ -47,6 +51,12 @@ const AddDealForm = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['deals'] });
       console.log('successfully edited deal');
+    },
+    onError: (error) => {
+      toast({
+        description: `${error?.message}`,
+        variant: 'destructive',
+      });
     },
   });
 
