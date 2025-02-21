@@ -4,14 +4,10 @@ import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import TvBar from '@/components/TvBar';
 import { Toaster } from '@/components/ui/toaster';
-import { useToast } from '@/hooks/use-toast';
-import { useEffect } from 'react';
 import { Link, Outlet, useParams } from 'react-router';
 import {
   useQuery,
-  useMutation,
   useQueryClient,
-  QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
 //shadcnui components
@@ -29,34 +25,34 @@ import { Button } from '@/components/ui/button';
 function App() {
   //consuming context
   const { isAdmin, toast } = useAppContext();
-
-  //fetch deals maybe move later to context provider
+  //fetch for our query
   const fetchDeals = async (): Promise<DealProps[]> => {
-    // for testing loading state
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    const response = await fetch('http://localhost:3000/');
-    const json = await response.json();
-    if (!response.ok) throw new Error('Error fetching deals');
-    // toast({
-    //   description: 'successfully loaded all deals!',
-    //   variant: 'success',
-    // });
-    return json;
+    try {
+      const response = await fetch('http://localhost:3000/');
+      const json = await response.json();
+      toast({
+        description: 'successfully loaded all deals!',
+        variant: 'success',
+      });
+      console.log(json);
+      return json;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast({
+          description: `Error: ${error.message}`,
+          variant: 'destructive',
+        });
+        throw error;
+      }
+    }
+    // becauuse we need to return a promise, return empty array (this should not happen)
+    return [];
   };
   // access our client
   const queryClient = useQueryClient();
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['deals'],
-
-    // NEEDS TO BE TESTED
-    queryFn: () => {
-      try {
-        fetchDeals();
-      } catch (error) {
-        toast({ description: error, variant: 'destructive' });
-      }
-      throw error;
-    },
+    queryFn: fetchDeals,
     refetchOnWindowFocus: false,
   });
 
