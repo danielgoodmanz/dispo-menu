@@ -25,16 +25,20 @@ import { Button } from '@/components/ui/button';
 function App() {
   //consuming context
   const { isAdmin, toast } = useAppContext();
+  //params hook for routing
+  const { agent } = useParams();
   //fetch for our query
   const fetchDeals = async (): Promise<DealProps[]> => {
     try {
       const response = await fetch('http://localhost:3000/');
       const json = await response.json();
+      const dealsByAgent = await json.filter((deal: DealProps) =>
+        deal.agent.toLowerCase() === agent ? deal : null
+      );
       toast({
         description: 'successfully loaded all deals!',
         variant: 'success',
       });
-      console.log(json);
       return json;
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -50,53 +54,13 @@ function App() {
   };
   // access our client
   const queryClient = useQueryClient();
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['deals'],
+  const { data, isLoading } = useQuery({
+    queryKey: ['deals', agent],
     queryFn: fetchDeals,
     refetchOnWindowFocus: false,
   });
 
   const { user, isLoading: kindeLoading } = useKindeAuth();
-
-  //params hook for routing
-  const { agent } = useParams();
-
-  // TODO: implement tanstack query here to ditch useEffect
-  // useEffect hook to fetch all current deals
-  //   useEffect(() => {
-  //     const fetchDeals = async () => {
-  //       try {
-  //         setLoading(true);
-  //         const response = await fetch(
-  //           `https://dispo-menu-backend.onrender.com/`
-  //         );
-  //         const json = await response.json();
-  //         console.log(json);
-  //         if (response.ok && agent) {
-  //           const dealsByAgent = json.filter((deal: DealProps) => {
-  //             return deal.agent === agent ? deal : null;
-  //           });
-  //           setDeals(dealsByAgent);
-  //           setLoading(false);
-  //           toast({
-  //             description: 'successfully loaded all deals!',
-  //             variant: 'success',
-  //           });
-  //         } else if (!response.ok) {
-  //           console.error(error);
-  //         }
-  //       } catch (error: unknown) {
-  //         // lets handle errors for this useeffect
-  //         //type guard
-  //         if (error instanceof Error) {
-  //           console.log(error);
-  //           setError(error.message);
-  //           toast({ description: error.message, variant: 'destructive' });
-  //         }
-  //       }
-  //     };
-  //     fetchDeals();
-  //   }, [agent]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -186,7 +150,7 @@ export default App;
 
 // TODO:
 // [X] tanstack query
-// [] tanstack error handling
+// [X] tanstack error handling
 
 // good note to keep:
 // if (response.ok) {

@@ -1,5 +1,6 @@
 //shadcn imports
 import AppDialog from '@/components/AppDialog';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -22,7 +23,6 @@ type DealCardProps = {
   dealNumber?: number;
 };
 
-//TODO: look into this type
 const DealCard = ({ deal, dealNumber }: DealCardProps) => {
   const {
     handleCurrentDeal,
@@ -32,6 +32,11 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     isAdmin,
     toast,
   } = useAppContext();
+
+  //TODO: check if deal has been submitted on the same day as today, if so, render *NEW* badge
+  const isDealNew = (deal: DealProps) => {
+    console.log();
+  };
 
   //call query
   const queryClient = useQueryClient();
@@ -67,13 +72,23 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       day: 'numeric',
     });
   };
+
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className='relative'>
         <CardTitle>Deal #{dealNumber}</CardTitle>
         <CardDescription>
           <span className='italic'>{deal.propertyType}</span>
         </CardDescription>
+        {isDealNew(deal)}
+        {deal.updatedAt && (
+          <Badge
+            className='absolute right-5 bg-yellow-400'
+            variant={'secondary'}
+          >
+            new!
+          </Badge>
+        )}
       </CardHeader>
       <CardContent>
         <p>Address: {deal.address}</p>
@@ -85,7 +100,6 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         <p>Price: {deal.price}</p>
         <p>Description: {deal.description}</p>
         <p>Photos: {deal.photo}</p>
-        {/* createdAt will always exist so we can add a non-null assertion */}
         <p>
           Added/updated:{' '}
           {deal.updatedAt
