@@ -33,9 +33,12 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     toast,
   } = useAppContext();
 
-  //TODO: check if deal has been submitted on the same day as today, if so, render *NEW* badge
-  const isDealNew = (deal: DealProps) => {
-    console.log();
+  //check if this deal was added within the day or 24h after
+  const isDealAddedWithin24H = (deal: DealProps) => {
+    const today = new Date(Date.now()).getDate();
+    const dealDate = new Date(deal.updatedAt!).getDate() + 1;
+
+    return today <= dealDate;
   };
 
   //call query
@@ -80,8 +83,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         <CardDescription>
           <span className='italic'>{deal.propertyType}</span>
         </CardDescription>
-        {isDealNew(deal)}
-        {deal.updatedAt && (
+        {isDealAddedWithin24H(deal) && (
           <Badge
             className='absolute right-5 bg-yellow-400'
             variant={'secondary'}
