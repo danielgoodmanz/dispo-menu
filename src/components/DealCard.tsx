@@ -12,8 +12,10 @@ import {
 } from '@/components/ui/card';
 
 import useAppContext from '@/hooks/useAppContext';
+import { formattedDate, isDealAddedWithin24H } from '@/lib/dealUtils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { HandCoins } from 'lucide-react';
+import { memo } from 'react';
 import { Link } from 'react-router';
 import { DealProps } from 'types/appTypes';
 
@@ -32,14 +34,6 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     isAdmin,
     toast,
   } = useAppContext();
-
-  //check if this deal was added within the day or 24h after
-  const isDealAddedWithin24H = (deal: DealProps) => {
-    const today = new Date(Date.now()).getDate();
-    const dealDate = new Date(deal.updatedAt!).getDate() + 1;
-
-    return today <= dealDate;
-  };
 
   //call query
   const queryClient = useQueryClient();
@@ -67,14 +61,6 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       });
     },
   });
-
-  const formattedDate = (updatedAt: string) => {
-    return new Date(updatedAt).toLocaleString('en-US', {
-      hour: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
 
   return (
     <Card>
@@ -159,4 +145,4 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
   );
 };
 
-export default DealCard;
+export default memo(DealCard);
