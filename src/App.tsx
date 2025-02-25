@@ -39,7 +39,7 @@ function App() {
         description: 'successfully loaded all deals!',
         variant: 'success',
       });
-      return json;
+      return dealsByAgent;
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({
