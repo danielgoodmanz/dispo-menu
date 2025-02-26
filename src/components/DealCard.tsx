@@ -12,6 +12,7 @@ import {
 
 import useAppContext from '@/hooks/useAppContext';
 import { HandCoins } from 'lucide-react';
+import { memo } from 'react';
 import { Link } from 'react-router';
 import { DealProps } from 'types/appTypes';
 
@@ -110,4 +111,4 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
   );
 };
 
-export default DealCard;
+export default memo(DealCard);

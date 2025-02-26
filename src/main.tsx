@@ -19,16 +19,6 @@ createRoot(document.getElementById('root')!).render(
         domain='https://danprojects.kinde.com'
         redirectUri='https://dispo-menu.netlify.app/'
         logoutUri='https://dispo-menu.netlify.app/'
-        // allow redirecting to any URL after login
-        // onRedirectCallback={(user, app_state) => {
-        //   if (user && app_state?.redirectTo) {
-        //     // @ts-expect-error need to type .replace() method
-        //     window.location.href = app_state.redirectTo.replace(
-        //       ':user',
-        //       user?.given_name
-        //     );
-        //   }
-        // }}
       >
         <AppContextProvider>
           <Routes>
