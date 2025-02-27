@@ -17,7 +17,7 @@ createRoot(document.getElementById('root')!).render(
       <KindeProvider
         clientId='dcdbeb38cb4248fc8bd368f9d482d147'
         domain='https://auth.dispo-menu.us'
-        redirectUri='https://auth.dispo-menu.us/'
+        redirectUri='https://dispo-menu.us/'
         logoutUri='https://dispo-menu.us/'
       >
         <AppContextProvider>
