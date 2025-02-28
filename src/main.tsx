@@ -4,13 +4,13 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 
 import AddDealForm from '@/components/AddDealForm.tsx';
 import ErrorPage from '@/components/ErrorPage.tsx';
-import InterestForm from '@/components/InterestForm.tsx';
 import LandingPage from '@/components/LandingPage.tsx';
 import App from './App.tsx';
 import AppContextProvider from './contexts/AppContextProvider.tsx';
 import './index.css';
 import { KindeProvider } from '@kinde-oss/kinde-auth-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import InterestDialog from '@/components/InterestDialog.tsx';
 
 //creating the query client
 const queryClient = new QueryClient();
@@ -38,6 +38,7 @@ createRoot(document.getElementById('root')!).render(
           <AppContextProvider>
             <Routes>
               <Route caseSensitive={false} path='/' element={<App />}>
+                <Route path='/marksold' element={<InterestDialog />} />
                 <Route path='/dealform' element={<AddDealForm />} />
               </Route>
               <Route path='/landing' element={<LandingPage />} />

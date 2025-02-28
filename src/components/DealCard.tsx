@@ -25,8 +25,14 @@ type DealCardProps = {
 };
 
 const DealCard = ({ deal, dealNumber }: DealCardProps) => {
-  const { handleCurrentDeal, appDialogControl, isAppDialog, isAdmin, toast } =
-    useAppContext();
+  const {
+    handleCurrentDeal,
+    appDialogControl,
+    isAppDialog,
+    isAdmin,
+    toast,
+    dialogInterestControl,
+  } = useAppContext();
 
   //call query
   const queryClient = useQueryClient();
@@ -93,7 +99,10 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         {/* reverse this for deployment */}
         {!isAdmin && (
           <>
-            <Button className='bg-yellow-400 cursor-pointer hover:bg-yellow-400/90'>
+            <Button
+              onClick={() => dialogInterestControl()}
+              className='bg-yellow-400 cursor-pointer hover:bg-yellow-400/90'
+            >
               <CircleDollarSign />
               Mark sold
             </Button>

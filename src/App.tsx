@@ -93,6 +93,7 @@ function App() {
               {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
             children (Outlet) */}
             </FormDrawer>
+            <Outlet />
             <TvBar />
           </div>
         )}
