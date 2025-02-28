@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import TvBar from '@/components/TvBar';
 import { Toaster } from '@/components/ui/toaster';
-import { Link, Outlet, useParams } from 'react-router';
+import { Outlet, useParams } from 'react-router';
 import {
   useQuery,
   useQueryClient,
@@ -17,10 +17,8 @@ import useAppContext from '@/hooks/useAppContext';
 import ContainerGrid from '@/components/ContainerGrid';
 
 import FormDrawer from '@/components/FormDrawer';
-import InterestDialog from '@/components/InterestDialog';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 import { DealProps } from 'types/appTypes';
-import { Button } from '@/components/ui/button';
 
 function App() {
   //consuming context
@@ -32,14 +30,11 @@ function App() {
     try {
       const response = await fetch('http://localhost:3000/');
       const json = await response.json();
-      const dealsByAgent = await json.filter((deal: DealProps) =>
-        deal.agent.toLowerCase() === agent ? deal : null
-      );
       toast({
         description: 'successfully loaded all deals!',
         variant: 'success',
       });
-      return dealsByAgent;
+      return json;
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({
@@ -71,29 +66,17 @@ function App() {
             <Navbar />
             <Header
               title={
-                isAdmin ? `Welcome ${user?.given_name}` : `Today's Deal Menus`
+                isAdmin ? `Welcome ${user?.given_name}` : `Today's Deal Menu`
               }
               className='text-center'
             />
-            {!agent && !isAdmin && (
-              <div className='text-center space-x-4 mt-10 mb-10'>
-                <Button className='' variant={'secondary'}>
-                  <Link to={'/saida'}>Saida's Deals</Link>
-                </Button>
-
-                <Button variant={'secondary'}>
-                  <Link to={'/jermaine'}>Jermaine's Deals </Link>
-                </Button>
-              </div>
-            )}
             <ContainerGrid>
               {/* render cards here  */}
               {isLoading
                 ? Array.from({ length: 6 }).map((_, index) => (
                     <CardSkeleton key={index} />
                   ))
-                : agent
-                ? data?.map((deal, index) => {
+                : data?.map((deal, index) => {
                     return (
                       <DealCard
                         key={deal._id}
@@ -101,8 +84,7 @@ function App() {
                         dealNumber={index + 1}
                       />
                     );
-                  })
-                : null}
+                  })}
             </ContainerGrid>
             {/* drawer which opens AddDealForm.tsx, modified version of the entire Drawer component structure
         from shadcnUI as only certain elements were needed, can further trim it down */}
@@ -111,11 +93,7 @@ function App() {
               {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
             children (Outlet) */}
             </FormDrawer>
-
             <TvBar />
-            <InterestDialog>
-              <Outlet />
-            </InterestDialog>
           </div>
         )}
         <Toaster />

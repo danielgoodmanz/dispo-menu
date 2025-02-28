@@ -18,7 +18,7 @@ export type AppContextTypes = {
   setCurrentDeal: React.Dispatch<React.SetStateAction<undefined | DealProps>>;
   isAdmin: boolean | null;
   drawerDealFormControl: () => void;
-  dialogInterestControl: () => void;
+  //   dialogInterestControl: () => void;
   appDialogControl: () => void;
   navigate: (path: string) => void;
   handleCurrentDeal: (deal: DealProps) => void;
@@ -70,24 +70,24 @@ export default function AppContextProvider({
   //programatically open/close Drawer component containing AddDealForm
   const drawerDealFormControl = () => {
     if (open === true) {
-      navigate(`/${user?.given_name}`);
+      navigate(`/`);
       setOpen(false);
       setCurrentDeal(undefined);
     } else {
-      navigate(`${user?.given_name}/dealform`);
+      navigate(`/dealform`);
       setOpen(true);
     }
   };
 
-  const dialogInterestControl = () => {
-    if (isDialogOpen === true) {
-      navigate(-2);
-      setIsDialogOpen(false);
-    } else {
-      navigate(`/interest/:dealNumber`);
-      setIsDialogOpen(true);
-    }
-  };
+  //   const dialogInterestControl = () => {
+  //     if (isDialogOpen === true) {
+  //       navigate(-2);
+  //       setIsDialogOpen(false);
+  //     } else {
+  //       navigate(`/interest/:dealNumber`);
+  //       setIsDialogOpen(true);
+  //     }
+  //   };
 
   const appDialogControl = () => {
     if (isAppDialog === true) {
@@ -114,7 +114,6 @@ export default function AppContextProvider({
         open,
         setOpen,
         drawerDealFormControl,
-        dialogInterestControl,
         appDialogControl,
         isAppDialog,
         setIsAppDialog,

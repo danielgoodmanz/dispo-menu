@@ -37,14 +37,17 @@ createRoot(document.getElementById('root')!).render(
         >
           <AppContextProvider>
             <Routes>
-              <Route caseSensitive={false} path='/' element={<App />} />
-              <Route path='/landing' element={<LandingPage />} />
-              <Route caseSensitive={false} path='/:agent' element={<App />}>
-                <Route path='dealform' element={<AddDealForm />} />
-                <Route path='interest/:dealNumber' element={<InterestForm />} />
+              <Route caseSensitive={false} path='/' element={<App />}>
+                <Route path='/dealform' element={<AddDealForm />} />
               </Route>
+              <Route path='/landing' element={<LandingPage />} />
 
-              <Route path='/interest/:dealNumber' element={<InterestForm />} />
+              {/* not needed in one-menu branch */}
+              {/* <Route caseSensitive={false} path='/:agent' element={<App />}>
+                <Route path='interest/:dealNumber' element={<InterestForm />} />
+              </Route> */}
+
+              {/* <Route path='/interest/:dealNumber' element={<InterestForm />} /> */}
 
               {/* render a single deal */}
               <Route path='/:id' element={<App />} />

@@ -14,9 +14,8 @@ import {
 import useAppContext from '@/hooks/useAppContext';
 import { formattedDate, isDealAddedWithin24H } from '@/lib/dealUtils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { HandCoins } from 'lucide-react';
+import { CircleDollarSign } from 'lucide-react';
 import { memo } from 'react';
-import { Link } from 'react-router';
 import { DealProps } from 'types/appTypes';
 
 //this is how you can define the types for the singular mapped object in deals.map()
@@ -26,14 +25,8 @@ type DealCardProps = {
 };
 
 const DealCard = ({ deal, dealNumber }: DealCardProps) => {
-  const {
-    handleCurrentDeal,
-    dialogInterestControl,
-    appDialogControl,
-    isAppDialog,
-    isAdmin,
-    toast,
-  } = useAppContext();
+  const { handleCurrentDeal, appDialogControl, isAppDialog, isAdmin, toast } =
+    useAppContext();
 
   //call query
   const queryClient = useQueryClient();
@@ -97,20 +90,13 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       </CardContent>
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
-        <Link to={`interest/${dealNumber}`}>
-          {!isAdmin && (
-            <Button
-              onClick={() => dialogInterestControl()}
-              className='bg-yellow-400 hover:bg-yellow-400/90 cursor-pointer'
-            >
-              <HandCoins />
-              I'm interested!
-            </Button>
-          )}
-        </Link>
         {/* reverse this for deployment */}
         {!isAdmin && (
           <>
+            <Button className='bg-yellow-400 cursor-pointer hover:bg-yellow-400/90'>
+              <CircleDollarSign />
+              Mark sold
+            </Button>
             <Button
               onClick={() => handleCurrentDeal(deal)}
               className='cursor-pointer'
