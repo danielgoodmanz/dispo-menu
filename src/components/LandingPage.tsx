@@ -18,7 +18,7 @@ const LandingPage = () => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 5, delay: 1 }}
         id='gradient'
-        className='h-screen bg-cover bg-blend-multiply'
+        className='min-h-screen bg-cover bg-blend-multiply'
       >
         <div className='flex items-center justify-around pt-[10vh]'>
           <div className='max-w-[50%] space-y-4'>

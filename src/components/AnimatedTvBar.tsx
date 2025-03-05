@@ -8,7 +8,7 @@ import { motion } from 'motion/react';
 const AnimatedTvBar = () => {
   return (
     <div
-      className='overflow-hidden mt-[5vh]'
+      className='overflow-hidden'
       style={{
         maskImage:
           'linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent 100%)',
@@ -26,7 +26,7 @@ const AnimatedTvBar = () => {
           },
         }}
       >
-        <div className='flex justify-around space-x-15 items-center'>
+        <div className='flex justify-around space-x-14 items-center'>
           <p className='text-lg font-bold'>As Seen On</p>
           <img src={ABC} alt='ABC logo' className='w-10 h-10 m-4' />
           <img src={CBS} alt='CBS logo' className='w-10 h-10 m-4' />
