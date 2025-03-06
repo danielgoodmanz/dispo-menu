@@ -8,6 +8,7 @@ import {
   getDeal,
   addDeal,
   updateDeal,
+  updateSoldStatus,
   deleteDeal,
 } from './controllers/dealController.js';
 
@@ -42,4 +43,5 @@ app.get('/', getDeals);
 app.get('/deal/:id', getDeal);
 app.post('/add', addDeal);
 app.put('/update/:id', updateDeal);
+app.put('/marksold/:id', updateSoldStatus);
 app.delete('/delete/:id', deleteDeal);

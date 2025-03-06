@@ -14,6 +14,7 @@ const dealSchema = new mongoose.Schema(
     price: { type: String },
     description: { type: String },
     photo: { type: String },
+    isSold: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

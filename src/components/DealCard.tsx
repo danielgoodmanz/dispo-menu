@@ -100,7 +100,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         {!isAdmin && (
           <>
             <Button
-              onClick={() => dialogInterestControl()}
+              onClick={() => dialogInterestControl(deal)}
               className='bg-yellow-400 cursor-pointer hover:bg-yellow-400/90'
             >
               <CircleDollarSign />

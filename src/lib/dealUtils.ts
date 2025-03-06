@@ -1,5 +1,17 @@
 import { DealProps } from 'types/appTypes';
 
+//function to hit API for flagging isSold boolean in DB
+export const markSold = async (id: string) => {
+  try {
+    const response = await fetch(`http://localhost:3000/marksold/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ isSold: true }),
+      headers: { 'content-type': 'application/json' },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
 //check if this deal was added today, TODO: have this include a range of 24h from deal.updatedAt
 export const isDealAddedToday = (deal: DealProps) => {
   if (!deal.updatedAt) return false;
