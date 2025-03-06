@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 
 import useAppContext from '@/hooks/useAppContext';
-import { formattedDate, isDealAddedWithin24H } from '@/lib/dealUtils';
+import { formattedDate, isDealAddedToday } from '@/lib/dealUtils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CircleDollarSign } from 'lucide-react';
 import { memo } from 'react';
@@ -68,7 +68,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         <CardDescription>
           <span className='italic'>{deal.propertyType}</span>
         </CardDescription>
-        {isDealAddedWithin24H(deal) && (
+        {isDealAddedToday(deal) && (
           <Badge
             className='absolute right-5 bg-yellow-400'
             variant={'secondary'}

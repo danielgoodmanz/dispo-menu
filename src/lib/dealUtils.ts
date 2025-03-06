@@ -1,13 +1,13 @@
 import { DealProps } from 'types/appTypes';
 
-//check if this deal was added within the day or 24h after
-export const isDealAddedWithin24H = (deal: DealProps) => {
+//check if this deal was added today, TODO: have this include a range of 24h from deal.updatedAt
+export const isDealAddedToday = (deal: DealProps) => {
   if (!deal.updatedAt) return false;
 
   const today = new Date(Date.now()).getDate();
-  const dealDate = new Date(deal.updatedAt!).getDate() + 1;
+  const dealDate = new Date(deal.updatedAt!).getDate();
 
-  return today <= dealDate;
+  return today === dealDate;
 };
 
 export const formattedDate = (updatedAt: string) => {

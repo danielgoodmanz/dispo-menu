@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -18,8 +19,15 @@ const InterestDialog = ({ children }: InterestDialogProps) => {
       <DialogContent>
         {children}
         <DialogHeader>
-          <DialogTitle></DialogTitle>
-          <DialogDescription></DialogDescription>
+          <DialogTitle className='text-center text-xl'>
+            Who sold this?
+          </DialogTitle>
+          <DialogDescription className='space-x-6 text-center p-4'>
+            <Button type='submit' className='p-6 cursor-pointer text-xs'>
+              Saida
+            </Button>
+            <Button className='p-6 cursor-pointer text-xs'>Jermaine</Button>
+          </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
