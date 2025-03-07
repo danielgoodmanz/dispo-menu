@@ -1,6 +1,6 @@
 import { DealProps } from 'types/appTypes';
 
-//function to hit API for flagging isSold boolean in DB
+//function to hit API for flagging isSold boolean in DB, this will prob have to be a mutation eventually
 export const markSold = async (id: string) => {
   try {
     const response = await fetch(`http://localhost:3000/marksold/${id}`, {

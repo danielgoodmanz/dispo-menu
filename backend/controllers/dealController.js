@@ -82,12 +82,11 @@ export async function updateDeal(req, res) {
 
 export async function updateSoldStatus(req, res) {
   const { id } = req.params;
-  const { sold } = req.body;
   try {
     // we have sold boolean & the id of the incoming deal, just need to toggle it true
-    console.log(id, sold, req.body);
-    await Deal.findByIdAndUpdate(id, { isSold: sold });
-    res.status(200).json('success');
+    console.log(id, req.body.isSold);
+    await Deal.findByIdAndUpdate(id, req.body);
+    res.status(200).json('succesfully set deal sold');
   } catch (error) {
     console.error(error);
   }
