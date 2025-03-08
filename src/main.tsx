@@ -38,7 +38,6 @@ createRoot(document.getElementById('root')!).render(
           <AppContextProvider>
             <Routes>
               <Route caseSensitive={false} path='/' element={<App />}>
-                <Route path='/marksold/:id' element={<InterestDialog />} />
                 <Route path='/dealform' element={<AddDealForm />} />
               </Route>
               <Route path='/landing' element={<LandingPage />} />

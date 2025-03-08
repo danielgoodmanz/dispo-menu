@@ -18,7 +18,7 @@ export type AppContextTypes = {
   setCurrentDeal: React.Dispatch<React.SetStateAction<undefined | DealProps>>;
   isAdmin: boolean | null;
   drawerDealFormControl: () => void;
-  dialogInterestControl: (deal: DealProps) => void;
+  dialogInterestControl: () => void;
   appDialogControl: () => void;
   navigate: (path: string) => void;
   handleCurrentDeal: (deal: DealProps) => void;
@@ -79,12 +79,12 @@ export default function AppContextProvider({
     }
   };
 
-  const dialogInterestControl = (deal: DealProps) => {
+  const dialogInterestControl = () => {
     if (isDialogOpen === true) {
       navigate(-1);
       setIsDialogOpen(false);
     } else {
-      navigate(`/marksold/${deal._id}`);
+      navigate(`/`);
       setIsDialogOpen(true);
     }
   };

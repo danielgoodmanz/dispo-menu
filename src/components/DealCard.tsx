@@ -25,14 +25,8 @@ type DealCardProps = {
 };
 
 const DealCard = ({ deal, dealNumber }: DealCardProps) => {
-  const {
-    handleCurrentDeal,
-    appDialogControl,
-    isAppDialog,
-    isAdmin,
-    toast,
-    dialogInterestControl,
-  } = useAppContext();
+  const { handleCurrentDeal, appDialogControl, isAppDialog, isAdmin, toast } =
+    useAppContext();
 
   //call query
   const queryClient = useQueryClient();
@@ -61,8 +55,43 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     },
   });
 
+  // lets add the markSold utility function to useMutation in order to query for fresh data
+  const handleSoldMutation = useMutation({
+    mutationFn: async (deal: DealProps) => {
+      try {
+        await fetch(`http://localhost:3000/marksold/${deal._id}`, {
+          method: 'PUT',
+          body: !deal.isSold
+            ? JSON.stringify({ isSold: true })
+            : JSON.stringify({ isSold: false }),
+          headers: { 'content-type': 'application/json' },
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['deals'],
+      });
+    },
+    onError: (error) => {
+      toast({
+        description: `${error?.message}`,
+        variant: 'destructive',
+      });
+    },
+  });
+
   return (
-    <Card>
+    // TODO: apply SOLD overlay styling
+    <Card className='relative'>
+      {deal.isSold && (
+        <div className='bg-red-400 absolute w-full h-full z-10 opacity-50'>
+          {/* TODO: try centering this challenge relative to card */}
+          <p className='absolute left-[44%] top-[44%] -rotate-45'>SOLD!</p>
+        </div>
+      )}
       <CardHeader className='relative'>
         <CardTitle>Deal #{dealNumber}</CardTitle>
         <CardDescription>
@@ -93,6 +122,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
             ? formattedDate(deal.updatedAt!)
             : 'recently modified'}
         </p>
+        <p>isSold? {JSON.stringify(deal.isSold)}</p>
       </CardContent>
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
@@ -100,11 +130,11 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
         {!isAdmin && (
           <>
             <Button
-              onClick={() => dialogInterestControl(deal)}
-              className='bg-yellow-400 cursor-pointer hover:bg-yellow-400/90'
+              onClick={() => handleSoldMutation.mutateAsync(deal)}
+              className='bg-yellow-400 cursor-pointer hover:bg-yellow-400/90 z-20'
             >
               <CircleDollarSign />
-              Mark sold
+              {deal.isSold ? 'Mark available' : 'Mark sold'}
             </Button>
             <Button
               onClick={() => handleCurrentDeal(deal)}

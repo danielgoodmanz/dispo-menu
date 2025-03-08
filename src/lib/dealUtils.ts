@@ -1,11 +1,13 @@
 import { DealProps } from 'types/appTypes';
 
-//function to hit API for flagging isSold boolean in DB, this will prob have to be a mutation eventually
-export const markSold = async (id: string) => {
+//function to hit API for flagging isSold boolean in DB, this will be a mutation eventually
+export const markSold = async (id: string, deal: DealProps) => {
   try {
-    const response = await fetch(`http://localhost:3000/marksold/${id}`, {
+    await fetch(`http://localhost:3000/marksold/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({ isSold: true }),
+      body: !deal.isSold
+        ? JSON.stringify({ isSold: true })
+        : JSON.stringify({ isSold: false }),
       headers: { 'content-type': 'application/json' },
     });
   } catch (error) {
