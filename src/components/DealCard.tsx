@@ -87,9 +87,11 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     // TODO: apply SOLD overlay styling
     <Card className='relative'>
       {deal.isSold && (
-        <div className='bg-red-400 absolute w-full h-full z-10 opacity-50'>
+        <div className='bg-red-400 absolute w-full h-full z-10 opacity-80'>
           {/* TODO: try centering this challenge relative to card */}
-          <p className='absolute left-[44%] top-[44%] -rotate-45'>SOLD!</p>
+          <p className='text-2xl font-extrabold absolute left-[44%] top-[44%] -rotate-45'>
+            SOLD!
+          </p>
         </div>
       )}
       <CardHeader className='relative'>
@@ -102,7 +104,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
             className='absolute right-5 bg-yellow-400'
             variant={'secondary'}
           >
-            new!
+            new
           </Badge>
         )}
       </CardHeader>
@@ -145,7 +147,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
             <Button
               variant={'destructive'}
               onClick={() => appDialogControl()}
-              className='cursor-pointer'
+              className='cursor-pointer z-20'
             >
               Delete
             </Button>
