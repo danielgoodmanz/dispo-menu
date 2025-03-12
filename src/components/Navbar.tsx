@@ -38,13 +38,7 @@ const Navbar = () => {
         ) : (
           <>
             <Button
-              onClick={() =>
-                login({
-                  app_state: {
-                    redirectTo: 'https://dispo-menu.netlify.app/:user',
-                  },
-                })
-              }
+              onClick={() => login()}
               variant='ghost'
               className='cursor-pointer'
             >
@@ -52,8 +46,7 @@ const Navbar = () => {
             </Button>
 
             <Button
-              // @ts-expect-error unknown type for Kinde function
-              onClick={register}
+              onClick={() => register()}
               className='cursor-pointer'
               variant='ghost'
             >
