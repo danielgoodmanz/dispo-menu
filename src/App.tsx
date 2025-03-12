@@ -19,7 +19,6 @@ import ContainerGrid from '@/components/ContainerGrid';
 import FormDrawer from '@/components/FormDrawer';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 import { DealProps } from 'types/appTypes';
-import InterestDialog from '@/components/InterestDialog';
 
 function App() {
   //consuming context

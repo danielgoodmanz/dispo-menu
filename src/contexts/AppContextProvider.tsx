@@ -22,9 +22,11 @@ export type AppContextTypes = {
   appDialogControl: () => void;
   navigate: (path: string) => void;
   handleCurrentDeal: (deal: DealProps) => void;
+  //@ts-expect-error need to figure out how to type these toasts
   toast: ({ ...props }: Toast) => {
     id: string;
     dismiss: () => void;
+    //@ts-expect-error need to figure out how to type these toasts
     update: (props: ToasterToast) => void;
   };
 };
