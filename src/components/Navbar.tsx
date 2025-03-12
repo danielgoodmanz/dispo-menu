@@ -13,8 +13,7 @@ const Navbar = () => {
   return (
     <nav>
       <div className='flex justify-end gap-6 mb-6 items-center '>
-        {/* reverse for deployment */}
-        {!isAdmin ? (
+        {isAdmin ? (
           <>
             <Button
               onClick={logout}

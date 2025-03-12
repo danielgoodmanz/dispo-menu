@@ -124,12 +124,10 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
             ? formattedDate(deal.updatedAt!)
             : 'recently modified'}
         </p>
-        <p>isSold? {JSON.stringify(deal.isSold)}</p>
       </CardContent>
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
-        {/* reverse this for deployment */}
-        {!isAdmin && (
+        {isAdmin && (
           <>
             <Button
               onClick={() => handleSoldMutation.mutateAsync(deal)}
