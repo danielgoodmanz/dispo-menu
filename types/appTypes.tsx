@@ -1,4 +1,5 @@
 export type DealProps = {
+  isSold: boolean;
   createdAt?: string;
   updatedAt?: string;
   agent: string;

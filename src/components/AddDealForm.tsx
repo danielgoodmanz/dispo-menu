@@ -6,12 +6,59 @@ import Header from '@/components/Header';
 import { Input } from '@/components/ui/input';
 import useAppContext from '@/hooks/useAppContext';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
-import { DealProps } from 'types/appTypes';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const AddDealForm = () => {
-  const { currentDeal, setCurrentDeal, setDeals, drawerDealFormControl } =
-    useAppContext();
+  const { currentDeal, drawerDealFormControl, toast } = useAppContext();
   const { user } = useKindeAuth();
+
+  //queries & mutations
+  const queryClient = useQueryClient();
+  const addDealMutation = useMutation({
+    mutationFn: async (data: FormValues) => {
+      const response = await fetch(`http://localhost:3000/add`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'content-type': 'application/json' },
+      });
+      if (!response.ok) throw new Error('Error when posting deal');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['deals'],
+      });
+      toast({ description: 'Succesfully added deal' });
+    },
+    onError: (error) => {
+      toast({
+        description: `${error?.message}`,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const editDealMutation = useMutation({
+    mutationFn: async ({ data, id }: { id: string; data: FormValues }) => {
+      const response = await fetch(`http://localhost:3000/update/${id}`, {
+        method: 'PUT',
+        // we can access _id here due to closures (it knows we have currentDeal from our context above)
+        body: JSON.stringify({ ...data, _id: id }),
+        headers: { 'content-type': 'application/json' },
+      });
+      if (!response.ok) throw new Error('Error when editing deal');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['deals'] });
+      toast({ description: 'Succesfully edited deal' });
+    },
+    onError: (error) => {
+      toast({
+        description: `${error?.message}`,
+        variant: 'destructive',
+      });
+    },
+  });
 
   // zod schema
   // create an object schema with validation & error messages built in
@@ -89,60 +136,23 @@ const AddDealForm = () => {
   const onSubmit = async (data: FormValues) => {
     if (currentDeal) {
       try {
-        const response = await fetch(
-          `https://dispo-menu-backend.onrender.com/update/${currentDeal._id}`,
-          {
-            method: 'PUT',
-            body: JSON.stringify(data),
-            headers: { 'content-type': 'application/json' },
-          }
-        );
-        if (response.ok) {
-          console.log(`successfully edited deal with id ${currentDeal._id}`);
-          setCurrentDeal(undefined);
-          setDeals((prevDeals: DealProps[]) => {
-            return prevDeals.map((d) =>
-              d._id === currentDeal._id ? { ...data, _id: currentDeal._id } : d
-            );
-          });
-          drawerDealFormControl();
-        } else {
-          console.log(response.status);
-        }
+        await editDealMutation.mutateAsync({
+          id: currentDeal._id as string,
+          data,
+        });
+        drawerDealFormControl();
       } catch (error) {
         console.error(error);
       }
     } else {
       try {
-        const response = await fetch(
-          'https://dispo-menu-backend.onrender.com/add',
-          {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: { 'content-type': 'application/json' },
-          }
-        );
-        if (response.ok) {
-          // you weren't creating a 'newDeal' here for mongoose to pick up on add an ID so I got a react child must have a key error
-          // create it, then hold the response.json(), you can't pass form data and expect an ID in return upon re-render
-          const newDeal = await response.json();
-          setDeals((prevDeals) => [
-            ...prevDeals,
-            // you can use as to assert type
-            newDeal,
-          ]);
-          drawerDealFormControl();
-          console.log(`successfully added deal with ${data}`);
-        } else {
-          console.log(response.status);
-        }
+        addDealMutation.mutateAsync(data);
+        drawerDealFormControl();
       } catch (error) {
         console.error(error);
       }
     }
-
     console.log(data);
-
     reset();
   };
 

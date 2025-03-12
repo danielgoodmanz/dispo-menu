@@ -7,7 +7,6 @@ import {
 } from '@/components/ui/dialog';
 import useAppContext from '@/hooks/useAppContext';
 import React from 'react';
-
 type InterestDialogProps = {
   children: React.ReactNode;
 };

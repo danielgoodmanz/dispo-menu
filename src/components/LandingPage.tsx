@@ -18,7 +18,7 @@ const LandingPage = () => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 5, delay: 1 }}
         id='gradient'
-        className='h-screen bg-cover bg-blend-multiply'
+        className='min-h-screen bg-cover bg-blend-multiply'
       >
         <div className='flex items-center justify-around pt-[10vh]'>
           <div className='max-w-[50%] space-y-4'>
@@ -39,7 +39,7 @@ const LandingPage = () => {
               transition={{ duration: 4 }}
               className='text-xl max-w-[500px] font-semibold tracking-tighter '
             >
-              Request access to the exclusive deal menu from our dispo team
+              See the exclusive deal menu from our dispo team
             </motion.aside>
             <div className='relative max-w-fit'>
               <div className='absolute inset-0 bg-pink-500 blur-2xl'></div>
@@ -48,7 +48,7 @@ const LandingPage = () => {
                 className='bg-green-500 relative'
                 asChild
               >
-                <Link to={'/'}>Get Access</Link>
+                <Link to={'/'}>Enter</Link>
               </MotionButton>
             </div>
           </div>

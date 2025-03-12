@@ -2,10 +2,9 @@ import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { DealProps } from '../../types/appTypes';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
+import { useToast } from '@/hooks/use-toast';
 
 export type AppContextTypes = {
-  deals: DealProps[];
-  setDeals: React.Dispatch<React.SetStateAction<DealProps[]>>;
   open: boolean;
   isDialogOpen: boolean;
   setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,21 +13,22 @@ export type AppContextTypes = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  error: string;
-  setError: React.Dispatch<React.SetStateAction<string>>;
   currentDeal: undefined | DealProps;
-  isAdmin: boolean | null;
   //if initializing as undefined, you must specify to state setter it CAN be something else of type x
   setCurrentDeal: React.Dispatch<React.SetStateAction<undefined | DealProps>>;
+  isAdmin: boolean | null;
   drawerDealFormControl: () => void;
   dialogInterestControl: () => void;
   appDialogControl: () => void;
   navigate: (path: string) => void;
-  handleDeleteDeal: (deal: DealProps) => void;
   handleCurrentDeal: (deal: DealProps) => void;
+  toast: ({ ...props }: Toast) => {
+    id: string;
+    dismiss: () => void;
+    update: (props: ToasterToast) => void;
+  };
 };
 
-//TODO:
 export const AppContext = createContext<AppContextTypes | null>(null);
 
 type AppContextProviderProps = {
@@ -38,12 +38,8 @@ type AppContextProviderProps = {
 export default function AppContextProvider({
   children,
 }: AppContextProviderProps) {
-  //state for deals, TODO: move this to context API
-  const [deals, setDeals] = useState<DealProps[]>([]);
   //state for loading deals
   const [loading, setLoading] = useState(false);
-  //state for errors
-  const [error, setError] = useState('');
   //state for form drawer open/close
   const [open, setOpen] = useState(false);
   //state for interest dialog open/close
@@ -57,13 +53,10 @@ export default function AppContextProvider({
 
   //navigate hook, declared here for context & drawerDealFormControl() to work
   const navigate = useNavigate();
+  //toast hook
+  const { toast } = useToast();
   //kindeauth hook
   const { getClaim, user } = useKindeAuth();
-  //   const isAdmin = user
-  //     ? getClaim('roles').value[0].key === 'admin'
-  //       ? true
-  //       : false
-  //     : null;
 
   //explicitly structure the getClaim('roles') object returned
   const rolesClaim = getClaim('roles') as
@@ -78,21 +71,21 @@ export default function AppContextProvider({
   //programatically open/close Drawer component containing AddDealForm
   const drawerDealFormControl = () => {
     if (open === true) {
-      navigate(`/${user?.given_name}`);
+      navigate(`/`);
       setOpen(false);
       setCurrentDeal(undefined);
     } else {
-      navigate(`${user?.given_name}/dealform`);
+      navigate(`/dealform`);
       setOpen(true);
     }
   };
 
   const dialogInterestControl = () => {
     if (isDialogOpen === true) {
-      navigate(-2);
+      navigate(-1);
       setIsDialogOpen(false);
     } else {
-      navigate(`/interest/:dealNumber`);
+      navigate(`/`);
       setIsDialogOpen(true);
     }
   };
@@ -104,23 +97,8 @@ export default function AppContextProvider({
       setIsAppDialog(true);
     }
   };
+
   //handlers
-  //delete handler
-  const handleDeleteDeal = async (deal: DealProps) => {
-    const response = await fetch(
-      `https://dispo-menu-backend.onrender.com/delete/${deal._id}`,
-      {
-        method: 'delete',
-      }
-    );
-    if (response.ok) {
-      console.log('successfully deleted deal');
-      setDeals((prevDeals) => prevDeals.filter((d) => d._id !== deal._id));
-      appDialogControl();
-    } else {
-      console.log(error);
-    }
-  };
   //edit handler, for grabbing current ID
   const handleCurrentDeal = (deal: DealProps) => {
     setCurrentDeal(deal);
@@ -129,27 +107,23 @@ export default function AppContextProvider({
   return (
     <AppContext.Provider
       value={{
-        deals,
-        setDeals,
         loading,
         setLoading,
-        error,
-        setError,
         currentDeal,
         setCurrentDeal,
-        handleDeleteDeal,
         handleCurrentDeal,
         open,
         setOpen,
         drawerDealFormControl,
-        dialogInterestControl,
         appDialogControl,
+        dialogInterestControl,
         isAppDialog,
         setIsAppDialog,
         isDialogOpen,
         setIsDialogOpen,
         navigate,
         isAdmin,
+        toast,
       }}
     >
       {children}

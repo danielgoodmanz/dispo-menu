@@ -11,7 +11,7 @@ export default function ErrorPage() {
       <Header title={'Oops!'} />
       <p>Sorry, page not found</p>
       <Link to={'/'}>
-        <Button variant='ghost' className='text-2xl'>
+        <Button variant='ghost' className='text-2xl cursor-pointer'>
           Take me back ✋
         </Button>
       </Link>
