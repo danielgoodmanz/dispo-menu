@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
 
+// can import as a util function
 const getAgentAccessKey = (agent: string): string => {
   if (agent === 'saida') return 'aec2dc3e-9fc7-4946-bf83-3a0061c83b5c';
   if (agent === 'jermaine') return 'key';

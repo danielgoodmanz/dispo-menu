@@ -4,10 +4,12 @@ import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import TvBar from '@/components/TvBar';
 import { Toaster } from '@/components/ui/toaster';
-import { useToast } from '@/hooks/use-toast';
-import { useEffect } from 'react';
-import { Link, Outlet, useParams } from 'react-router';
-
+import { Outlet, useParams } from 'react-router';
+import {
+  useQuery,
+  useQueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 //shadcnui components
 import CardSkeleton from '@/components/CardSkeleton';
 
@@ -15,117 +17,88 @@ import useAppContext from '@/hooks/useAppContext';
 import ContainerGrid from '@/components/ContainerGrid';
 
 import FormDrawer from '@/components/FormDrawer';
-import InterestDialog from '@/components/InterestDialog';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 import { DealProps } from 'types/appTypes';
-import { Button } from '@/components/ui/button';
 
 function App() {
   //consuming context
-  const { deals, setDeals, loading, setLoading, error, setError, isAdmin } =
-    useAppContext();
-
-  const { user, isLoading } = useKindeAuth();
-
-  //toast hook
-  const { toast } = useToast();
-
+  const { isAdmin, toast } = useAppContext();
   //params hook for routing
   const { agent } = useParams();
-
-  // useEffect hook to fetch all current deals
-  useEffect(() => {
-    const fetchDeals = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `https://dispo-menu-backend.onrender.com/`
-        );
-        const json = await response.json();
-        console.log(json);
-        if (response.ok && agent) {
-          const dealsByAgent = json.filter((deal: DealProps) => {
-            return deal.agent === agent ? deal : null;
-          });
-          setDeals(dealsByAgent);
-          setLoading(false);
-          toast({
-            description: 'successfully loaded all deals!',
-            variant: 'success',
-          });
-        } else if (!response.ok) {
-          console.error(error);
-        }
-      } catch (error: unknown) {
-        // lets handle errors for this useeffect
-        //type guard
-        if (error instanceof Error) {
-          console.log(error);
-          setError(error.message);
-          toast({ description: error.message, variant: 'destructive' });
-        }
+  //fetch for our query
+  const fetchDeals = async (): Promise<DealProps[]> => {
+    try {
+      const response = await fetch('http://localhost:3000/');
+      const json = await response.json();
+      toast({
+        description: 'successfully loaded all deals!',
+        variant: 'success',
+      });
+      return json;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast({
+          description: `Error: ${error.message}`,
+          variant: 'destructive',
+        });
+        throw error;
       }
-    };
-    fetchDeals();
-  }, [agent]);
+    }
+    // becauuse we need to return a promise, return empty array (this should not happen)
+    return [];
+  };
+  // access our client
+  const queryClient = useQueryClient();
+  const { data, isLoading } = useQuery({
+    queryKey: ['deals', agent],
+    queryFn: fetchDeals,
+    refetchOnWindowFocus: false,
+  });
+
+  const { user, isLoading: kindeLoading } = useKindeAuth();
 
   return (
-    <ThemeProvider defaultTheme='system' storageKey='dispo-menu-theme'>
-      {/* isLoading wrapper necessary to remove flash of non auth state */}
-      {isLoading ? null : (
-        <div>
-          <Navbar />
-          <Header
-            title={
-              isAdmin ? `Welcome ${user?.given_name}` : `Today's Deal Menus`
-            }
-            className='text-center'
-          />
-          {!agent && !isAdmin && (
-            <div className='text-center space-x-4 mt-10 mb-10'>
-              <Button className='' variant={'secondary'}>
-                <Link to={'/saida'}>Saida's Deals</Link>
-              </Button>
-
-              <Button variant={'secondary'}>
-                <Link to={'/jermaine'}>Jermaine's Deals </Link>
-              </Button>
-            </div>
-          )}
-          <ContainerGrid>
-            {/* render cards here  */}
-            {loading
-              ? Array.from({ length: 6 }).map((_, index) => (
-                  <CardSkeleton key={index} />
-                ))
-              : agent
-              ? deals.map((deal, index) => {
-                  return (
-                    <DealCard
-                      key={deal._id}
-                      deal={deal}
-                      dealNumber={index + 1}
-                    />
-                  );
-                })
-              : null}
-          </ContainerGrid>
-          {/* drawer which opens AddDealForm.tsx, modified version of the entire Drawer component structure
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme='system' storageKey='dispo-menu-theme'>
+        {/* kindeLoading wrapper necessary to remove flash of non auth state */}
+        {kindeLoading ? null : (
+          <div>
+            <Navbar />
+            <Header
+              title={
+                isAdmin ? `Welcome ${user?.given_name}` : `Today's Deal Menu`
+              }
+              className='text-center'
+            />
+            <ContainerGrid>
+              {/* render cards here  */}
+              {isLoading
+                ? Array.from({ length: 6 }).map((_, index) => (
+                    <CardSkeleton key={index} />
+                  ))
+                : data?.map((deal, index) => {
+                    return (
+                      <DealCard
+                        key={deal._id}
+                        deal={deal}
+                        dealNumber={index + 1}
+                      />
+                    );
+                  })}
+            </ContainerGrid>
+            {/* drawer which opens AddDealForm.tsx, modified version of the entire Drawer component structure
         from shadcnUI as only certain elements were needed, can further trim it down */}
-          <FormDrawer>
-            <Outlet />
-            {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
+            <FormDrawer>
+              <Outlet />
+              {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
             children (Outlet) */}
-          </FormDrawer>
-
-          <TvBar />
-          <InterestDialog>
-            <Outlet />
-          </InterestDialog>
-        </div>
-      )}
-      <Toaster />
-    </ThemeProvider>
+            </FormDrawer>
+            <TvBar />
+          </div>
+        )}
+        <Toaster />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 
@@ -151,5 +124,24 @@ export default App;
 // add 'subtitle' to deals ie 3/2 SFH etcc XXX
 // TODO: DEBUG each child in a list should have a unique key on post route XXX
 // prior to launch: get email keys from web3 email to dispo XXX
+// DEPLOY XXX
 
-// DEPLOY
+// TODO:
+// [X] tanstack query
+// [X] tanstack error handling
+
+// good note to keep:
+// if (response.ok) {
+// you weren't creating a 'newDeal' here for mongoose to pick up on add an ID so I got a react child must have a key error
+// create it, then hold the response.json(), you can't pass form data and expect an ID in return upon re-render
+//   const newDeal = await response.json();
+//   setDeals((prevDeals) => [
+//     ...prevDeals,
+//     // you can use as to assert type
+//     newDeal,
+//   ]);
+//   drawerDealFormControl();
+//   console.log(`successfully added deal with ${data}`);
+// } else {
+//   console.log(response.status);
+// }
