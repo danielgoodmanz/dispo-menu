@@ -14,7 +14,7 @@ import {
 
 const app = express();
 //allows for cross origin requests, backend to frontend
-app.use(cors({ origin: 'https://dispo-menu.netlify.app' }));
+app.use(cors({ origin: 'https://dispo-menu.us' }));
 // app.use(cors());
 //middleware
 app.use(express.json());

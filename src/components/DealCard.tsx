@@ -33,9 +33,12 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
   //query mutation handler
   const deleteDealMutation = useMutation({
     mutationFn: async (deal: DealProps) => {
-      const response = await fetch(`http://localhost:3000/delete/${deal._id}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `https://dispo-menu-backend.onrender.com/delete/${deal._id}`,
+        {
+          method: 'DELETE',
+        }
+      );
       if (!response.ok) throw new Error('Error when deleting deal');
     },
     onSuccess: () => {
@@ -59,13 +62,16 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
   const handleSoldMutation = useMutation({
     mutationFn: async (deal: DealProps) => {
       try {
-        await fetch(`http://localhost:3000/marksold/${deal._id}`, {
-          method: 'PUT',
-          body: !deal.isSold
-            ? JSON.stringify({ isSold: true })
-            : JSON.stringify({ isSold: false }),
-          headers: { 'content-type': 'application/json' },
-        });
+        await fetch(
+          `https://dispo-menu-backend.onrender.com/marksold/${deal._id}`,
+          {
+            method: 'PUT',
+            body: !deal.isSold
+              ? JSON.stringify({ isSold: true })
+              : JSON.stringify({ isSold: false }),
+            headers: { 'content-type': 'application/json' },
+          }
+        );
       } catch (error) {
         console.error(error);
       }

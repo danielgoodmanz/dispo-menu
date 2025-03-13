@@ -28,7 +28,7 @@ function App() {
   //fetch for our query
   const fetchDeals = async (): Promise<DealProps[]> => {
     try {
-      const response = await fetch('http://localhost:3000/');
+      const response = await fetch('https://dispo-menu-backend.onrender.com/');
       const json = await response.json();
       toast({
         description: 'successfully loaded all deals!',

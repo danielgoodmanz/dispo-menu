@@ -16,11 +16,14 @@ const AddDealForm = () => {
   const queryClient = useQueryClient();
   const addDealMutation = useMutation({
     mutationFn: async (data: FormValues) => {
-      const response = await fetch(`http://localhost:3000/add`, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'content-type': 'application/json' },
-      });
+      const response = await fetch(
+        `https://dispo-menu-backend.onrender.com/add`,
+        {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: { 'content-type': 'application/json' },
+        }
+      );
       if (!response.ok) throw new Error('Error when posting deal');
     },
     onSuccess: () => {
@@ -39,12 +42,15 @@ const AddDealForm = () => {
 
   const editDealMutation = useMutation({
     mutationFn: async ({ data, id }: { id: string; data: FormValues }) => {
-      const response = await fetch(`http://localhost:3000/update/${id}`, {
-        method: 'PUT',
-        // we can access _id here due to closures (it knows we have currentDeal from our context above)
-        body: JSON.stringify({ ...data, _id: id }),
-        headers: { 'content-type': 'application/json' },
-      });
+      const response = await fetch(
+        `https://dispo-menu-backend.onrender.com/update/${id}`,
+        {
+          method: 'PUT',
+          // we can access _id here due to closures (it knows we have currentDeal from our context above)
+          body: JSON.stringify({ ...data, _id: id }),
+          headers: { 'content-type': 'application/json' },
+        }
+      );
       if (!response.ok) throw new Error('Error when editing deal');
       return response.json();
     },
