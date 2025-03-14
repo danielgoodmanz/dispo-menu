@@ -13,7 +13,8 @@ const Navbar = () => {
   return (
     <nav>
       <div className='flex justify-end gap-6 mb-6 items-center '>
-        {isAdmin ? (
+        {/* reversed admin logic for testing */}
+        {!isAdmin ? (
           <>
             <Button
               onClick={logout}
@@ -21,10 +22,6 @@ const Navbar = () => {
               className='cursor-pointer'
             >
               Logout
-            </Button>
-
-            <Button variant={'ghost'} asChild>
-              <Link to={`/${user?.given_name}`}>My deals</Link>
             </Button>
 
             <Button

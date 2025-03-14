@@ -7,12 +7,12 @@ import NBC from '@/assets/NBC.svg';
 const TvBar = () => {
   return (
     <div>
-      <div className='flex justify-around space-x-15 items-center bg-primary'>
+      <div className='flex justify-around items-center gap-x-4 py-4 bg-primary'>
         <p className='text-lg font-semibold'>As Seen On</p>
-        <img src={ABC} alt='ABC logo' className='w-10 h-10 m-4' />
-        <img src={CBS} alt='CBS logo' className='w-10 h-10 m-4' />
-        <img src={FOX} alt='FOX logo' className='w-10 h-10 m-4' />
-        <img src={NBC} alt='NCB logo' className='w-10 h-10 m-4' />
+        <img src={ABC} alt='ABC logo' className='w-10 h-10' />
+        <img src={CBS} alt='CBS logo' className='w-10 h-10' />
+        <img src={FOX} alt='FOX logo' className='w-10 h-10' />
+        <img src={NBC} alt='NCB logo' className='w-10 h-10' />
       </div>
     </div>
   );
