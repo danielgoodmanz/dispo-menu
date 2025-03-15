@@ -20,7 +20,7 @@ const LandingPage = () => {
         id='gradient'
         className='min-h-screen bg-cover bg-blend-multiply'
       >
-        <div className='flex items-center justify-around pt-[10vh]'>
+        <div className='flex justify-center items-center py-48'>
           <div className='max-w-[50%] space-y-4'>
             <HeroHeader>
               Florida's{' '}
@@ -33,6 +33,8 @@ const LandingPage = () => {
                 20 years
               </span>
             </HeroHeader>
+          </div>
+          <div className='flex flex-col items-center gap-y-4'>
             <motion.aside
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -43,16 +45,13 @@ const LandingPage = () => {
             </motion.aside>
             <div className='relative max-w-fit'>
               <div className='absolute inset-0 bg-pink-500 blur-2xl'></div>
-              <MotionButton
-                variant={'secondary'}
-                className='bg-green-500 relative'
-                asChild
-              >
+              <MotionButton className='bg-green-500 relative p-6' asChild>
                 <Link to={'/'}>Enter</Link>
               </MotionButton>
             </div>
           </div>
-          <motion.div
+          {/* not needed in onemenu approach */}
+          {/* <motion.div
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
@@ -68,7 +67,7 @@ const LandingPage = () => {
             <img
               src={card}
               alt='card preview'
-              className='h-[300px] w-[300px] rounded-xl shadow-xl shadow-black/25 '
+              className='h-[300px] w-[300px] rounded-xl shadow-xl shadow-black/25'
               loading='lazy'
             />
             <img
@@ -77,7 +76,7 @@ const LandingPage = () => {
               className='h-[300px] w-[300px] rounded-xl shadow-xl shadow-black/25 rotate-x-50 rotate-z-45'
               loading='lazy'
             />
-          </motion.div>
+          </motion.div> */}
         </div>
         <TvBar />
       </motion.div>
