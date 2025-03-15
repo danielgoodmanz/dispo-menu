@@ -90,7 +90,6 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
   });
 
   return (
-    // TODO: apply SOLD overlay styling
     <Card className='relative'>
       {deal.isSold && (
         <div className='bg-red-400 absolute w-full h-full z-10 opacity-80'>
@@ -133,8 +132,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       </CardContent>
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
-        {/* auth check reversed for testing */}
-        {!isAdmin && (
+        {isAdmin && (
           <>
             <Button
               onClick={() => handleSoldMutation.mutateAsync(deal)}

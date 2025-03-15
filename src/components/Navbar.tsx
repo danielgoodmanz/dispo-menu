@@ -8,13 +8,12 @@ import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 const Navbar = () => {
   const { drawerDealFormControl, isAdmin } = useAppContext();
   const { theme, setTheme } = useTheme();
-  const { login, register, logout, user } = useKindeAuth();
+  const { login, register, logout } = useKindeAuth();
 
   return (
     <nav>
       <div className='flex justify-end gap-6 mb-6 items-center '>
-        {/* reversed admin logic for testing */}
-        {!isAdmin ? (
+        {isAdmin ? (
           <>
             <Button
               onClick={logout}
@@ -23,7 +22,7 @@ const Navbar = () => {
             >
               Logout
             </Button>
-
+            s
             <Button
               onClick={drawerDealFormControl}
               variant='ghost'
