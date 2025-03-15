@@ -164,11 +164,14 @@ const AddDealForm = () => {
 
   return (
     <div>
-      <Header title={currentDeal ? 'Edit deal' : 'Add a deal form'} />
+      <Header
+        title={currentDeal ? 'Edit deal' : 'Add a deal'}
+        className='text-center'
+      />
       {/* TODO: Add isSubmitting state (maybe from useForm?) */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col gap-2'
+        className='flex flex-col gap-y-2 px-12 items-center'
         // you need to set these below otherwise the form does.. nothing
         method='post'
         action='/add'
@@ -213,11 +216,11 @@ const AddDealForm = () => {
         <Button
           disabled={isSubmitting}
           type='submit'
-          className='cursor-pointer'
+          className='cursor-pointer w-[10%]'
         >
           Submit
         </Button>
-        {/* look into Object.keys() here as a way to contain all errors in one place */}
+        {/* TODO: look into Object.keys() here as a way to contain all errors in one place */}
       </form>
     </div>
   );
