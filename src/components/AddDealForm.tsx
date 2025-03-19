@@ -210,7 +210,7 @@ const AddDealForm = () => {
         <Button
           disabled={isSubmitting}
           type='submit'
-          className='cursor-pointer w-[10%]'
+          className='max-sm:w-full cursor-pointer w-[10%]'
         >
           Submit
         </Button>

@@ -37,7 +37,7 @@ const LandingPage = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 4 }}
-              className='sm:text-base text-sm max-w-[500px] font-semibold tracking-tighter'
+              className='max-sm:text-xs text-base max-w-[500px] font-semibold tracking-tighter'
             >
               See the exclusive deal menu from our dispo team
             </motion.aside>
