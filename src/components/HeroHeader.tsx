@@ -10,7 +10,7 @@ const HeroHeader = ({ children }: HeroHeaderProps) => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 4 }}
-      className={`text-6xl font-bold tracking-tighter text-balance`}
+      className={`max-sm:text-2xl text-6xl px-4 font-bold tracking-tighter text-balance`}
     >
       {children}
     </motion.h1>

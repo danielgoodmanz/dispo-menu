@@ -12,8 +12,9 @@ const Navbar = () => {
 
   return (
     <nav>
-      <div className='flex justify-end gap-6 mb-6 items-center '>
-        {isAdmin ? (
+      <div className='max-sm:gap-0 flex justify-end gap-6 mb-6 items-center '>
+        {/* reversed admin logic for testing */}
+        {!isAdmin ? (
           <>
             <Button
               onClick={logout}

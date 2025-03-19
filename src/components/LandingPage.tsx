@@ -18,8 +18,8 @@ const LandingPage = () => {
         id='gradient'
         className='min-h-screen bg-cover bg-blend-multiply'
       >
-        <div className='flex justify-center items-center py-48'>
-          <div className='max-w-[50%] space-y-4'>
+        <div className='flex justify-center items-center py-48 flex-nowrap gap-y-12'>
+          <div className='max-w-[50%] gap-y-4'>
             <HeroHeader>
               Florida's{' '}
               <span className='bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-transparent bg-clip-text'>
@@ -37,13 +37,13 @@ const LandingPage = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 4 }}
-              className='text-xl max-w-[500px] font-semibold tracking-tighter '
+              className='max-sm:text-xs text-base max-w-[500px] font-semibold tracking-tighter'
             >
               See the exclusive deal menu from our dispo team
             </motion.aside>
             <div className='relative max-w-fit'>
               <div className='absolute inset-0 bg-pink-500 blur-2xl'></div>
-              <MotionButton className='bg-green-500 relative p-6' asChild>
+              <MotionButton className='bg-green-500 relative sm:p-6' asChild>
                 <Link to={'/'}>Enter</Link>
               </MotionButton>
             </div>

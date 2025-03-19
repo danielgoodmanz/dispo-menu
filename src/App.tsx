@@ -68,7 +68,7 @@ function App() {
               title={
                 isAdmin ? `Welcome ${user?.given_name}` : `Today's Deal Menu`
               }
-              className='text-center'
+              className='max-sm:text-base text-center'
             />
             <ContainerGrid>
               {/* render cards here  */}
