@@ -20,9 +20,9 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <KindeProvider
           clientId='dcdbeb38cb4248fc8bd368f9d482d147'
-          domain='https://auth.dispo-menu.us'
-          redirectUri='https://dispo-menu.us/'
-          logoutUri='https://dispo-menu.us/'
+          domain='https://danprojects.kinde.com'
+          redirectUri='https://dispo-menu.netlify.app'
+          logoutUri='https://dispo-menu.netlify.app'
         >
           <AppContextProvider>
             <Routes>
@@ -47,5 +47,5 @@ createRoot(document.getElementById('root')!).render(
         </KindeProvider>
       </BrowserRouter>
     </QueryClientProvider>
-  </StrictMode>
+  </StrictMode>,
 );
