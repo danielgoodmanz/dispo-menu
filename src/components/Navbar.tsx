@@ -22,7 +22,7 @@ const Navbar = () => {
             >
               Logout
             </Button>
-            s
+
             <Button
               onClick={drawerDealFormControl}
               variant='ghost'
