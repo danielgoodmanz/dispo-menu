@@ -2,7 +2,6 @@ import DealCard from '@/components/DealCard';
 import Header from '@/components/Header';
 import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/theme-provider';
-import TvBar from '@/components/TvBar';
 import { Toaster } from '@/components/ui/toaster';
 import { Outlet, useParams } from 'react-router';
 import {
@@ -44,7 +43,7 @@ function App() {
         throw error;
       }
     }
-    // becauuse we need to return a promise, return empty array (this should not happen)
+    // because we need to return a promise, return empty array (this should not happen)
     return [];
   };
   // access our client
@@ -93,7 +92,6 @@ function App() {
               {/* cleaner execution of Drawer component instead of placing it all here, make own custom compoinent allow it to accept
             children (Outlet) */}
             </FormDrawer>
-            <TvBar />
           </div>
         )}
         <Toaster />
