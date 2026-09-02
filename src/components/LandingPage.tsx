@@ -1,7 +1,6 @@
 import HeroHeader from '@/components/HeroHeader';
 import { Button } from '@/components/ui/button';
 import { motion } from 'motion/react';
-import TvBar from '@/components/AnimatedTvBar';
 import { Link } from 'react-router';
 import { ThemeProvider } from '@/components/theme-provider';
 

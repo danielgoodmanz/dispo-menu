@@ -16,7 +16,7 @@ const Navbar = () => {
         {isAdmin ? (
           <>
             <Button
-              onClick={logout}
+              onClick={() => logout()}
               variant={'ghost'}
               className='cursor-pointer'
             >
