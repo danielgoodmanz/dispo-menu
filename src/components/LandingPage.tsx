@@ -76,7 +76,6 @@ const LandingPage = () => {
             />
           </motion.div> */}
         </div>
-        <TvBar />
       </motion.div>
     </ThemeProvider>
   );

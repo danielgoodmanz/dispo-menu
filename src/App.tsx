@@ -128,18 +128,4 @@ export default App;
 // [X] tanstack query
 // [X] tanstack error handling
 
-// good note to keep:
-// if (response.ok) {
-// you weren't creating a 'newDeal' here for mongoose to pick up on add an ID so I got a react child must have a key error
-// create it, then hold the response.json(), you can't pass form data and expect an ID in return upon re-render
-//   const newDeal = await response.json();
-//   setDeals((prevDeals) => [
-//     ...prevDeals,
-//     // you can use as to assert type
-//     newDeal,
-//   ]);
-//   drawerDealFormControl();
-//   console.log(`successfully added deal with ${data}`);
-// } else {
-//   console.log(response.status);
-// }
+
