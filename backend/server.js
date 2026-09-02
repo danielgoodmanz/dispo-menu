@@ -1,6 +1,6 @@
-import express from 'express';
 //make sure your .env file is in the root of your app.js file
-import dotenv from 'dotenv/config';
+import 'dotenv/config'
+import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import {
@@ -12,9 +12,15 @@ import {
   deleteDeal,
 } from './controllers/dealController.js';
 
+const allowedOrigins = [
+    'https://dispo-menu.netlify.app',
+    'http://localhost:5173',
+    'http://localhost:3000'
+]
+
 const app = express();
 //allows for cross origin requests, backend to frontend
-app.use(cors({ origin: 'https://dispo-menu.netlify.app' }));
+app.use(cors({ origin: allowedOrigins }));
 // app.use(cors());
 //middleware
 app.use(express.json());

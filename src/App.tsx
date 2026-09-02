@@ -27,7 +27,7 @@ function App() {
   //fetch for our query
   const fetchDeals = async (): Promise<DealProps[]> => {
     try {
-      const response = await fetch('https://dispo-menu-backend.onrender.com/');
+      const response = await fetch('https://www.dispo-menu-backend.onrender.com');
       const json = await response.json();
       toast({
         description: 'successfully loaded all deals!',
@@ -127,5 +127,3 @@ export default App;
 // TODO:
 // [X] tanstack query
 // [X] tanstack error handling
-
-

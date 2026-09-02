@@ -15,7 +15,7 @@ import useAppContext from '@/hooks/useAppContext';
 import { formattedDate, isDealAddedToday } from '@/lib/dealUtils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CircleDollarSign } from 'lucide-react';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { DealProps } from 'types/appTypes';
 
 //this is how you can define the types for the singular mapped object in deals.map()
@@ -93,7 +93,6 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
     <Card className='relative'>
       {deal.isSold && (
         <div className='bg-red-400 absolute w-full h-full z-10 opacity-80'>
-          {/* TODO: try centering this challenge relative to card */}
           <p className='text-2xl font-extrabold absolute left-[44%] top-[44%] -rotate-45'>
             SOLD!
           </p>
@@ -132,11 +131,12 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
       </CardContent>
       <CardContent></CardContent>
       <CardFooter className='gap-2'>
-        {isAdmin && (
+
           <>
             <Button
               onClick={() => handleSoldMutation.mutateAsync(deal)}
               className='bg-yellow-400 cursor-pointer hover:bg-yellow-400/90 z-20'
+              disabled={!isAdmin}
             >
               <CircleDollarSign />
               {deal.isSold ? 'Mark available' : 'Mark sold'}
@@ -144,6 +144,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
             <Button
               onClick={() => handleCurrentDeal(deal)}
               className='cursor-pointer'
+              disabled={!isAdmin}
             >
               Edit
             </Button>
@@ -151,11 +152,12 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
               variant={'destructive'}
               onClick={() => appDialogControl()}
               className='cursor-pointer z-20'
+              disabled={!isAdmin}
             >
               Delete
             </Button>
           </>
-        )}
+
       </CardFooter>
       {isAppDialog && (
         <AppDialog>
@@ -166,6 +168,7 @@ const DealCard = ({ deal, dealNumber }: DealCardProps) => {
             }}
             variant={'destructive'}
             className='cursor-pointer'
+            disabled={!isAdmin}
           >
             Yes
           </Button>
