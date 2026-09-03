@@ -3,19 +3,19 @@ import AppDialog from '@/components/AppDialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
 } from '@/components/ui/card';
 
 import useAppContext from '@/hooks/useAppContext';
 import { formattedDate, isDealAddedToday } from '@/lib/dealUtils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CircleDollarSign } from 'lucide-react';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import { DealProps } from 'types/appTypes';
 
 //this is how you can define the types for the singular mapped object in deals.map()
