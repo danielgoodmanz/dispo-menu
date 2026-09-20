@@ -19,6 +19,8 @@ import FormDrawer from '@/components/FormDrawer';
 import { useKindeAuth } from '@kinde-oss/kinde-auth-react';
 import { DealProps } from 'types/appTypes';
 
+const apiURL = import.meta.env.VITE_API_URL
+
 function App() {
   //consuming context
   const { isAdmin, toast } = useAppContext();
@@ -27,13 +29,16 @@ function App() {
   //fetch for our query
   const fetchDeals = async (): Promise<DealProps[]> => {
     try {
-      const response = await fetch('https://dispo-menu-backend.onrender.com/');
+      const response = await fetch(apiURL);
       const json = await response.json();
+      if (json) {
       toast({
         description: 'successfully loaded all deals!',
         variant: 'success',
-      });
+      })
       return json;
+    };
+      
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({

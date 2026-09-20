@@ -19,9 +19,8 @@ const allowedOrigins = [
 ]
 
 const app = express();
-//allows for cross origin requests, backend to frontend
+//allows for cross origin requests, frontend to backend
 app.use(cors({ origin: allowedOrigins }));
-// app.use(cors());
 //middleware
 app.use(express.json());
 
